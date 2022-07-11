@@ -15,7 +15,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={` ${
+      className={` flex flex-col items-center ${
         open ? "w-72" : "w-20 "
       } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
     >
@@ -25,18 +25,15 @@ const Sidebar = () => {
            border-2 rounded-full  ${!open && "rotate-180"}`}
         onClick={() => setOpen(!open)}
       />
-      <div className="flex gap-x-4 items-center">
-        <img
-          src="./src/assets/logo.png"
-          className={`cursor-pointer duration-500 ${open && "rotate-[360deg]"}`}
-        />
-        <h1
-          className={`text-[#386FA4] origin-left font-medium text-xl duration-200 ${
+      <div className="flex gap-x-6 items-center mt-2">
+        <div className="bg-[#DDDDDD] rounded-[12px] p-5" />
+        <div
+          className={`text-[#386FA4] origin-left font-poppins text-[24px] font-bold duration-200 ${
             !open && "scale-0"
           }`}
         >
           HealthRelay
-        </h1>
+        </div>
       </div>
       <ul className="pt-6">
         {Menus.map((Menu, index) => (
@@ -54,7 +51,9 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-      <div className="text-[#386FA4] absolute bottom-0">© 2022 HealthRelay</div>
+      <div className="flex text-[#386FA4] font-poppins font-semibold text-[14px] absolute bottom-8 left-0 right-0 justify-center items-center">
+        © 2022 HealthRelay
+      </div>
     </div>
   );
 };

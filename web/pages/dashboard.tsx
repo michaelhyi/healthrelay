@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import Layout from "../components/Layout";
 
 const Dashboard = () => {
@@ -8,14 +9,14 @@ const Dashboard = () => {
           Welcome Dr. Lee!
         </div>
         <div className="font-poppins text-[18px] text-[#386FA4]">
-          Sunday July 3rd, 2022 6:36AM
+          {format(new Date(), "cccc LLLL do, y p")}
         </div>
-        <div className="h-[700px] mt-12 max-h-screen grid grid-rows-4 grid-cols-4 gap-4">
+        <div className="mt-12 grid grid-rows-4 grid-cols-4 gap-8">
           <div className="bg-white p-4 shadow-lg rounded-lg">
             <div className="font-poppins text-[24px] text-[#386FA4]">
               Total Orders
               <div className="font-poppins text-[16px] text-[#59A5D8]">
-                Last Updated: current time
+                Last Updated: {format(new Date(), "cccc LLLL do, y p")}
               </div>
               <div className="flex items-center">
                 <div className="font-poppins font-medium text-[48px] text-[#386FA4]">
@@ -31,7 +32,7 @@ const Dashboard = () => {
             <div className="font-poppins text-[24px] text-[#386FA4]">
               Completed Orders
               <div className="font-poppins text-[16px] text-[#59A5D8]">
-                Last Updated: current time
+                Last Updated: {format(new Date(), "cccc LLLL do, y p")}
               </div>
               <div className="flex items-center">
                 <div className="font-poppins font-medium text-[48px] text-[#386FA4]">
@@ -47,7 +48,7 @@ const Dashboard = () => {
             <div className="font-poppins text-[24px] text-[#386FA4]">
               Pending Orders
               <div className="font-poppins text-[16px] text-[#59A5D8]">
-                Last Updated: current time
+                Last Updated: {format(new Date(), "cccc LLLL do, y p")}
               </div>
               <div className="flex items-center">
                 <div className="font-poppins font-medium text-[48px] text-[#386FA4]">
@@ -59,10 +60,10 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="row-span-3 bg-white p-24"></div>
-          <div className="row-span-4 bg-white p-24">Recent Orders</div>
-          <div className="row-span-3 col-span-2 bg-white p-24"></div>
-          <div className="bg-white p-24"></div>
+          <div className="shadow-lg rounded-lg row-span-3 bg-white p-24"></div>
+          <div className="shadow-lg rounded-lg row-span-3 bg-white p-24"></div>
+          <div className="shadow-lg rounded-lg row-span-3 col-span-2 bg-white p-24"></div>
+          <div className="shadow-lg rounded-lg bg-white p-24"></div>
         </div>
       </div>
     </Layout>

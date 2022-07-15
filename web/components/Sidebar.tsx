@@ -1,26 +1,41 @@
 import { useState } from "react";
-import { BsFillPersonFill } from "react-icons/bs";
-import { IoIosArrowBack } from "react-icons/io";
+import { BsFillPersonFill, BsBarChartFill } from "react-icons/bs";
+import { IoIosArrowBack, IoIosContact, IoIosSettings } from "react-icons/io";
+import { BiHistory } from "react-icons/bi";
+import Link from "next/link";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Dashboard", src: "Dashboard_Logo" },
-    { title: "Order History", src: "Order_History_Logo" },
-    { title: "Contacts", src: "Contacts_Logo" },
-    { title: "Settings ", src: "Settings_Logo", gap: true },
+    {
+      title: "Dashboard",
+      src: <BsBarChartFill size={20} />,
+      href: "/dashboard",
+    },
+    {
+      title: "Order History",
+      src: <BiHistory size={20} />,
+      href: "/order-history",
+    },
+    { title: "Contacts", src: <IoIosContact size={20} />, href: "/contacts" },
+    {
+      title: "Settings ",
+      src: <IoIosSettings size={20} />,
+      href: "/settings",
+      gap: true,
+    },
   ];
 
   return (
     <div
       className={` flex flex-col items-center ${
         open ? "w-72" : "w-20 "
-      } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
+      } bg-dark-purple h-screen p-5 pt-8 relative duration-300`}
     >
       <div
         onClick={() => setOpen(!open)}
-        className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
-           border-2 rounded-full  ${!open && "rotate-180"}`}
+        className={`absolute cursor-pointer -right-4 top-9 p-2 border-dark-purple
+         border-2 rounded-full  ${!open && "rotate-180"}`}
       >
         <IoIosArrowBack />
       </div>
@@ -47,18 +62,22 @@ const Sidebar = () => {
       </div>
       <ul className="pt-6 font-poppins text-[24px]">
         {Menus.map((Menu, index) => (
-          <li
-            key={index}
-            className={`flex rounded-md p-0 cursor-pointer hover:bg-light-white text-[#999999] text-sm text-[18px] items-center gap-x-4
-              ${Menu.gap ? "mt-9" : "mt-2"} ${
-              index === 0 && "bg-light-white"
-            } `}
-          >
-            <img src={`./src/assets/${Menu.src}.png`} />
-            <span className={`${!open && "hidden"} items-start duration-200`}>
-              {Menu.title}
-            </span>
-          </li>
+          <Link href={Menu.href}>
+            <li
+              key={index}
+              className={`flex rounded-md p-0 cursor-pointer hover:bg-[#84D2F6] text-[#999999] text-sm text-[18px] items-center gap-x-4
+          ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-white"} `}
+            >
+              {Menu.src}
+              <span
+                className={`${
+                  !open && "hidden"
+                } items-start duration-200 text-[20px] `}
+              >
+                {Menu.title}
+              </span>
+            </li>
+          </Link>
         ))}
       </ul>
       <div

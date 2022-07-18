@@ -2,6 +2,8 @@ import { format } from "date-fns";
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdPendingActions } from "react-icons/md";
 import Layout from "../components/Layout";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+
 
 const notifications = [
   {
@@ -71,6 +73,38 @@ const recentOrders = [
     id: 43,
     date: "03/12/22 4:43 PM",
   },
+];
+
+const data = [{
+  name: 'Monday',
+  uv: 400,
+  pv: 240,
+  amt: 240,
+},
+{
+  name: 'Tuesday',
+  uv: 300,
+  pv: 139,
+  amt: 221,
+},
+{
+  name: 'Wednesday',
+  uv: 200,
+  pv: 890,
+  amt: 229,
+},
+{
+  name: 'Thursday',
+  uv: 278,
+  pv: 390,
+  amt: 200,
+},
+{
+  name: 'Friday',
+  uv: 189,
+  pv: 480,
+  amt: 218,
+},
 ];
 
 const Dashboard = () => {
@@ -172,6 +206,13 @@ const Dashboard = () => {
             <div className="font-poppins text-[24px] text-[#386FA4] font-semibold">
               Recent Activity
             </div>
+            <LineChart width={400} height={300} data={data} margin={{ top: 50}}>
+              <XAxis dataKey="name"/>
+              <YAxis/>
+              <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
+              <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+              <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
+            </LineChart>
           </div>
           <div className="shadow-lg rounded-lg bg-white p-4">
             <div className="font-poppins text-[24px] text-[#386FA4] font-semibold">

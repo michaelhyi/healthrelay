@@ -24,43 +24,81 @@ import * as React from "react";
 import Layout from "../components/Layout";
 
 interface Data {
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
+  orderId: number;
+  dateSent: string;
+  dateCompleted: string;
+  radiologist: string;
+  physician: string;
+  status: string;
 }
 
 function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
+  orderId: number,
+  dateSent: string,
+  dateCompleted: string,
+  radiologist: string,
+  physician: string,
+  status: string
 ): Data {
   return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    orderId,
+    dateSent,
+    dateCompleted,
+    radiologist,
+    physician,
+    status,
   };
 }
 
 const rows = [
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Donut", 452, 25.0, 51, 4.9),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Honeycomb", 408, 3.2, 87, 6.5),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Jelly Bean", 375, 0.0, 94, 0.0),
-  createData("KitKat", 518, 26.0, 65, 7.0),
-  createData("Lollipop", 392, 0.2, 98, 0.0),
-  createData("Marshmallow", 318, 0, 81, 2.0),
-  createData("Nougat", 360, 19.0, 9, 37.0),
-  createData("Oreo", 437, 18.0, 63, 4.0),
+  createData(
+    4324132,
+    "July 1st, 2022",
+    "July 1st, 2022",
+    "Dr. Oneil Lee",
+    "Dr. Oneil Lee",
+    "Completed"
+  ),
+  createData(
+    4563253,
+    "July 1st, 2022",
+    "July 1st, 2022",
+    "Dr. Oneil Lee",
+    "Dr. Oneil Lee",
+    "Completed"
+  ),
+  createData(
+    3,
+    "July 1st, 2022",
+    "July 1st, 2022",
+    "Dr. Oneil Lee",
+    "Dr. Oneil Lee",
+    "Completed"
+  ),
+  createData(
+    43,
+    "July 1st, 2022",
+    "July 1st, 2022",
+    "Dr. Oneil Lee",
+    "Dr. Oneil Lee",
+    "Completed"
+  ),
+  createData(
+    87,
+    "July 1st, 2022",
+    "July 1st, 2022",
+    "Dr. Oneil Lee",
+    "Dr. Oneil Lee",
+    "Completed"
+  ),
+  createData(
+    727,
+    "July 1st, 2022",
+    "July 1st, 2022",
+    "Dr. Oneil Lee",
+    "Dr. Oneil Lee",
+    "Completed"
+  ),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -113,34 +151,40 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "name",
+    id: "orderId",
+    numeric: true,
+    disablePadding: false,
+    label: "Order ID",
+  },
+  {
+    id: "dateSent",
     numeric: false,
-    disablePadding: true,
-    label: "Dessert (100g serving)",
+    disablePadding: false,
+    label: "Date Sent",
   },
   {
-    id: "calories",
-    numeric: true,
+    id: "dateCompleted",
+    numeric: false,
     disablePadding: false,
-    label: "Calories",
+    label: "Date Completed",
   },
   {
-    id: "fat",
-    numeric: true,
+    id: "radiologist",
+    numeric: false,
     disablePadding: false,
-    label: "Fat (g)",
+    label: "Radiologist",
   },
   {
-    id: "carbs",
-    numeric: true,
+    id: "physician",
+    numeric: false,
     disablePadding: false,
-    label: "Carbs (g)",
+    label: "Physician",
   },
   {
-    id: "protein",
-    numeric: true,
+    id: "status",
+    numeric: false,
     disablePadding: false,
-    label: "Protein (g)",
+    label: "Status",
   },
 ];
 
@@ -187,7 +231,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.numeric ? "left" : "right"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -246,9 +290,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           variant="h6"
           id="tableTitle"
           component="div"
-        >
-          Nutrition
-        </Typography>
+        ></Typography>
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
@@ -269,8 +311,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 
 const OrderHistory = () => {
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [orderBy, setOrderBy] = React.useState<keyof Data>("dateSent");
+  const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -286,19 +328,19 @@ const OrderHistory = () => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n.orderId);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
+  const handleClick = (event: React.MouseEvent<unknown>, orderId: number) => {
+    const selectedIndex = selected.indexOf(orderId);
+    let newSelected: readonly number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, orderId);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -328,7 +370,7 @@ const OrderHistory = () => {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (orderId: number) => selected.indexOf(orderId) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -366,17 +408,17 @@ const OrderHistory = () => {
                   {stableSort(rows, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
-                      const isItemSelected = isSelected(row.name);
+                      const isItemSelected = isSelected(row.orderId);
                       const labelId = `enhanced-table-checkbox-${index}`;
 
                       return (
                         <TableRow
                           hover
-                          onClick={(event) => handleClick(event, row.name)}
+                          onClick={(event) => handleClick(event, row.orderId)}
                           role="checkbox"
                           aria-checked={isItemSelected}
                           tabIndex={-1}
-                          key={row.name}
+                          key={row.orderId}
                           selected={isItemSelected}
                         >
                           <TableCell padding="checkbox">
@@ -388,18 +430,16 @@ const OrderHistory = () => {
                               }}
                             />
                           </TableCell>
-                          <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            padding="none"
-                          >
-                            {row.name}
+                          <TableCell component="th" id={labelId} scope="row">
+                            {row.orderId}
                           </TableCell>
-                          <TableCell align="right">{row.calories}</TableCell>
-                          <TableCell align="right">{row.fat}</TableCell>
-                          <TableCell align="right">{row.carbs}</TableCell>
-                          <TableCell align="right">{row.protein}</TableCell>
+                          <TableCell align="right">{row.dateSent}</TableCell>
+                          <TableCell align="right">
+                            {row.dateCompleted}
+                          </TableCell>
+                          <TableCell align="right">{row.radiologist}</TableCell>
+                          <TableCell align="right">{row.physician}</TableCell>
+                          <TableCell align="right">{row.status}</TableCell>
                         </TableRow>
                       );
                     })}

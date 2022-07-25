@@ -207,8 +207,8 @@ const Dashboard = () => {
               Recent Activity
             </div>
             <LineChart
-              width={1000}
-              height={600}
+              width={500}
+              height={400}
               data={data}
               margin={{ top: 50 }}
             >

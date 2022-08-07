@@ -1,22 +1,53 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator } from "react-native";
+import Layout from "./components/Layout";
+import TabNavigator from "./components/TabNavigator";
+import Home from "./screens/home";
+import Splash from "./screens/splash";
+import { loadFonts } from "./utils/loadFonts";
+import { sleep } from "./utils/sleep";
 
 const App = () => {
+  let [fontsLoaded] = loadFonts();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    (async () => {
+      await sleep(1000);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (!fontsLoaded) {
+    return (
+      <Layout>
+        <ActivityIndicator
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
+      </Layout>
+    );
+  }
+
+  if (loading) {
+    return <Splash />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <StatusBar style="dark" />
+      <TabNavigator />
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default App;

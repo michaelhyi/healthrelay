@@ -48,17 +48,19 @@ __decorate([
 ], Radiologist.prototype, "phone", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [Order_1.Order]),
-    (0, typeorm_1.OneToMany)(() => Order_1.Order, (order) => order.radiologist),
+    (0, typeorm_1.OneToMany)(() => Order_1.Order, (order) => order.radiologist, { nullable: true }),
     __metadata("design:type", Array)
 ], Radiologist.prototype, "orders", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [Notification_1.Notification]),
-    (0, typeorm_1.OneToMany)(() => Notification_1.Notification, (notification) => notification.radiologist),
+    (0, typeorm_1.OneToMany)(() => Notification_1.Notification, (notification) => notification.radiologist, {
+        nullable: true,
+    }),
     __metadata("design:type", Array)
 ], Radiologist.prototype, "notifications", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Radiologist.prototype, "contacts", void 0);
 __decorate([

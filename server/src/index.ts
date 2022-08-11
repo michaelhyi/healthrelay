@@ -10,7 +10,7 @@ import { Order } from "./entities/Order";
 import { OrderingPhysician } from "./entities/OrderingPhysician";
 import { Radiologist } from "./entities/Radiologist";
 import { User } from "./entities/User";
-import { HiResolver } from "./resolvers/hi";
+import { UserResolver } from "./resolvers/user";
 
 const main = async () => {
   await createConnection({
@@ -35,7 +35,7 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     schema: await buildSchema({
-      resolvers: [HiResolver],
+      resolvers: [UserResolver],
       validate: false,
     }),
   });

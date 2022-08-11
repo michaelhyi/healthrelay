@@ -1,10 +1,16 @@
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import express from "express";
-import cors from "cors";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
+import cors from "cors";
+import express from "express";
+import "reflect-metadata";
 import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
+import { Notification } from "./entities/Notification";
+import { Order } from "./entities/Order";
+import { OrderingPhysician } from "./entities/OrderingPhysician";
+import { Radiologist } from "./entities/Radiologist";
+import { User } from "./entities/User";
+import { HiResolver } from "./resolvers/hi";
 
 const main = async () => {
   await createConnection({
@@ -14,7 +20,7 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: true,
-    entities: [],
+    entities: [User, Radiologist, OrderingPhysician, Order, Notification],
   });
 
   const app = express();
@@ -28,12 +34,10 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-    // schema: await buildSchema(
-    // //   {
-    // //   resolvers: [],
-    // //   validate: false,
-    // // }
-    // ),
+    schema: await buildSchema({
+      resolvers: [HiResolver],
+      validate: false,
+    }),
   });
 
   await apolloServer.start();

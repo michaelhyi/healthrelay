@@ -10,7 +10,7 @@ interface Props {
   status: "Pending" | "Opened" | "Complete";
 }
 
-const Order: React.FC<Props> = ({ id, date, priority, status }) => {
+const OrderCard: React.FC<Props> = ({ id, date, priority, status }) => {
   return (
     <TouchableOpacity style={styles.container}>
       <Text style={styles.id}>Order #{id}</Text>
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Order;
+export default OrderCard;

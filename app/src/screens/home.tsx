@@ -6,13 +6,23 @@ import { colors } from "../utils/styles";
 import { format } from "date-fns";
 import RecentOrdersSection from "../components/RecentOrdersSection";
 import RecentContactsSection from "../components/RecentContactsSection";
+import React from "react";
 
-const Home = () => {
+interface Props {
+  navigation: {
+    navigate: (route: string) => void;
+  };
+}
+
+const Home: React.FC<Props> = ({ navigation }) => {
   return (
     <Layout>
       <View style={styles.header_1}>
-        <User />
-        <TouchableOpacity style={{ marginLeft: "auto" }}>
+        <User onPress={() => navigation.navigate("Profile")} />
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Notifications")}
+          style={{ marginLeft: "auto" }}
+        >
           <Ionicons name="notifications" size={30} color={colors.blue_400} />
         </TouchableOpacity>
       </View>
@@ -22,8 +32,8 @@ const Home = () => {
           {format(new Date(), "EEEE MMMM do, yyyy p")}
         </Text>
       </View>
-      <RecentOrdersSection />
-      <RecentContactsSection />
+      <RecentOrdersSection navigation={navigation} />
+      <RecentContactsSection navigation={navigation} />
     </Layout>
   );
 };

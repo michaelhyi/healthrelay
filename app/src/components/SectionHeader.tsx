@@ -4,13 +4,19 @@ import { colors } from "../utils/styles";
 
 interface Props {
   text: string;
+  navigation: {
+    navigate: (route: string) => void;
+  };
 }
 
-const SectionHeader: React.FC<Props> = ({ text }) => {
+const SectionHeader: React.FC<Props> = ({ text, navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.main}>Recent {text}</Text>
-      <TouchableOpacity style={{ marginLeft: "auto" }}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(text)}
+        style={{ marginLeft: "auto" }}
+      >
         <Text style={styles.btn}>View All</Text>
       </TouchableOpacity>
     </View>

@@ -1,9 +1,15 @@
-import { id } from "date-fns/locale";
+import React from "react";
 import { FlatList, View } from "react-native";
+import OrderCard from "./OrderCard";
 import SectionHeader from "./SectionHeader";
-import Order from "./Order";
 
-const RecentOrdersSection = () => {
+interface Props {
+  navigation: {
+    navigate: (route: string) => void;
+  };
+}
+
+const RecentOrdersSection: React.FC<Props> = ({ navigation }) => {
   const fake_data = [
     {
       id: 39461,
@@ -20,7 +26,7 @@ const RecentOrdersSection = () => {
   ];
 
   const renderItem = ({ item }) => (
-    <Order
+    <OrderCard
       id={item.id}
       date={item.date}
       priority={item.priority}
@@ -30,7 +36,7 @@ const RecentOrdersSection = () => {
 
   return (
     <View style={{ marginTop: 48 }}>
-      <SectionHeader text="Orders" />
+      <SectionHeader text="Orders" navigation={navigation} />
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal

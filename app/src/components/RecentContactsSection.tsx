@@ -1,10 +1,15 @@
-import { id } from "date-fns/locale";
 import { FlatList, View } from "react-native";
 import SectionHeader from "./SectionHeader";
-import Order from "./Order";
+import React from "react";
 import Contact from "./Contact";
 
-const RecentContactsSection = () => {
+interface Props {
+  navigation: {
+    navigate: (route: string) => void;
+  };
+}
+
+const RecentContactsSection: React.FC<Props> = ({ navigation }) => {
   const fake_data = [
     {
       id: 1,
@@ -37,7 +42,7 @@ const RecentContactsSection = () => {
 
   return (
     <View style={{ marginTop: 24 }}>
-      <SectionHeader text="Contacts" />
+      <SectionHeader navigation={navigation} text="Contacts" />
       <FlatList
         showsVerticalScrollIndicator={false}
         data={fake_data}

@@ -1,11 +1,91 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import Layout from "../components/Layout";
+import { AntDesign } from "@expo/vector-icons";
+import Search from "../components/Search";
+import OrderCard from "../components/OrderCard";
 
-const Orders = () => {
+interface Props {
+  navigation: {
+    navigate: (route: string) => void;
+    goBack: () => void;
+  };
+}
+
+const Orders: React.FC<Props> = ({ navigation }) => {
+  const data = [
+    {
+      id: 39461,
+      date: "August 1st, 2022",
+      priority: "High",
+      status: "Complete",
+    },
+    {
+      id: 39461,
+      date: "August 1st, 2022",
+      priority: "High",
+      status: "Complete",
+    },
+    {
+      id: 39461,
+      date: "August 1st, 2022",
+      priority: "High",
+      status: "Complete",
+    },
+    {
+      id: 39461,
+      date: "August 1st, 2022",
+      priority: "High",
+      status: "Complete",
+    },
+    {
+      id: 39461,
+      date: "August 1st, 2022",
+      priority: "High",
+      status: "Complete",
+    },
+    {
+      id: 39461,
+      date: "August 1st, 2022",
+      priority: "High",
+      status: "Complete",
+    },
+    {
+      id: 39461,
+      date: "August 1st, 2022",
+      priority: "High",
+      status: "Complete",
+    },
+    {
+      id: 39461,
+      date: "August 1st, 2022",
+      priority: "High",
+      status: "Complete",
+    },
+  ];
+
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Orders</Text>
-    </View>
+    <Layout>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <AntDesign name="left" size={20} style={{ marginTop: 36 }} />
+      </TouchableOpacity>
+      <Search />
+      <FlatList
+        style={{ marginTop: 12 }}
+        showsVerticalScrollIndicator={false}
+        data={data}
+        renderItem={({ item }) => (
+          <OrderCard
+            navigation={navigation}
+            full
+            id={item.id}
+            date={item.date}
+            priority={item.priority}
+            status={item.status}
+          />
+        )}
+      />
+    </Layout>
   );
 };
 

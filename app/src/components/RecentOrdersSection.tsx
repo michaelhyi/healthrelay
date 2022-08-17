@@ -27,6 +27,7 @@ const RecentOrdersSection: React.FC<Props> = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <OrderCard
+      navigation={navigation}
       id={item.id}
       date={item.date}
       priority={item.priority}

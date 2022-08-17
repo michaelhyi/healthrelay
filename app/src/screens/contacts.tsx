@@ -1,11 +1,65 @@
+import { AntDesign } from "@expo/vector-icons";
 import React from "react";
-import { View, Text } from "react-native";
+import { FlatList, TouchableOpacity, View } from "react-native";
+import Contact from "../components/Contact";
+import Layout from "../components/Layout";
+import Search from "../components/Search";
 
-const Contacts = () => {
+interface Props {
+  navigation: {
+    navigate: (route: string) => void;
+    goBack: () => void;
+  };
+}
+
+const Contacts: React.FC<Props> = ({ navigation }) => {
+  const data = [
+    {
+      id: 1,
+      name: "Bob Dylan",
+      profession: "Ordering Physician",
+      organization: "Kaiser Permanente",
+    },
+    {
+      id: 2,
+      name: "Paul McCartney",
+      profession: "Ordering Physician",
+      organization: "Kaiser Permanente",
+    },
+    {
+      id: 3,
+      name: "Brian Wilson",
+      profession: "Ordering Physician",
+      organization: "Kaiser Permanente",
+    },
+  ];
+
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Contacts</Text>
-    </View>
+    <Layout>
+      <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign name="left" size={20} style={{ marginTop: 36 }} />
+        </TouchableOpacity>
+        <TouchableOpacity style={{ marginLeft: "auto" }}>
+          <AntDesign name="plus" size={20} style={{ marginTop: 36 }} />
+        </TouchableOpacity>
+      </View>
+      <Search />
+      <FlatList
+        style={{ marginTop: 12 }}
+        showsVerticalScrollIndicator={false}
+        data={data}
+        renderItem={({ item }) => (
+          <Contact
+            navigation={navigation}
+            id={item.id}
+            name={item.name}
+            profession={item.profession}
+            organization={item.organization}
+          />
+        )}
+      />
+    </Layout>
   );
 };
 

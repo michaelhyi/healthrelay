@@ -33,6 +33,7 @@ const RecentContactsSection: React.FC<Props> = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <Contact
+      navigation={navigation}
       id={item.id}
       name={item.name}
       profession={item.profession}

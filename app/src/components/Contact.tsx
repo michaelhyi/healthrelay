@@ -4,15 +4,27 @@ import { colors } from "../utils/styles";
 import React from "react";
 
 interface Props {
+  navigation: {
+    navigate: (route: string) => void;
+  };
   id: number;
   name: string;
-  profession: "Radiologist" | "Ordering Physician";
+  profession: "Radiologist" | "Ordering Physician" | string;
   organization: string;
 }
 
-const Contact: React.FC<Props> = ({ id, name, profession, organization }) => {
+const Contact: React.FC<Props> = ({
+  navigation,
+  id,
+  name,
+  profession,
+  organization,
+}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Profile")}
+      style={styles.container}
+    >
       <Ionicons name="person" size={45} color={colors.blue_400} />
       <View style={{ marginLeft: 24 }}>
         <Text style={styles.name}>Dr. {name}</Text>

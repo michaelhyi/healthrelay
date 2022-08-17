@@ -4,15 +4,33 @@ import { colors } from "../utils/styles";
 import Row from "./Row";
 
 interface Props {
+  navigation: {
+    navigate: (route: string) => void;
+  };
   id: number;
   date: string;
-  priority: "Low" | "Medium" | "High";
-  status: "Pending" | "Opened" | "Complete";
+  priority: "Low" | "Medium" | "High" | string;
+  status: "Pending" | "Opened" | "Complete" | string;
+  full?: boolean;
 }
 
-const OrderCard: React.FC<Props> = ({ id, date, priority, status }) => {
+const OrderCard: React.FC<Props> = ({
+  navigation,
+  id,
+  date,
+  priority,
+  status,
+  full,
+}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Order")}
+      style={
+        full
+          ? { ...styles.container, width: "100%", marginTop: 18 }
+          : { ...styles.container, width: 256 }
+      }
+    >
       <Text style={styles.id}>Order #{id}</Text>
       <Row name="Date" text={date} />
       <Row name="Priority" text={priority} />
@@ -26,7 +44,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 12,
     padding: 12,
-    width: 256,
     marginRight: 24,
   },
   id: {

@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native";
+import Layout from "../components/Layout";
 
 const CreateOrder = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Create Order</Text>
-    </View>
+    <Layout>
+      <></>
+    </Layout>
   );
 };
 

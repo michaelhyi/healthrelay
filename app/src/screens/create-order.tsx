@@ -4,16 +4,12 @@ import Layout from "../components/Layout";
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
 
 const CreateOrder = () => {
-
   const [visible, setVisible] = React.useState(false);
-
   const openMenu = () => setVisible(true);
-
   const closeMenu = () => setVisible(false);
 
   return (
     <Layout>
-
       <View style={{alignItems: "center", marginTop: 15}}>
         <Text style={styles.title}>Create Order</Text>
       </View>
@@ -63,7 +59,6 @@ const CreateOrder = () => {
       </View>
 
     </Layout>
-
   );
 };
 

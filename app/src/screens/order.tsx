@@ -2,8 +2,6 @@ import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import Layout from "../components/Layout";
 import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { colors } from "../utils/styles";
 import User from "../components/User";
 
 interface Props {
@@ -23,10 +21,8 @@ const Order: React.FC<Props> = ({ navigation }) => {
       </View>
       <Text style={styles.header}>Order #39461</Text>
       <View style={{ flexDirection: "row", marginTop: 15}}>
-        <Ionicons name="person" size={50} color={colors.blue_400} />
         <View style={{justifyContent: "center", marginLeft: 10}}>
           <User/>
-          <Text style={styles.position}>Ordering Physician</Text>
         </View>
       </View>
 

@@ -1,5 +1,5 @@
+import { StyleSheet, Text, View } from "react-native";
 import Layout from "../components/Layout";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
 
 const Splash = () => {
   return (

@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import Layout from "../components/Layout";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { colors } from "../utils/styles";
+import BackButton from "../components/BackButton";
 
 interface Props {
   navigation: {
@@ -13,9 +14,8 @@ interface Props {
 const Profile: React.FC<Props> = ({ navigation }) => {
   return (
     <Layout>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <AntDesign name="left" size={20} style={{ marginTop: 36 }} />
-      </TouchableOpacity>
+      <BackButton navigation={navigation} />
+
       <View style={styles.container}>
         <Ionicons name="person" size={100} color={colors.blue_400} />
         <Text

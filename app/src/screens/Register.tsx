@@ -9,8 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-// import BackButton from "../components/BackButton";
+import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
+import { CheckIcon, Select } from "native-base";
+import { colors } from "../utils/styles";
 // import { useRegisterMutation } from "../generated/graphql";
 // import { context } from "../utils/context";
 // import { Navigation } from "../utils/types";
@@ -21,54 +23,19 @@ interface Props {
     goBack: () => void;
   };
 }
-const Register: React.FC<Props> = ({ navigation}) => {
+const Register: React.FC<Props> = ({ navigation }) => {
   // const { setUser } = useContext(context);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-//   const [, register] = useRegisterMutation();
+  const [profession, setProfession] = useState("");
+  //   const [, register] = useRegisterMutation();
 
   return (
     <Layout>
-      <TouchableOpacity>
-        {/* <BackButton navigation={navigation} /> */}
-      </TouchableOpacity>
+      <BackButton navigation={navigation} />
       <View style={styles.container}>
         <View style={styles.icon} />
-        <Text style={styles.logoText}>Health Relay</Text>
-        <View style={styles.textInput}>
-          <Ionicons name="person" size={25} color="#999999" />
-          <TextInput
-            style={{
-              flex: 1,
-              color: "#999999",
-              fontSize: 16,
-              marginLeft: 15,
-              fontFamily: "Poppins-Regular",
-            }}
-            placeholder="First Name"
-            value={firstName}
-            onChangeText={setFirstName}
-            placeholderTextColor="#999999"
-          />
-        </View>
-        <View style={styles.textInput}>
-          <Ionicons name="person" size={25} color="#999999" />
-          <TextInput
-            style={{
-              flex: 1,
-              color: "#999999",
-              fontSize: 16,
-              marginLeft: 15,
-              fontFamily: "Poppins-Regular",
-            }}
-            placeholder="Last Name"
-            value={lastName}
-            onChangeText={setLastName}
-            placeholderTextColor="#999999"
-          />
-        </View>
+        <Text style={styles.logoText}>HealthRelay</Text>
         <View style={styles.textInput}>
           <AntDesign name="mail" size={25} color="#999999" />
           <TextInput
@@ -104,28 +71,48 @@ const Register: React.FC<Props> = ({ navigation}) => {
             secureTextEntry
           />
         </View>
-
+        <View style={{ padding: 6 }} />
+        <Select
+          selectedValue={profession}
+          accessibilityLabel="Select Profession"
+          minWidth={(Dimensions.get("window").width * 13) / 15}
+          placeholder="Select Profession"
+          style={{
+            fontFamily: "Poppins-Regular",
+            fontSize: 16,
+            height: 64,
+          }}
+          _selectedItem={{
+            bg: "#E5E5E5",
+            endIcon: <CheckIcon size="5" />,
+          }}
+          mt={1}
+          onValueChange={(itemValue) => setProfession(itemValue)}
+        >
+          <Select.Item label="Radiologist" value="Radiologist" />
+          <Select.Item label="Ordering Physician" value="Ordering Physician" />
+        </Select>
         <TouchableOpacity
-        //   onPress={async () => {
-        //     const response = await register({
-        //       email,
-        //       password,
-        //       firstName,
-        //       lastName,
-        //     });
-        //     if (!response.data?.register.error) {
-        //       await AsyncStorage.setItem(
-        //         "user",
-        //         JSON.stringify(response.data!.register.user!.id)
-        //       );
-        //       setUser(response.data!.register.user!.id);
-        //     }
-        //   }}
-          onPress={() => navigation.navigate("Login")}
+          //   onPress={async () => {
+          //     const response = await register({
+          //       email,
+          //       password,
+          //       firstName,
+          //       lastName,
+          //     });
+          //     if (!response.data?.register.error) {
+          //       await AsyncStorage.setItem(
+          //         "user",
+          //         JSON.stringify(response.data!.register.user!.id)
+          //       );
+          //       setUser(response.data!.register.user!.id);
+          //     }
+          //   }}
+          onPress={() => navigation.navigate("Additional Register")}
           style={styles.button}
         >
           <Text style={{ fontFamily: "Poppins-Medium", fontSize: 18 }}>
-            Register
+            Next
           </Text>
         </TouchableOpacity>
       </View>
@@ -146,14 +133,16 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    backgroundColor: "white",
-    padding: 35,
+    width: 75,
+    height: 75,
+    backgroundColor: "#DDDDDD",
     borderRadius: 12,
     marginBottom: 16,
   },
 
   logoText: {
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: "Poppins-Bold",
+    color: "#386FA4",
     fontSize: 36,
     marginBottom: 24,
   },

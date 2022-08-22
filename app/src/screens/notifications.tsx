@@ -1,27 +1,34 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity} from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Layout from "../components/Layout";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../utils/styles";
+import BackButton from "../components/BackButton";
 const DATA = [
   {
-    title: 'Dr. Brian Wilson has completed Order #43',
-    date: 'August 18th, 2022 6:21 PM'
+    title: "Dr. Brian Wilson has completed Order #43",
+    date: "August 18th, 2022 6:21 PM",
   },
   {
-    title: 'Dr. Brian Wilson has completed Order #43',
-    date: 'August 18th, 2022 6:21 PM'
+    title: "Dr. Brian Wilson has completed Order #43",
+    date: "August 18th, 2022 6:21 PM",
   },
   {
-    title: 'Dr. Brian Wilson has completed Order #43',
-    date: 'August 18th, 2022 6:21 PM'
+    title: "Dr. Brian Wilson has completed Order #43",
+    date: "August 18th, 2022 6:21 PM",
   },
   {
-    title: 'Dr. Brian Wilson has completed Order #43',
-    date: 'August 18th, 2022 6:21 PM'
+    title: "Dr. Brian Wilson has completed Order #43",
+    date: "August 18th, 2022 6:21 PM",
   },
-]
+];
 
 interface Props {
   navigation: {
@@ -29,57 +36,48 @@ interface Props {
   };
 }
 
-
 const Item = ({ title, date }) => (
-  <View style={{flexDirection: "row", marginTop: 30}}>
-    <TouchableOpacity>
-      <Ionicons name="person" size={35} color={colors.blue_400} />
-    </TouchableOpacity>
-    <View style={{justifyContent: "center", marginLeft: 11}}>
+  <TouchableOpacity
+    style={{ flexDirection: "row", alignItems: "center", marginTop: 30 }}
+  >
+    <Ionicons name="person" size={40} color={colors.blue_400} />
+    <View style={{ justifyContent: "center", marginLeft: 11 }}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.date}>{date}</Text>
     </View>
-
-  </View>
-)
+  </TouchableOpacity>
+);
 
 const Notifications: React.FC<Props> = ({ navigation }) => {
+  const renderItem = ({ item }) => <Item title={item.title} date={item.date} />;
 
-  const renderItem = ({ item }) => (
-    <Item title={item.title} date={item.date} />
-  )
   return (
     <Layout>
       <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="left" size={20} style={{ marginTop: 36 }} />
-        </TouchableOpacity>
-
+        <BackButton navigation={navigation} />
       </View>
       <View>
         <FlatList
           data={DATA}
           renderItem={renderItem}
-          keyExtractor={item => item.title}
+          keyExtractor={(item) => item.title}
         />
       </View>
     </Layout>
-
   );
 };
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 12,
+    fontSize: 16,
     fontFamily: "Poppins-Medium",
-    color: "#133C55"
+    color: "#133C55",
   },
   date: {
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: "Poppins-Regular",
-    color: "#386FA4"
-  }
-})
-
+    color: "#386FA4",
+  },
+});
 
 export default Notifications;

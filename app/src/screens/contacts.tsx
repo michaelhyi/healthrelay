@@ -1,6 +1,7 @@
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
+import BackButton from "../components/BackButton";
 import Contact from "../components/Contact";
 import Layout from "../components/Layout";
 import Search from "../components/Search";
@@ -37,9 +38,7 @@ const Contacts: React.FC<Props> = ({ navigation }) => {
   return (
     <Layout>
       <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="left" size={20} style={{ marginTop: 36 }} />
-        </TouchableOpacity>
+        <BackButton navigation={navigation} />
         <TouchableOpacity style={{ marginLeft: "auto" }}>
           <AntDesign name="plus" size={20} style={{ marginTop: 36 }} />
         </TouchableOpacity>

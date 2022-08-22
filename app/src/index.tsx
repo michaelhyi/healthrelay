@@ -1,9 +1,9 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
+import Container from "./components/Container";
 import LandingStack from "./components/LandingStack";
 import Layout from "./components/Layout";
+import TabNavigator from "./components/TabNavigator";
 import Splash from "./screens/splash";
 import { loadFonts } from "./utils/loadFonts";
 import { sleep } from "./utils/sleep";
@@ -42,10 +42,10 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar style="dark" />
-      <LandingStack />
-    </NavigationContainer>
+    <Container>
+      {/* <LandingStack /> */}
+      <TabNavigator />
+    </Container>
   );
 };
 

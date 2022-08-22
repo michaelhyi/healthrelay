@@ -11,8 +11,9 @@ import Layout from "../components/Layout";
 // import { useLoginMutation } from "../generated/graphql";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { context } from "../utils/context";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Octicons, Ionicons } from "@expo/vector-icons";
 import React from "react";
+import BackButton from "../components/BackButton";
 // import { Navigation } from "../utils/types";
 
 interface Props {
@@ -22,19 +23,23 @@ interface Props {
   };
 }
 
-const Login: React.FC<Props> = ({ navigation }) => {
+const AdditionalRegister: React.FC<Props> = ({ navigation }) => {
   //   const { setUser } = useContext(context);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [phone, setPhone] = useState("");
   //   const [, login] = useLoginMutation();
 
   return (
     <Layout>
+      <BackButton navigation={navigation} />
+
       <View style={styles.container}>
         <View style={styles.icon} />
         <Text style={styles.logoText}>HealthRelay</Text>
         <View style={styles.textInput}>
-          <AntDesign name="mail" size={25} color="#999999" />
+          <Ionicons name="person" size={25} color="#999999" />
           <TextInput
             style={{
               flex: 1,
@@ -43,15 +48,14 @@ const Login: React.FC<Props> = ({ navigation }) => {
               marginLeft: 15,
               fontFamily: "Poppins-Regular",
             }}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
+            placeholder="First Name"
+            value={firstName}
+            onChangeText={setFirstName}
             placeholderTextColor="#999999"
-            autoCapitalize="none"
           />
         </View>
         <View style={styles.textInput}>
-          <AntDesign name="key" size={25} color="#999999" />
+          <Ionicons name="person" size={25} color="#999999" />
           <TextInput
             style={{
               flex: 1,
@@ -60,23 +64,44 @@ const Login: React.FC<Props> = ({ navigation }) => {
               marginLeft: 15,
               fontFamily: "Poppins-Regular",
             }}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
+            placeholder="Last Name"
+            value={lastName}
+            onChangeText={setLastName}
             placeholderTextColor="#999999"
-            autoCapitalize="none"
-            secureTextEntry
           />
         </View>
-        <TouchableOpacity
-          style={{ marginTop: 12 }}
-          onPress={() => navigation.navigate("Register")}
-        >
-          <Text style={styles.text}>Create Account</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ marginTop: 4 }}>
-          <Text style={styles.text}>Forgot Password? </Text>
-        </TouchableOpacity>
+        <View style={styles.textInput}>
+          <Octicons name="organization" size={25} color="#999999" />
+          <TextInput
+            style={{
+              flex: 1,
+              color: "#999999",
+              fontSize: 16,
+              marginLeft: 15,
+              fontFamily: "Poppins-Regular",
+            }}
+            placeholder="Organization"
+            value={organization}
+            onChangeText={setOrganization}
+            placeholderTextColor="#999999"
+          />
+        </View>
+        <View style={styles.textInput}>
+          <AntDesign name="phone" size={25} color="#999999" />
+          <TextInput
+            style={{
+              flex: 1,
+              color: "#999999",
+              fontSize: 16,
+              marginLeft: 15,
+              fontFamily: "Poppins-Regular",
+            }}
+            placeholder="Phone"
+            value={phone}
+            onChangeText={setPhone}
+            placeholderTextColor="#999999"
+          />
+        </View>
         <TouchableOpacity
           //   onPress={async () => {
           //     const response = await login({ email, password });
@@ -92,7 +117,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
           style={styles.button}
         >
           <Text style={{ fontFamily: "Poppins-Medium", fontSize: 18 }}>
-            Login
+            Register
           </Text>
         </TouchableOpacity>
       </View>
@@ -152,4 +177,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default AdditionalRegister;

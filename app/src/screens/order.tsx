@@ -1,6 +1,13 @@
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
 import User from "../components/User";
 
@@ -14,9 +21,10 @@ interface Props {
 const Order: React.FC<Props> = ({ navigation }) => {
   return (
     <Layout>
-      <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="left" size={20} style={{ marginTop: 36 }} />
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <BackButton navigation={navigation} />
+        <TouchableOpacity style={{ marginLeft: "auto" }}>
+          <Feather name="edit" size={20} style={{ marginTop: 36 }} />
         </TouchableOpacity>
       </View>
       <Text style={styles.header}>Order #39461</Text>
@@ -80,6 +88,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   bluetext: {
+    textAlign: "right",
     fontSize: 16,
     fontFamily: "Poppins-Regular",
     color: "#386FA4",

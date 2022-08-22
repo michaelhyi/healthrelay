@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { AntDesign } from "@expo/vector-icons";
 import Search from "../components/Search";
 import OrderCard from "../components/OrderCard";
+import BackButton from "../components/BackButton";
 
 interface Props {
   navigation: {
@@ -66,9 +67,7 @@ const Orders: React.FC<Props> = ({ navigation }) => {
 
   return (
     <Layout>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <AntDesign name="left" size={20} style={{ marginTop: 36 }} />
-      </TouchableOpacity>
+      <BackButton navigation={navigation} />
       <Search />
       <FlatList
         style={{ marginTop: 12 }}

@@ -1,5 +1,5 @@
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AntDesign } from "@expo/vector-icons";
+import { CheckIcon, Select } from "native-base";
 import React, { useContext, useState } from "react";
 import {
   Dimensions,
@@ -11,24 +11,29 @@ import {
 } from "react-native";
 import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
-import { CheckIcon, Select } from "native-base";
-import { colors } from "../utils/styles";
-// import { useRegisterMutation } from "../generated/graphql";
-// import { context } from "../utils/context";
-// import { Navigation } from "../utils/types";
+import Context from "../utils/context";
 
 interface Props {
   navigation: {
-    navigate: (route: string) => void;
+    navigate: (
+      route: string,
+      params: {
+        email: string;
+        password: string;
+        profession: string;
+      }
+    ) => void;
     goBack: () => void;
   };
 }
 const Register: React.FC<Props> = ({ navigation }) => {
-  // const { setUser } = useContext(context);
+  const { setUser } = useContext(Context);
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState<null | string>(null);
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState<null | string>(null);
   const [profession, setProfession] = useState("");
-  //   const [, register] = useRegisterMutation();
+  const [professionError, setProfessionError] = useState<null | string>(null);
 
   return (
     <Layout>
@@ -53,6 +58,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
             autoCapitalize="none"
           />
         </View>
+        {emailError && <Text style={styles.error}>{emailError}</Text>}
         <View style={styles.textInput}>
           <AntDesign name="key" size={25} color="#999999" />
           <TextInput
@@ -71,6 +77,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
             secureTextEntry
           />
         </View>
+        {passwordError && <Text style={styles.error}>{passwordError}</Text>}
         <View style={{ padding: 6 }} />
         <Select
           selectedValue={profession}
@@ -92,23 +99,29 @@ const Register: React.FC<Props> = ({ navigation }) => {
           <Select.Item label="Radiologist" value="Radiologist" />
           <Select.Item label="Ordering Physician" value="Ordering Physician" />
         </Select>
+        {professionError && <Text style={styles.error}>{professionError}</Text>}
         <TouchableOpacity
-          //   onPress={async () => {
-          //     const response = await register({
-          //       email,
-          //       password,
-          //       firstName,
-          //       lastName,
-          //     });
-          //     if (!response.data?.register.error) {
-          //       await AsyncStorage.setItem(
-          //         "user",
-          //         JSON.stringify(response.data!.register.user!.id)
-          //       );
-          //       setUser(response.data!.register.user!.id);
-          //     }
-          //   }}
-          onPress={() => navigation.navigate("Additional Register")}
+          onPress={async () => {
+            if (!email.includes("@")) {
+              setEmailError("Invalid email.");
+              setPasswordError(null);
+              setProfessionError(null);
+            } else if (password.length <= 2) {
+              setEmailError(null);
+              setPasswordError("Password must be greater than 2 characters.");
+              setProfessionError(null);
+            } else if (profession.length === 0) {
+              setEmailError(null);
+              setPasswordError(null);
+              setProfessionError("You must select a profession.");
+            } else {
+              navigation.navigate("Additional Register", {
+                email,
+                password,
+                profession,
+              });
+            }
+          }}
           style={styles.button}
         >
           <Text style={{ fontFamily: "Poppins-Medium", fontSize: 18 }}>
@@ -164,6 +177,11 @@ const styles = StyleSheet.create({
     borderRadius: 36,
     width: (Dimensions.get("window").width * 13) / 15,
     alignItems: "center",
+  },
+  error: {
+    fontFamily: "Poppins-SemiBold",
+    color: "#CC3333",
+    marginTop: 14,
   },
 });
 

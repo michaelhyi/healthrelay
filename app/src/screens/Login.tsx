@@ -8,12 +8,11 @@ import {
   View,
 } from "react-native";
 import Layout from "../components/Layout";
-// import { useLoginMutation } from "../generated/graphql";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { context } from "../utils/context";
+import { useLoginMutation } from "../generated/graphql";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Context from "../utils/context";
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
-// import { Navigation } from "../utils/types";
 
 interface Props {
   navigation: {
@@ -23,10 +22,12 @@ interface Props {
 }
 
 const Login: React.FC<Props> = ({ navigation }) => {
-  //   const { setUser } = useContext(context);
+  const { setUser } = useContext(Context);
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState<null | string>(null);
   const [password, setPassword] = useState("");
-  //   const [, login] = useLoginMutation();
+  const [passwordError, setPasswordError] = useState<null | string>(null);
+  const [, login] = useLoginMutation();
 
   return (
     <Layout>
@@ -50,6 +51,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
             autoCapitalize="none"
           />
         </View>
+        {emailError && <Text style={styles.error}>{emailError}</Text>}
         <View style={styles.textInput}>
           <AntDesign name="key" size={25} color="#999999" />
           <TextInput
@@ -68,6 +70,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
             secureTextEntry
           />
         </View>
+        {passwordError && <Text style={styles.error}>{passwordError}</Text>}
         <TouchableOpacity
           style={{ marginTop: 12 }}
           onPress={() => navigation.navigate("Register")}
@@ -78,17 +81,24 @@ const Login: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.text}>Forgot Password? </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          //   onPress={async () => {
-          //     const response = await login({ email, password });
-          //     if (!response.data?.login.error) {
-          //       await AsyncStorage.setItem(
-          //         "user",
-          //         JSON.stringify(response.data!.login.user!.id)
-          //       );
-          //       setUser(response.data!.login.user!.id);
-          //     }
-          //   }}
-          // onPress={() => navigation.navigate("Register")}
+          onPress={async () => {
+            const response = await login({ email, password });
+            if (!response.data?.login.error) {
+              await AsyncStorage.setItem(
+                "user",
+                JSON.stringify(response.data!.login.user!.id)
+              );
+              setUser(response.data!.login.user!.id);
+            } else {
+              if (response.data?.login.error.field === "Email") {
+                setEmailError(response.data.login.error.message);
+                setPasswordError(null);
+              } else {
+                setEmailError(null);
+                setPasswordError(response.data.login.error.message);
+              }
+            }
+          }}
           style={styles.button}
         >
           <Text style={{ fontFamily: "Poppins-Medium", fontSize: 18 }}>
@@ -149,6 +159,11 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "Poppins-SemiBold",
     color: "#87BEFF",
+  },
+  error: {
+    fontFamily: "Poppins-SemiBold",
+    color: "#CC3333",
+    marginTop: 14,
   },
 });
 

@@ -1,71 +1,47 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-} from "react-native";
+import React from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import Layout from "../components/Layout";
-import { Button, Menu, Divider, Provider } from "react-native-paper";
 
 const CreateOrder = () => {
-  const [visible, setVisible] = useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
-
   return (
-    <Provider>
-      <Layout>
-        <View style={{ alignItems: "center", marginTop: 15 }}>
-          <Text style={styles.title}>Create Order</Text>
-        </View>
+    <Layout>
+      <View style={{ alignItems: "center", marginTop: 15 }}>
+        <Text style={styles.title}>Create Order</Text>
+      </View>
 
-        <View style={{ marginTop: 30 }}>
-          <Text style={styles.header}>MRN</Text>
-          <TextInput style={styles.input} />
-        </View>
+      <View style={{ marginTop: 30 }}>
+        <Text style={styles.header}>MRN</Text>
+        <TextInput style={styles.input} />
+      </View>
 
-        <View style={{ marginTop: 15 }}>
-          <Text style={styles.header}>Priority</Text>
-
-          <View
-            style={{
-              paddingTop: 50,
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <Menu
-              visible={visible}
-              onDismiss={closeMenu}
-              anchor={<Button onPress={openMenu}>Show menu</Button>}
-            >
-              <Menu.Item onPress={() => {}} title="Item 1" />
-              <Menu.Item onPress={() => {}} title="Item 2" />
-              <Divider />
-              <Menu.Item onPress={() => {}} title="Item 3" />
-            </Menu>
-          </View>
-        </View>
+      <View style={{ marginTop: 15 }}>
+        <Text style={styles.header}>Priority</Text>
 
         <View
           style={{
+            paddingTop: 50,
             flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 50,
+            justifyContent: "center",
           }}
-        >
-          <Text style={styles.header}>Ordering Physician</Text>
-          <Text style={styles.bluetext}>Select Contact</Text>
-        </View>
+        ></View>
+      </View>
 
-        <View style={{ marginTop: 30 }}>
-          <Text style={styles.header}>Message</Text>
-          <TextInput multiline style={styles.message} />
-        </View>
-      </Layout>
-    </Provider>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 50,
+        }}
+      >
+        <Text style={styles.header}>Ordering Physician</Text>
+        <Text style={styles.bluetext}>Select Contact</Text>
+      </View>
+
+      <View style={{ marginTop: 30 }}>
+        <Text style={styles.header}>Message</Text>
+        <TextInput multiline style={styles.message} />
+      </View>
+    </Layout>
   );
 };
 

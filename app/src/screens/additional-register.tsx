@@ -1,4 +1,6 @@
-import { useContext, useState } from "react";
+import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useContext, useState } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -7,34 +9,43 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Layout from "../components/Layout";
-// import { useLoginMutation } from "../generated/graphql";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { context } from "../utils/context";
-import { AntDesign, Octicons, Ionicons } from "@expo/vector-icons";
-import React from "react";
 import BackButton from "../components/BackButton";
-// import { Navigation } from "../utils/types";
+import Layout from "../components/Layout";
+import { useRegisterMutation } from "../generated/graphql";
+import Context from "../utils/context";
 
 interface Props {
+  route: {
+    params: {
+      email: string;
+      password: string;
+      profession: string;
+    };
+  };
   navigation: {
     navigate: (route: string) => void;
     goBack: () => void;
   };
 }
 
-const AdditionalRegister: React.FC<Props> = ({ navigation }) => {
-  //   const { setUser } = useContext(context);
+const AdditionalRegister: React.FC<Props> = ({ navigation, route }) => {
+  const { email, password, profession } = route.params;
+  const { setUser } = useContext(Context);
   const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState<null | string>(null);
   const [lastName, setLastName] = useState("");
+  const [lastNameError, setLastNameError] = useState<null | string>(null);
   const [organization, setOrganization] = useState("");
+  const [organizationError, setOrganizationError] = useState<null | string>(
+    null
+  );
   const [phone, setPhone] = useState("");
-  //   const [, login] = useLoginMutation();
+  const [phoneError, setPhoneError] = useState<null | string>(null);
+  const [, register] = useRegisterMutation();
 
   return (
     <Layout>
       <BackButton navigation={navigation} />
-
       <View style={styles.container}>
         <View style={styles.icon} />
         <Text style={styles.logoText}>HealthRelay</Text>
@@ -54,6 +65,7 @@ const AdditionalRegister: React.FC<Props> = ({ navigation }) => {
             placeholderTextColor="#999999"
           />
         </View>
+        {firstNameError && <Text style={styles.error}>{firstNameError}</Text>}
         <View style={styles.textInput}>
           <Ionicons name="person" size={25} color="#999999" />
           <TextInput
@@ -70,6 +82,7 @@ const AdditionalRegister: React.FC<Props> = ({ navigation }) => {
             placeholderTextColor="#999999"
           />
         </View>
+        {lastNameError && <Text style={styles.error}>{lastNameError}</Text>}
         <View style={styles.textInput}>
           <Octicons name="organization" size={25} color="#999999" />
           <TextInput
@@ -86,6 +99,9 @@ const AdditionalRegister: React.FC<Props> = ({ navigation }) => {
             placeholderTextColor="#999999"
           />
         </View>
+        {organizationError && (
+          <Text style={styles.error}>{organizationError}</Text>
+        )}
         <View style={styles.textInput}>
           <AntDesign name="phone" size={25} color="#999999" />
           <TextInput
@@ -102,18 +118,50 @@ const AdditionalRegister: React.FC<Props> = ({ navigation }) => {
             placeholderTextColor="#999999"
           />
         </View>
+        {phoneError && <Text style={styles.error}>{phoneError}</Text>}
         <TouchableOpacity
-          //   onPress={async () => {
-          //     const response = await login({ email, password });
-          //     if (!response.data?.login.error) {
-          //       await AsyncStorage.setItem(
-          //         "user",
-          //         JSON.stringify(response.data!.login.user!.id)
-          //       );
-          //       setUser(response.data!.login.user!.id);
-          //     }
-          //   }}
-          // onPress={() => navigation.navigate("Register")}
+          onPress={async () => {
+            const response = await register({
+              email,
+              password,
+              firstName,
+              lastName,
+              profession,
+              organization,
+              phone,
+            });
+            if (!response.data?.register.error) {
+              await AsyncStorage.setItem(
+                "user",
+                JSON.stringify(response.data!.register.user!.id)
+              );
+              setUser(response.data!.register.user!.id);
+            } else {
+              if (response.data?.register.error.field === "First Name") {
+                setFirstNameError(response.data.register.error.message);
+                setLastNameError(null);
+                setOrganizationError(null);
+                setPhoneError(null);
+              } else if (response.data?.register.error.field === "Last Name") {
+                setFirstNameError(null);
+                setLastNameError(response.data.register.error.message);
+                setOrganizationError(null);
+                setPhoneError(null);
+              } else if (
+                response.data?.register.error.field === "Organization"
+              ) {
+                setFirstNameError(null);
+                setLastNameError(null);
+                setOrganizationError(response.data.register.error.message);
+                setPhoneError(null);
+              } else {
+                setFirstNameError(null);
+                setLastNameError(null);
+                setOrganizationError(null);
+                setPhoneError(response.data.register.error.message);
+              }
+            }
+          }}
           style={styles.button}
         >
           <Text style={{ fontFamily: "Poppins-Medium", fontSize: 18 }}>
@@ -174,6 +222,11 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "Poppins-SemiBold",
     color: "#87BEFF",
+  },
+  error: {
+    fontFamily: "Poppins-SemiBold",
+    color: "#CC3333",
+    marginTop: 14,
   },
 });
 

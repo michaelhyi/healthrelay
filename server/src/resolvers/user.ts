@@ -23,20 +23,36 @@ export class UserResolver {
     @Arg("organization") organization: string,
     @Arg("phone") phone: string
   ): Promise<UserResponse> {
-    if (!email.includes("@")) {
+    if (firstName.length === 0) {
       return {
         error: {
-          field: "Email",
-          message: "Invalid email.",
+          field: "First Name",
+          message: "You must enter a first name.",
         },
       };
     }
 
-    if (password.length <= 2) {
+    if (lastName.length === 0) {
       return {
         error: {
-          field: "Password",
-          message: "Password length must be greater than 2 characters.",
+          field: "Last Name",
+          message: "You must enter a last name.",
+        },
+      };
+    }
+    if (organization.length === 0) {
+      return {
+        error: {
+          field: "Organization",
+          message: "You must enter an organization.",
+        },
+      };
+    }
+    if (phone.length === 0) {
+      return {
+        error: {
+          field: "Phone",
+          message: "You must enter a phone number.",
         },
       };
     }
@@ -91,6 +107,15 @@ export class UserResolver {
     @Arg("email") email: string,
     @Arg("password") password: string
   ): Promise<UserResponse> {
+    if (!email.includes("@")) {
+      return {
+        error: {
+          field: "Email",
+          message: "Invalid email.",
+        },
+      };
+    }
+
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return {

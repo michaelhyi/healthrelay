@@ -16,7 +16,7 @@ const TabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="Home Stack"
         component={HomeStack}
         options={{
           tabBarIcon: ({ focused }) => (

@@ -2,6 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
 import React from "react";
+import { Provider } from "urql";
+import { client } from "../utils/urqlClient";
 
 interface Props {
   children: React.ReactNode;
@@ -9,12 +11,14 @@ interface Props {
 
 const Container: React.FC<Props> = ({ children }) => {
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <StatusBar style="dark" />
-        {children}
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <Provider value={client}>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <StatusBar style="dark" />
+          {children}
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </Provider>
   );
 };
 

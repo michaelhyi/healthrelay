@@ -48,7 +48,7 @@ __decorate([
 ], Notification.prototype, "orderingPhysicianUuid", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => OrderingPhysician_1.OrderingPhysician),
-    (0, typeorm_1.ManyToOne)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.notifications),
+    (0, typeorm_1.ManyToOne)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.notifications, {}),
     __metadata("design:type", OrderingPhysician_1.OrderingPhysician)
 ], Notification.prototype, "orderingPhysician", void 0);
 __decorate([

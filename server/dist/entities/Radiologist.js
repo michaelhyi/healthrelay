@@ -60,13 +60,14 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(() => [Notification_1.Notification]),
     (0, typeorm_1.OneToMany)(() => Notification_1.Notification, (notification) => notification.radiologist, {
+        lazy: true,
         nullable: true,
     }),
     __metadata("design:type", Array)
 ], Radiologist.prototype, "notifications", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [OrderingPhysician_1.OrderingPhysician], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.radiologistContact),
+    (0, typeorm_1.OneToMany)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.radiologistContact, { lazy: true, nullable: true }),
     __metadata("design:type", Array)
 ], Radiologist.prototype, "contacts", void 0);
 __decorate([

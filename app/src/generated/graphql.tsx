@@ -15,6 +15,12 @@ export type Scalars = {
   Float: number;
 };
 
+export type CreateContactResponse = {
+  __typename?: 'CreateContactResponse';
+  error?: Maybe<Error>;
+  success: Scalars['Boolean'];
+};
+
 export type Error = {
   __typename?: 'Error';
   field: Scalars['String'];
@@ -23,8 +29,15 @@ export type Error = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createContact: CreateContactResponse;
   login: UserResponse;
   register: UserResponse;
+};
+
+
+export type MutationCreateContactArgs = {
+  contactUuid: Scalars['String'];
+  uuid: Scalars['String'];
 };
 
 
@@ -151,6 +164,14 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type CreateContactMutationVariables = Exact<{
+  uuid: Scalars['String'];
+  contactUuid: Scalars['String'];
+}>;
+
+
+export type CreateContactMutation = { __typename?: 'Mutation', createContact: { __typename?: 'CreateContactResponse', success: boolean, error?: { __typename?: 'Error', field: string, message: string } | null } };
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -195,6 +216,21 @@ export type ReadUserQueryVariables = Exact<{
 export type ReadUserQuery = { __typename?: 'Query', readUser: { __typename?: 'UserQuery', user: { __typename?: 'User', id: number, uuid: string, email: string, profession: string }, doctor?: { __typename?: 'Radiologist', id: number, uuid: string, firstName: string, lastName: string, organization: string, phone: string, orders?: Array<{ __typename?: 'Order', id: number, date: string, priority: string, status: string }> | null, contacts?: Array<{ __typename?: 'OrderingPhysician', id: number, firstName: string, lastName: string, profession: string, organization: string }> | null } | null } };
 
 
+export const CreateContactDocument = gql`
+    mutation CreateContact($uuid: String!, $contactUuid: String!) {
+  createContact(uuid: $uuid, contactUuid: $contactUuid) {
+    error {
+      field
+      message
+    }
+    success
+  }
+}
+    `;
+
+export function useCreateContactMutation() {
+  return Urql.useMutation<CreateContactMutation, CreateContactMutationVariables>(CreateContactDocument);
+};
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

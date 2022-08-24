@@ -8,6 +8,7 @@ import { useReadUserQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 import Loading from "./loading";
+import * as Clipboard from "expo-clipboard";
 
 interface Props {
   route: {
@@ -56,7 +57,12 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
         >
           {data?.readUser.user.profession}
         </Text>
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity
+          onPress={async () => {
+            await Clipboard.setStringAsync(data?.readUser.user.uuid!);
+          }}
+          style={styles.card}
+        >
           <Text
             style={{
               fontFamily: "Poppins-Medium",

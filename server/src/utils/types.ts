@@ -4,7 +4,7 @@ import { Radiologist } from "../entities/Radiologist";
 import { User } from "../entities/User";
 
 @ObjectType()
-class Error {
+export class Error {
   @Field()
   field: string;
 
@@ -28,4 +28,13 @@ export class UserQuery {
 
   @Field(() => Radiologist, { nullable: true })
   doctor?: Radiologist | OrderingPhysician;
+}
+
+@ObjectType()
+export class CreateContactResponse {
+  @Field(() => Error, { nullable: true })
+  error?: Error;
+
+  @Field(() => Boolean)
+  success!: boolean;
 }

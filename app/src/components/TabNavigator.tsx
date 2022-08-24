@@ -1,8 +1,8 @@
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import CreateOrder from "../screens/create-order";
 import Settings from "../screens/settings";
 import { colors } from "../utils/styles";
+import CreateOrderStack from "./CreateOrderStack";
 import HomeStack from "./HomeStack";
 
 const Tab = createBottomTabNavigator();
@@ -16,7 +16,7 @@ const TabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Home Stack"
+        name="Home"
         component={HomeStack}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -30,7 +30,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Create Order"
-        component={CreateOrder}
+        component={CreateOrderStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <AntDesign

@@ -36,11 +36,7 @@ const main = async () => {
     const apolloServer = new apollo_server_express_1.ApolloServer({
         plugins: [(0, apollo_server_core_1.ApolloServerPluginLandingPageGraphQLPlayground)()],
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [
-                user_1.UserResolver,
-                order_1.OrderResolver,
-                radiologist_1.RadiologistResolver,
-            ],
+            resolvers: [user_1.UserResolver, order_1.OrderResolver, radiologist_1.RadiologistResolver],
             validate: false,
         }),
     });

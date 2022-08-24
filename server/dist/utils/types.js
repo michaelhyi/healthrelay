@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserQuery = exports.UserResponse = void 0;
+exports.CreateContactResponse = exports.UserQuery = exports.UserResponse = exports.Error = void 0;
 const type_graphql_1 = require("type-graphql");
 const Radiologist_1 = require("../entities/Radiologist");
 const User_1 = require("../entities/User");
@@ -26,6 +26,7 @@ __decorate([
 Error = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], Error);
+exports.Error = Error;
 let UserResponse = class UserResponse {
 };
 __decorate([
@@ -54,4 +55,18 @@ UserQuery = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], UserQuery);
 exports.UserQuery = UserQuery;
+let CreateContactResponse = class CreateContactResponse {
+};
+__decorate([
+    (0, type_graphql_1.Field)(() => Error, { nullable: true }),
+    __metadata("design:type", Error)
+], CreateContactResponse.prototype, "error", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => Boolean),
+    __metadata("design:type", Boolean)
+], CreateContactResponse.prototype, "success", void 0);
+CreateContactResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], CreateContactResponse);
+exports.CreateContactResponse = CreateContactResponse;
 //# sourceMappingURL=types.js.map

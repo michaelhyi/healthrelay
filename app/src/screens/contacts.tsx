@@ -30,7 +30,10 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
     <Layout>
       <View style={{ flexDirection: "row" }}>
         <BackButton navigation={navigation} />
-        <TouchableOpacity style={{ marginLeft: "auto" }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Create Contact")}
+          style={{ marginLeft: "auto" }}
+        >
           <AntDesign name="plus" size={20} style={{ marginTop: 36 }} />
         </TouchableOpacity>
       </View>

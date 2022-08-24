@@ -49,6 +49,7 @@ export class Radiologist extends BaseEntity {
 
   @Field(() => [Notification])
   @OneToMany(() => Notification, (notification) => notification.radiologist, {
+    lazy: true,
     nullable: true,
   })
   notifications!: Notification[];
@@ -56,7 +57,8 @@ export class Radiologist extends BaseEntity {
   @Field(() => [OrderingPhysician], { nullable: true })
   @OneToMany(
     () => OrderingPhysician,
-    (orderingPhysician) => orderingPhysician.radiologistContact
+    (orderingPhysician) => orderingPhysician.radiologistContact,
+    { lazy: true, nullable: true }
   )
   contacts!: OrderingPhysician[];
 

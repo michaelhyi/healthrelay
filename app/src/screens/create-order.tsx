@@ -1,8 +1,33 @@
-import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useContext } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Layout from "../components/Layout";
+import { useReadUserQuery } from "../generated/graphql";
+import Context from "../utils/context";
+import Loading from "./loading";
 
-const CreateOrder = () => {
+interface Props {
+  navigation: {
+    navigate: (
+      route: string,
+      params: {
+        uuid: string;
+      }
+    ) => void;
+  };
+}
+
+const CreateOrder: React.FC<Props> = ({ navigation }) => {
+  const { user } = useContext(Context);
+  const [{ data, fetching }] = useReadUserQuery({ variables: { id: user } });
+
+  if (fetching) return <Loading />;
+
   return (
     <Layout>
       <View style={{ alignItems: "center", marginTop: 15 }}>
@@ -24,7 +49,13 @@ const CreateOrder = () => {
         }}
       >
         <Text style={styles.header}>Ordering Physician</Text>
-        <Text style={styles.bluetext}>Select Contact</Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Contacts", { uuid: data?.readUser.user.uuid! })
+          }
+        >
+          <Text style={styles.bluetext}>Select Contact</Text>
+        </TouchableOpacity>
       </View>
       <View style={{ marginTop: 30 }}>
         <Text style={styles.header}>Message</Text>

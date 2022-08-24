@@ -41,7 +41,8 @@ export class Notification extends BaseEntity {
   @Field(() => OrderingPhysician)
   @ManyToOne(
     () => OrderingPhysician,
-    (orderingPhysician) => orderingPhysician.notifications
+    (orderingPhysician) => orderingPhysician.notifications,
+    {}
   )
   orderingPhysician!: OrderingPhysician;
 

@@ -1,0 +1,9 @@
+mutation CreateContact($uuid: String!, $contactUuid: String!) {
+  createContact(uuid: $uuid, contactUuid: $contactUuid) {
+    error {
+      field
+      message
+    }
+    success
+  }
+}

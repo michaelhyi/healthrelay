@@ -14,6 +14,7 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Notification_1 = require("./Notification");
 const Order_1 = require("./Order");
+const OrderingPhysician_1 = require("./OrderingPhysician");
 let Radiologist = class Radiologist extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -45,10 +46,15 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
+], Radiologist.prototype, "profession", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
 ], Radiologist.prototype, "phone", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => [Order_1.Order]),
-    (0, typeorm_1.OneToMany)(() => Order_1.Order, (order) => order.radiologist, { nullable: true }),
+    (0, type_graphql_1.Field)(() => [Order_1.Order], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => Order_1.Order, (order) => order.radiologist),
     __metadata("design:type", Array)
 ], Radiologist.prototype, "orders", void 0);
 __decorate([
@@ -59,9 +65,9 @@ __decorate([
     __metadata("design:type", Array)
 ], Radiologist.prototype, "notifications", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
+    (0, type_graphql_1.Field)(() => [OrderingPhysician_1.OrderingPhysician], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.radiologistContact),
+    __metadata("design:type", Array)
 ], Radiologist.prototype, "contacts", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),

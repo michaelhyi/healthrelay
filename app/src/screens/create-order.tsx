@@ -8,35 +8,24 @@ const CreateOrder = () => {
       <View style={{ alignItems: "center", marginTop: 15 }}>
         <Text style={styles.title}>Create Order</Text>
       </View>
-
       <View style={{ marginTop: 30 }}>
         <Text style={styles.header}>MRN</Text>
         <TextInput style={styles.input} />
       </View>
-
       <View style={{ marginTop: 15 }}>
         <Text style={styles.header}>Priority</Text>
-
-        <View
-          style={{
-            paddingTop: 50,
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        ></View>
+        <TextInput style={styles.input} />
       </View>
-
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          marginTop: 50,
+          marginTop: 25,
         }}
       >
         <Text style={styles.header}>Ordering Physician</Text>
         <Text style={styles.bluetext}>Select Contact</Text>
       </View>
-
       <View style={{ marginTop: 30 }}>
         <Text style={styles.header}>Message</Text>
         <TextInput multiline style={styles.message} />

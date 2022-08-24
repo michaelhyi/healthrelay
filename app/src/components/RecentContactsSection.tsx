@@ -1,52 +1,58 @@
-import { FlatList, View } from "react-native";
-import SectionHeader from "./SectionHeader";
 import React from "react";
+import { Dimensions, FlatList, View } from "react-native";
 import Contact from "./Contact";
+import SectionHeader from "./SectionHeader";
+
+interface ContactProps {
+  id: number;
+  firstName: string;
+  lastName: string;
+  profession: string;
+  organization: string;
+}
 
 interface Props {
+  profession: string;
+  uuid: string;
   navigation: {
     navigate: (route: string) => void;
   };
+  data: ContactProps[];
 }
 
-const RecentContactsSection: React.FC<Props> = ({ navigation }) => {
-  const fake_data = [
-    {
-      id: 1,
-      name: "Bob Dylan",
-      profession: "Ordering Physician",
-      organization: "Kaiser Permanente",
-    },
-    {
-      id: 2,
-      name: "Paul McCartney",
-      profession: "Ordering Physician",
-      organization: "Kaiser Permanente",
-    },
-    {
-      id: 3,
-      name: "Brian Wilson",
-      profession: "Ordering Physician",
-      organization: "Kaiser Permanente",
-    },
-  ];
+interface ItemProps {
+  item: ContactProps;
+}
 
-  const renderItem = ({ item }) => (
+const RecentContactsSection: React.FC<Props> = ({
+  profession,
+  uuid,
+  navigation,
+  data,
+}) => {
+  const renderItem: React.FC<ItemProps> = ({ item }) => (
     <Contact
       navigation={navigation}
       id={item.id}
-      name={item.name}
+      name={item.firstName + item.lastName}
       profession={item.profession}
       organization={item.organization}
     />
   );
 
   return (
-    <View style={{ marginTop: 24 }}>
-      <SectionHeader navigation={navigation} text="Contacts" />
+    <View
+      style={{ marginTop: 24, height: Dimensions.get("window").height / 2.5 }}
+    >
+      <SectionHeader
+        profession={profession}
+        navigation={navigation}
+        text="Contacts"
+        uuid={uuid}
+      />
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={fake_data}
+        data={data}
         renderItem={renderItem}
       />
     </View>

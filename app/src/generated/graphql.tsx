@@ -44,9 +44,89 @@ export type MutationRegisterArgs = {
   profession: Scalars['String'];
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  createdAt: Scalars['String'];
+  date: Scalars['String'];
+  id: Scalars['Float'];
+  message: Scalars['String'];
+  orderingPhysician: OrderingPhysician;
+  orderingPhysicianUuid: Scalars['String'];
+  radiologist: Radiologist;
+  radiologistUuid: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type Order = {
+  __typename?: 'Order';
+  createdAt: Scalars['String'];
+  date: Scalars['String'];
+  id: Scalars['Float'];
+  message: Scalars['String'];
+  mrn: Scalars['String'];
+  orderingPhysician: OrderingPhysician;
+  orderingPhysicianUuid: Scalars['String'];
+  priority: Scalars['String'];
+  radiologist: Radiologist;
+  radiologistUuid: Scalars['String'];
+  status: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type OrderingPhysician = {
+  __typename?: 'OrderingPhysician';
+  createdAt: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['Float'];
+  lastName: Scalars['String'];
+  notifications?: Maybe<Array<Notification>>;
+  orders?: Maybe<Array<Order>>;
+  organization: Scalars['String'];
+  phone: Scalars['String'];
+  profession: Scalars['String'];
+  radiologistContact?: Maybe<Radiologist>;
+  updatedAt: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  hi: Scalars['String'];
+  readContacts: Array<OrderingPhysician>;
+  readOrders: Array<Order>;
+  readUser: UserQuery;
+  readUsers: Array<User>;
+};
+
+
+export type QueryReadContactsArgs = {
+  uuid: Scalars['String'];
+};
+
+
+export type QueryReadOrdersArgs = {
+  profession: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
+
+export type QueryReadUserArgs = {
+  id: Scalars['Int'];
+};
+
+export type Radiologist = {
+  __typename?: 'Radiologist';
+  contacts?: Maybe<Array<OrderingPhysician>>;
+  createdAt: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['Float'];
+  lastName: Scalars['String'];
+  notifications: Array<Notification>;
+  orders?: Maybe<Array<Order>>;
+  organization: Scalars['String'];
+  phone: Scalars['String'];
+  profession: Scalars['String'];
+  updatedAt: Scalars['String'];
+  uuid: Scalars['String'];
 };
 
 export type User = {
@@ -57,6 +137,12 @@ export type User = {
   profession: Scalars['String'];
   updatedAt: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+export type UserQuery = {
+  __typename?: 'UserQuery';
+  doctor?: Maybe<Radiologist>;
+  user: User;
 };
 
 export type UserResponse = {
@@ -85,6 +171,28 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', error?: { __typename?: 'Error', field: string, message: string } | null, user?: { __typename?: 'User', id: number } | null } };
+
+export type ReadContactsQueryVariables = Exact<{
+  uuid: Scalars['String'];
+}>;
+
+
+export type ReadContactsQuery = { __typename?: 'Query', readContacts: Array<{ __typename?: 'OrderingPhysician', id: number, uuid: string, firstName: string, lastName: string, profession: string, organization: string }> };
+
+export type ReadOrdersQueryVariables = Exact<{
+  uuid: Scalars['String'];
+  profession: Scalars['String'];
+}>;
+
+
+export type ReadOrdersQuery = { __typename?: 'Query', readOrders: Array<{ __typename?: 'Order', id: number, date: string, priority: string, status: string }> };
+
+export type ReadUserQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ReadUserQuery = { __typename?: 'Query', readUser: { __typename?: 'UserQuery', user: { __typename?: 'User', id: number, uuid: string, email: string, profession: string }, doctor?: { __typename?: 'Radiologist', id: number, uuid: string, firstName: string, lastName: string, organization: string, phone: string, orders?: Array<{ __typename?: 'Order', id: number, date: string, priority: string, status: string }> | null, contacts?: Array<{ __typename?: 'OrderingPhysician', id: number, firstName: string, lastName: string, profession: string, organization: string }> | null } | null } };
 
 
 export const LoginDocument = gql`
@@ -128,4 +236,71 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const ReadContactsDocument = gql`
+    query ReadContacts($uuid: String!) {
+  readContacts(uuid: $uuid) {
+    id
+    uuid
+    firstName
+    lastName
+    profession
+    organization
+  }
+}
+    `;
+
+export function useReadContactsQuery(options: Omit<Urql.UseQueryArgs<ReadContactsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadContactsQuery, ReadContactsQueryVariables>({ query: ReadContactsDocument, ...options });
+};
+export const ReadOrdersDocument = gql`
+    query ReadOrders($uuid: String!, $profession: String!) {
+  readOrders(uuid: $uuid, profession: $profession) {
+    id
+    date
+    priority
+    status
+  }
+}
+    `;
+
+export function useReadOrdersQuery(options: Omit<Urql.UseQueryArgs<ReadOrdersQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadOrdersQuery, ReadOrdersQueryVariables>({ query: ReadOrdersDocument, ...options });
+};
+export const ReadUserDocument = gql`
+    query ReadUser($id: Int!) {
+  readUser(id: $id) {
+    user {
+      id
+      uuid
+      email
+      profession
+    }
+    doctor {
+      id
+      uuid
+      firstName
+      lastName
+      organization
+      phone
+      orders {
+        id
+        date
+        priority
+        status
+      }
+      contacts {
+        id
+        firstName
+        lastName
+        profession
+        organization
+      }
+    }
+  }
+}
+    `;
+
+export function useReadUserQuery(options: Omit<Urql.UseQueryArgs<ReadUserQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadUserQuery, ReadUserQueryVariables>({ query: ReadUserDocument, ...options });
 };

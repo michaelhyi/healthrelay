@@ -14,6 +14,7 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Notification_1 = require("./Notification");
 const Order_1 = require("./Order");
+const Radiologist_1 = require("./Radiologist");
 let OrderingPhysician = class OrderingPhysician extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -45,24 +46,29 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
+], OrderingPhysician.prototype, "profession", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
 ], OrderingPhysician.prototype, "phone", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => [Order_1.Order]),
-    (0, typeorm_1.OneToMany)(() => Order_1.Order, (order) => order.radiologist, { nullable: true }),
+    (0, type_graphql_1.Field)(() => [Order_1.Order], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => Order_1.Order, (order) => order.radiologist),
     __metadata("design:type", Array)
 ], OrderingPhysician.prototype, "orders", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => [Notification_1.Notification]),
-    (0, typeorm_1.OneToMany)(() => Notification_1.Notification, (notification) => notification.radiologist, {
+    (0, type_graphql_1.Field)(() => [Notification_1.Notification], {
         nullable: true,
     }),
+    (0, typeorm_1.OneToMany)(() => Notification_1.Notification, (notification) => notification.radiologist),
     __metadata("design:type", Array)
 ], OrderingPhysician.prototype, "notifications", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], OrderingPhysician.prototype, "contacts", void 0);
+    (0, type_graphql_1.Field)({ nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => Radiologist_1.Radiologist, (radiologist) => radiologist.contacts),
+    __metadata("design:type", Radiologist_1.Radiologist)
+], OrderingPhysician.prototype, "radiologistContact", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),

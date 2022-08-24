@@ -24,8 +24,26 @@ const Radiologist_1 = require("../entities/Radiologist");
 const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 let UserResolver = class UserResolver {
-    hi() {
-        return "hi";
+    async readUsers() {
+        const users = await User_1.User.find();
+        return users;
+    }
+    async readUser(id) {
+        const user = await User_1.User.findOne({ where: { id } });
+        if (user) {
+            const uuid = user.uuid;
+            if ((user === null || user === void 0 ? void 0 : user.profession) === "Radiologist") {
+                const radiologist = await Radiologist_1.Radiologist.findOne({ where: { uuid } });
+                return { user, doctor: radiologist };
+            }
+            else if ((user === null || user === void 0 ? void 0 : user.profession) === "Ordering Physician") {
+                const orderingPhysician = await OrderingPhysician_1.OrderingPhysician.findOne({
+                    where: { uuid },
+                });
+                return { user, doctor: orderingPhysician };
+            }
+        }
+        return null;
     }
     async register(email, password, firstName, lastName, profession, organization, phone) {
         if (firstName.length === 0) {
@@ -88,6 +106,7 @@ let UserResolver = class UserResolver {
                 lastName,
                 organization,
                 phone,
+                profession,
             }).save();
         }
         else {
@@ -97,6 +116,7 @@ let UserResolver = class UserResolver {
                 lastName,
                 organization,
                 phone,
+                profession,
             }).save();
         }
         return { user };
@@ -131,11 +151,18 @@ let UserResolver = class UserResolver {
     }
 };
 __decorate([
-    (0, type_graphql_1.Query)(() => String),
+    (0, type_graphql_1.Query)(() => [User_1.User]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], UserResolver.prototype, "hi", null);
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "readUsers", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => types_1.UserQuery),
+    __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "readUser", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => types_1.UserResponse),
     __param(0, (0, type_graphql_1.Arg)("email")),

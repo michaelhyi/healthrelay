@@ -15,6 +15,8 @@ const Order_1 = require("./entities/Order");
 const OrderingPhysician_1 = require("./entities/OrderingPhysician");
 const Radiologist_1 = require("./entities/Radiologist");
 const User_1 = require("./entities/User");
+const order_1 = require("./resolvers/order");
+const radiologist_1 = require("./resolvers/radiologist");
 const user_1 = require("./resolvers/user");
 const main = async () => {
     await (0, typeorm_1.createConnection)({
@@ -34,7 +36,11 @@ const main = async () => {
     const apolloServer = new apollo_server_express_1.ApolloServer({
         plugins: [(0, apollo_server_core_1.ApolloServerPluginLandingPageGraphQLPlayground)()],
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [user_1.UserResolver],
+            resolvers: [
+                user_1.UserResolver,
+                order_1.OrderResolver,
+                radiologist_1.RadiologistResolver,
+            ],
             validate: false,
         }),
     });

@@ -10,6 +10,7 @@ import {
 } from "typeorm";
 import { Notification } from "./Notification";
 import { Order } from "./Order";
+import { OrderingPhysician } from "./OrderingPhysician";
 
 @ObjectType()
 @Entity()
@@ -36,10 +37,14 @@ export class Radiologist extends BaseEntity {
 
   @Field()
   @Column()
+  profession!: string;
+
+  @Field()
+  @Column()
   phone!: string;
 
-  @Field(() => [Order])
-  @OneToMany(() => Order, (order) => order.radiologist, { nullable: true })
+  @Field(() => [Order], { nullable: true })
+  @OneToMany(() => Order, (order) => order.radiologist)
   orders!: Order[];
 
   @Field(() => [Notification])
@@ -48,9 +53,12 @@ export class Radiologist extends BaseEntity {
   })
   notifications!: Notification[];
 
-  @Field()
-  @Column({ nullable: true })
-  contacts!: string;
+  @Field(() => [OrderingPhysician], { nullable: true })
+  @OneToMany(
+    () => OrderingPhysician,
+    (orderingPhysician) => orderingPhysician.radiologistContact
+  )
+  contacts!: OrderingPhysician[];
 
   @Field(() => String)
   @CreateDateColumn()

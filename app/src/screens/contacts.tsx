@@ -5,35 +5,26 @@ import BackButton from "../components/BackButton";
 import Contact from "../components/Contact";
 import Layout from "../components/Layout";
 import Search from "../components/Search";
+import { useReadContactsQuery } from "../generated/graphql";
+import Loading from "./loading";
 
 interface Props {
+  route: {
+    params: {
+      uuid: string;
+    };
+  };
   navigation: {
     navigate: (route: string) => void;
     goBack: () => void;
   };
 }
 
-const Contacts: React.FC<Props> = ({ navigation }) => {
-  const data = [
-    {
-      id: 1,
-      name: "Bob Dylan",
-      profession: "Ordering Physician",
-      organization: "Kaiser Permanente",
-    },
-    {
-      id: 2,
-      name: "Paul McCartney",
-      profession: "Ordering Physician",
-      organization: "Kaiser Permanente",
-    },
-    {
-      id: 3,
-      name: "Brian Wilson",
-      profession: "Ordering Physician",
-      organization: "Kaiser Permanente",
-    },
-  ];
+const Contacts: React.FC<Props> = ({ route, navigation }) => {
+  const { uuid } = route.params;
+  const [{ data, fetching }] = useReadContactsQuery({ variables: { uuid } });
+
+  if (fetching) return <Loading />;
 
   return (
     <Layout>
@@ -47,12 +38,12 @@ const Contacts: React.FC<Props> = ({ navigation }) => {
       <FlatList
         style={{ marginTop: 12 }}
         showsVerticalScrollIndicator={false}
-        data={data}
+        data={data?.readContacts}
         renderItem={({ item }) => (
           <Contact
             navigation={navigation}
             id={item.id}
-            name={item.name}
+            name={item.firstName + item.lastName}
             profession={item.profession}
             organization={item.organization}
           />

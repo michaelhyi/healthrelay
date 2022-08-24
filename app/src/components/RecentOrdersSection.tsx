@@ -1,31 +1,35 @@
 import React from "react";
-import { FlatList, View } from "react-native";
+import { Dimensions, FlatList, View } from "react-native";
 import OrderCard from "./OrderCard";
 import SectionHeader from "./SectionHeader";
 
+interface OrderProps {
+  id: number;
+  date: string;
+  priority: string;
+  status: string;
+}
+
 interface Props {
+  profession: string;
+  uuid: string;
   navigation: {
     navigate: (route: string) => void;
   };
+  data: OrderProps[];
 }
 
-const RecentOrdersSection: React.FC<Props> = ({ navigation }) => {
-  const fake_data = [
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
-    },
-    {
-      id: 43612,
-      date: "July 23rd, 2022",
-      priority: "Low",
-      status: "Opened",
-    },
-  ];
+interface ItemProps {
+  item: OrderProps;
+}
 
-  const renderItem = ({ item }) => (
+const RecentOrdersSection: React.FC<Props> = ({
+  profession,
+  navigation,
+  data,
+  uuid,
+}) => {
+  const renderItem: React.FC<ItemProps> = ({ item }) => (
     <OrderCard
       navigation={navigation}
       id={item.id}
@@ -36,12 +40,19 @@ const RecentOrdersSection: React.FC<Props> = ({ navigation }) => {
   );
 
   return (
-    <View style={{ marginTop: 48 }}>
-      <SectionHeader text="Orders" navigation={navigation} />
+    <View
+      style={{ marginTop: 36, height: Dimensions.get("window").height / 5 }}
+    >
+      <SectionHeader
+        profession={profession}
+        uuid={uuid}
+        text="Orders"
+        navigation={navigation}
+      />
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={fake_data}
+        data={data}
         renderItem={renderItem}
       />
     </View>

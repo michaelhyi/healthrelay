@@ -1,0 +1,8 @@
+query ReadOrders($uuid: String!, $profession: String!) {
+  readOrders(uuid: $uuid, profession: $profession) {
+    id
+    date
+    priority
+    status
+  }
+}

@@ -1,16 +1,36 @@
 import argon2 from "argon2";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { v4 } from "uuid";
 import { OrderingPhysician } from "../entities/OrderingPhysician";
 import { Radiologist } from "../entities/Radiologist";
 import { User } from "../entities/User";
-import { UserResponse } from "../utils/types";
+import { UserQuery, UserResponse } from "../utils/types";
 
 @Resolver()
 export class UserResolver {
-  @Query(() => String)
-  hi(): string {
-    return "hi";
+  @Query(() => [User])
+  async readUsers(): Promise<User[]> {
+    const users = await User.find();
+    return users;
+  }
+
+  @Query(() => UserQuery)
+  async readUser(@Arg("id", () => Int) id: number): Promise<UserQuery | null> {
+    const user = await User.findOne({ where: { id } });
+    if (user) {
+      const uuid = user.uuid;
+
+      if (user?.profession === "Radiologist") {
+        const radiologist = await Radiologist.findOne({ where: { uuid } });
+        return { user, doctor: radiologist };
+      } else if (user?.profession === "Ordering Physician") {
+        const orderingPhysician = await OrderingPhysician.findOne({
+          where: { uuid },
+        });
+        return { user, doctor: orderingPhysician };
+      }
+    }
+    return null;
   }
 
   @Mutation(() => UserResponse)
@@ -88,6 +108,7 @@ export class UserResolver {
         lastName,
         organization,
         phone,
+        profession,
       }).save();
     } else {
       await OrderingPhysician.create({
@@ -96,6 +117,7 @@ export class UserResolver {
         lastName,
         organization,
         phone,
+        profession,
       }).save();
     }
 

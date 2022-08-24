@@ -1,10 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
 import Container from "./components/Container";
 import LandingStack from "./components/LandingStack";
-import Layout from "./components/Layout";
 import TabNavigator from "./components/TabNavigator";
+import Loading from "./screens/loading";
 import Splash from "./screens/splash";
 import Context from "./utils/context";
 import { loadFonts } from "./utils/loadFonts";
@@ -27,21 +26,7 @@ const App = () => {
   }, []);
 
   if (!fontsLoaded) {
-    return (
-      <Layout>
-        <ActivityIndicator
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        />
-      </Layout>
-    );
+    return <Loading />;
   }
 
   if (loading) {

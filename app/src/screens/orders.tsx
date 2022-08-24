@@ -1,69 +1,35 @@
 import React from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import Layout from "../components/Layout";
-import { AntDesign } from "@expo/vector-icons";
-import Search from "../components/Search";
-import OrderCard from "../components/OrderCard";
+import { FlatList } from "react-native";
 import BackButton from "../components/BackButton";
+import Layout from "../components/Layout";
+import OrderCard from "../components/OrderCard";
+import Search from "../components/Search";
+import { useReadOrdersQuery } from "../generated/graphql";
+import Loading from "./loading";
 
 interface Props {
+  route: {
+    params: {
+      uuid: string;
+      profession: string;
+    };
+  };
   navigation: {
     navigate: (route: string) => void;
     goBack: () => void;
   };
 }
 
-const Orders: React.FC<Props> = ({ navigation }) => {
-  const data = [
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
+const Orders: React.FC<Props> = ({ route, navigation }) => {
+  const { uuid, profession } = route.params;
+  const [{ data, fetching }] = useReadOrdersQuery({
+    variables: {
+      uuid,
+      profession,
     },
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
-    },
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
-    },
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
-    },
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
-    },
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
-    },
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
-    },
-    {
-      id: 39461,
-      date: "August 1st, 2022",
-      priority: "High",
-      status: "Complete",
-    },
-  ];
+  });
+
+  if (fetching) return <Loading />;
 
   return (
     <Layout>
@@ -72,7 +38,7 @@ const Orders: React.FC<Props> = ({ navigation }) => {
       <FlatList
         style={{ marginTop: 12 }}
         showsVerticalScrollIndicator={false}
-        data={data}
+        data={data?.readOrders}
         renderItem={({ item }) => (
           <OrderCard
             navigation={navigation}

@@ -1,13 +1,7 @@
-import { AntDesign, Feather } from "@expo/vector-icons";
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import BackButton from "../components/BackButton";
+import EditButton from "../components/EditButton";
 import Layout from "../components/Layout";
 import User from "../components/User";
 
@@ -23,9 +17,7 @@ const Order: React.FC<Props> = ({ navigation }) => {
     <Layout>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <BackButton navigation={navigation} />
-        <TouchableOpacity style={{ marginLeft: "auto" }}>
-          <Feather name="edit" size={20} style={{ marginTop: 36 }} />
-        </TouchableOpacity>
+        <EditButton navigation={navigation} />
       </View>
       <Text style={styles.header}>Order #39461</Text>
       <View style={{ marginTop: 15 }}>

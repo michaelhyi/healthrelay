@@ -1,0 +1,10 @@
+query ReadContacts($uuid: String!) {
+  readContacts(uuid: $uuid) {
+    id
+    uuid
+    firstName
+    lastName
+    profession
+    organization
+  }
+}

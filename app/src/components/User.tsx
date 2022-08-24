@@ -1,19 +1,29 @@
 import { Ionicons } from "@expo/vector-icons";
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../utils/styles";
-import React from "react";
 
 interface Props {
   onPress: () => void;
+  firstName: string;
+  lastName: string;
+  profession: string;
 }
 
-const User: React.FC<Props> = ({ onPress }) => {
+const User: React.FC<Props> = ({
+  onPress,
+  firstName,
+  lastName,
+  profession,
+}) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Ionicons name="person" size={45} color={colors.blue_400} />
-      <View style={{ marginLeft: 24 }}>
-        <Text style={styles.name}>Dr. Oneil Lee</Text>
-        <Text style={styles.profession}>Radiologist</Text>
+      <View style={{ marginLeft: 18 }}>
+        <Text style={styles.name}>
+          Dr. {firstName} {lastName}
+        </Text>
+        <Text style={styles.profession}>{profession}</Text>
       </View>
     </TouchableOpacity>
   );

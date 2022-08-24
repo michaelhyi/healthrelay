@@ -3,18 +3,33 @@ import React from "react";
 import { colors } from "../utils/styles";
 
 interface Props {
+  profession: string;
+  uuid: string;
   text: string;
   navigation: {
-    navigate: (route: string) => void;
+    navigate: (
+      route: string,
+      params: { uuid: string; profession: string }
+    ) => void;
   };
 }
 
-const SectionHeader: React.FC<Props> = ({ text, navigation }) => {
+const SectionHeader: React.FC<Props> = ({
+  profession,
+  uuid,
+  text,
+  navigation,
+}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.main}>Recent {text}</Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate(text)}
+        onPress={() =>
+          navigation.navigate(text, {
+            uuid,
+            profession,
+          })
+        }
         style={{ marginLeft: "auto" }}
       >
         <Text style={styles.btn}>View All</Text>

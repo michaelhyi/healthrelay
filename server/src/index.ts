@@ -10,6 +10,9 @@ import { Order } from "./entities/Order";
 import { OrderingPhysician } from "./entities/OrderingPhysician";
 import { Radiologist } from "./entities/Radiologist";
 import { User } from "./entities/User";
+import { NotificationResolver } from "./resolvers/notification";
+import { OrderResolver } from "./resolvers/order";
+import { RadiologistResolver } from "./resolvers/radiologist";
 import { UserResolver } from "./resolvers/user";
 
 const main = async () => {
@@ -35,7 +38,12 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     schema: await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [
+        UserResolver,
+        OrderResolver,
+        RadiologistResolver,
+        // NotificationResolver
+      ],
       validate: false,
     }),
   });

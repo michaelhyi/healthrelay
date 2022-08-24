@@ -1,6 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
 import { CheckIcon, Select } from "native-base";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
-import Context from "../utils/context";
 
 interface Props {
   navigation: {
@@ -27,7 +26,6 @@ interface Props {
   };
 }
 const Register: React.FC<Props> = ({ navigation }) => {
-  const { setUser } = useContext(Context);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<null | string>(null);
   const [password, setPassword] = useState("");

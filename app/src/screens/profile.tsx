@@ -13,7 +13,7 @@ import * as Clipboard from "expo-clipboard";
 interface Props {
   route: {
     params: {
-      id: number;
+      uuid: string;
     };
   };
   navigation: {
@@ -24,8 +24,10 @@ interface Props {
 
 const Profile: React.FC<Props> = ({ route, navigation }) => {
   const { user } = useContext(Context);
-  const { id } = route.params;
-  const [{ data, fetching }] = useReadUserQuery({ variables: { id } });
+  const { uuid } = route.params;
+  const [{ data, fetching }] = useReadUserQuery({ variables: { uuid } });
+
+  console.log(uuid);
 
   if (fetching) return <Loading />;
 
@@ -33,7 +35,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
     <Layout>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <BackButton navigation={navigation} />
-        {user === id && <EditButton navigation={navigation} />}
+        {user === uuid && <EditButton navigation={navigation} />}
       </View>
       <View style={styles.container}>
         <Ionicons name="person" size={100} color={colors.blue_400} />

@@ -10,7 +10,6 @@ import {
 } from "typeorm";
 import { Notification } from "./Notification";
 import { Order } from "./Order";
-import { OrderingPhysician } from "./OrderingPhysician";
 
 @ObjectType()
 @Entity()
@@ -53,14 +52,6 @@ export class Radiologist extends BaseEntity {
     nullable: true,
   })
   notifications!: Notification[];
-
-  @Field(() => [OrderingPhysician], { nullable: true })
-  @OneToMany(
-    () => OrderingPhysician,
-    (orderingPhysician) => orderingPhysician.radiologistContact,
-    { lazy: true, nullable: true }
-  )
-  contacts!: OrderingPhysician[];
 
   @Field(() => String)
   @CreateDateColumn()

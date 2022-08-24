@@ -5,10 +5,11 @@ import SectionHeader from "./SectionHeader";
 
 interface ContactProps {
   id: number;
+  secondaryUuid: string;
   firstName: string;
   lastName: string;
-  profession: string;
   organization: string;
+  profession: string;
 }
 
 interface Props {
@@ -32,9 +33,10 @@ const RecentContactsSection: React.FC<Props> = ({
 }) => {
   const renderItem: React.FC<ItemProps> = ({ item }) => (
     <Contact
+      uuid={item.secondaryUuid}
       navigation={navigation}
       id={item.id}
-      name={item.firstName + item.lastName}
+      name={item.firstName + " " + item.lastName}
       profession={item.profession}
       organization={item.organization}
     />

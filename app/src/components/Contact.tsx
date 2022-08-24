@@ -5,24 +5,25 @@ import React from "react";
 
 interface Props {
   navigation: {
-    navigate: (route: string) => void;
+    navigate: (route: string, params: { uuid: string }) => void;
   };
   id: number;
   name: string;
   profession: "Radiologist" | "Ordering Physician" | string;
   organization: string;
+  uuid: string;
 }
 
 const Contact: React.FC<Props> = ({
   navigation,
-  id,
   name,
   profession,
   organization,
+  uuid,
 }) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Profile")}
+      onPress={() => navigation.navigate("Profile", { uuid })}
       style={styles.container}
     >
       <Ionicons name="person" size={45} color={colors.blue_400} />

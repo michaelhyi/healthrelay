@@ -1,36 +1,41 @@
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Layout from "../components/Layout";
 import RecentContactsSection from "../components/RecentContactsSection";
 import RecentOrdersSection from "../components/RecentOrdersSection";
 import User from "../components/User";
-import { useReadUserQuery } from "../generated/graphql";
+import { useReadContactsQuery, useReadUserQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 import Loading from "./loading";
 
 interface Props {
   navigation: {
-    navigate: (route: string, params?: { id: number }) => void;
+    navigate: (route: string, params?: { uuid: string }) => void;
   };
 }
 
 const Home: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
-  const [{ data, fetching }] = useReadUserQuery({ variables: { id: user } });
+  const [{ data: userData, fetching: fetchingUserData }] = useReadUserQuery({
+    variables: { uuid: user },
+  });
+  const [{ data: contacts, fetching: fetchingContacts }] = useReadContactsQuery(
+    { variables: { uuid: user } }
+  );
 
-  if (fetching) return <Loading />;
+  if (fetchingUserData || fetchingContacts) return <Loading />;
 
   return (
     <Layout>
       <View style={styles.header_1}>
         <User
-          firstName={data!.readUser.doctor!.firstName}
-          lastName={data!.readUser.doctor!.lastName}
-          profession={data!.readUser.user.profession}
-          onPress={() => navigation.navigate("Profile", { id: user })}
+          firstName={userData!.readUser.doctor!.firstName}
+          lastName={userData!.readUser.doctor!.lastName}
+          profession={userData!.readUser.user.profession}
+          onPress={() => navigation.navigate("Profile", { uuid: user })}
         />
         <TouchableOpacity
           onPress={() => navigation.navigate("Notifications")}
@@ -41,23 +46,23 @@ const Home: React.FC<Props> = ({ navigation }) => {
       </View>
       <View style={{ marginTop: 36 }}>
         <Text style={styles.welcome}>
-          Welcome Dr. {data?.readUser.doctor?.lastName}!
+          Welcome Dr. {userData?.readUser.doctor?.lastName}!
         </Text>
         <Text style={styles.date}>
           {format(new Date(), "EEEE MMMM do, yyyy p")}
         </Text>
       </View>
       <RecentOrdersSection
-        profession={data?.readUser.user.profession!}
-        uuid={data?.readUser.user.uuid!}
+        profession={userData?.readUser.user.profession!}
+        uuid={userData?.readUser.user.uuid!}
         navigation={navigation}
-        data={data?.readUser.doctor?.orders!}
+        data={userData?.readUser.doctor?.orders!}
       />
       <RecentContactsSection
-        profession={data?.readUser.user.profession!}
-        uuid={data?.readUser.user.uuid!}
+        profession={userData?.readUser.user.profession!}
+        uuid={userData?.readUser.user.uuid!}
         navigation={navigation}
-        data={data?.readUser.doctor?.contacts!}
+        data={contacts?.readContacts!}
       />
     </Layout>
   );

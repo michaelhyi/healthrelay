@@ -4,14 +4,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Notification } from "./Notification";
 import { Order } from "./Order";
-import { Radiologist } from "./Radiologist";
 
 @ObjectType()
 @Entity()
@@ -53,10 +51,6 @@ export class OrderingPhysician extends BaseEntity {
   })
   @OneToMany(() => Notification, (notification) => notification.radiologist)
   notifications!: Notification[];
-
-  @Field({ nullable: true })
-  @ManyToOne(() => Radiologist, (radiologist) => radiologist.contacts)
-  radiologistContact!: Radiologist;
 
   @Field(() => String)
   @CreateDateColumn()

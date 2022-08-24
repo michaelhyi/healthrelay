@@ -25,7 +25,7 @@ interface Props {
 
 const CreateContact: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
-  const [{ data, fetching }] = useReadUserQuery({ variables: { id: user } });
+  const [{ data, fetching }] = useReadUserQuery({ variables: { uuid: user } });
   const [, createContact] = useCreateContactMutation();
   const [uuid, setUuid] = useState("");
   const [uuidError, setUuidError] = useState<null | string>(null);

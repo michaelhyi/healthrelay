@@ -1,5 +1,5 @@
 import argon2 from "argon2";
-import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { v4 } from "uuid";
 import { OrderingPhysician } from "../entities/OrderingPhysician";
 import { Radiologist } from "../entities/Radiologist";
@@ -15,11 +15,9 @@ export class UserResolver {
   }
 
   @Query(() => UserQuery)
-  async readUser(@Arg("id", () => Int) id: number): Promise<UserQuery | null> {
-    const user = await User.findOne({ where: { id } });
+  async readUser(@Arg("uuid") uuid: string): Promise<UserQuery | null> {
+    const user = await User.findOne({ where: { uuid } });
     if (user) {
-      const uuid = user.uuid;
-
       if (user?.profession === "Radiologist") {
         const radiologist = await Radiologist.findOne({ where: { uuid } });
         return { user, doctor: radiologist };

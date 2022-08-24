@@ -133,9 +133,9 @@ const AdditionalRegister: React.FC<Props> = ({ navigation, route }) => {
             if (!response.data?.register.error) {
               await AsyncStorage.setItem(
                 "user",
-                JSON.stringify(response.data!.register.user!.id)
+                JSON.stringify(response.data!.register.user!.uuid)
               );
-              setUser(response.data!.register.user!.id);
+              setUser(response.data!.register.user!.uuid);
             } else {
               if (response.data?.register.error.field === "First Name") {
                 setFirstNameError(response.data.register.error.message);

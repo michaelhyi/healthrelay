@@ -1,10 +1,11 @@
 query ReadContacts($uuid: String!) {
   readContacts(uuid: $uuid) {
     id
-    uuid
+    primaryUuid
+    secondaryUuid
     firstName
     lastName
-    profession
     organization
+    profession
   }
 }

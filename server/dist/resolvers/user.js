@@ -28,10 +28,9 @@ let UserResolver = class UserResolver {
         const users = await User_1.User.find();
         return users;
     }
-    async readUser(id) {
-        const user = await User_1.User.findOne({ where: { id } });
+    async readUser(uuid) {
+        const user = await User_1.User.findOne({ where: { uuid } });
         if (user) {
-            const uuid = user.uuid;
             if ((user === null || user === void 0 ? void 0 : user.profession) === "Radiologist") {
                 const radiologist = await Radiologist_1.Radiologist.findOne({ where: { uuid } });
                 return { user, doctor: radiologist };
@@ -158,9 +157,9 @@ __decorate([
 ], UserResolver.prototype, "readUsers", null);
 __decorate([
     (0, type_graphql_1.Query)(() => types_1.UserQuery),
-    __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
+    __param(0, (0, type_graphql_1.Arg)("uuid")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "readUser", null);
 __decorate([

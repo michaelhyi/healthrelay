@@ -5,13 +5,14 @@ import express from "express";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
+import { Contact } from "./entities/Contact";
 import { Notification } from "./entities/Notification";
 import { Order } from "./entities/Order";
 import { OrderingPhysician } from "./entities/OrderingPhysician";
 import { Radiologist } from "./entities/Radiologist";
 import { User } from "./entities/User";
+import { ContactResolver } from "./resolvers/contact";
 import { OrderResolver } from "./resolvers/order";
-import { RadiologistResolver } from "./resolvers/radiologist";
 import { UserResolver } from "./resolvers/user";
 
 const main = async () => {
@@ -22,7 +23,14 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: true,
-    entities: [User, Radiologist, OrderingPhysician, Order, Notification],
+    entities: [
+      User,
+      Radiologist,
+      OrderingPhysician,
+      Order,
+      Notification,
+      Contact,
+    ],
   });
 
   const app = express();
@@ -37,7 +45,7 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     schema: await buildSchema({
-      resolvers: [UserResolver, OrderResolver, RadiologistResolver],
+      resolvers: [UserResolver, OrderResolver, ContactResolver],
       validate: false,
     }),
   });

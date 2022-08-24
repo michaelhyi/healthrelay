@@ -1,5 +1,5 @@
-query ReadUser($id: Int!) {
-  readUser(id: $id) {
+query ReadUser($uuid: String!) {
+  readUser(uuid: $uuid) {
     user {
       id
       uuid
@@ -18,13 +18,6 @@ query ReadUser($id: Int!) {
         date
         priority
         status
-      }
-      contacts {
-        id
-        firstName
-        lastName
-        profession
-        organization
       }
     }
   }

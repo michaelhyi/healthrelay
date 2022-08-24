@@ -24,7 +24,7 @@ interface Props {
 
 const CreateOrder: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
-  const [{ data, fetching }] = useReadUserQuery({ variables: { id: user } });
+  const [{ data, fetching }] = useReadUserQuery({ variables: { uuid: user } });
 
   if (fetching) return <Loading />;
 

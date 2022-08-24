@@ -14,7 +14,6 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Notification_1 = require("./Notification");
 const Order_1 = require("./Order");
-const OrderingPhysician_1 = require("./OrderingPhysician");
 let Radiologist = class Radiologist extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -65,11 +64,6 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], Radiologist.prototype, "notifications", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => [OrderingPhysician_1.OrderingPhysician], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.radiologistContact, { lazy: true, nullable: true }),
-    __metadata("design:type", Array)
-], Radiologist.prototype, "contacts", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),

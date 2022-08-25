@@ -27,8 +27,6 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
   const { uuid } = route.params;
   const [{ data, fetching }] = useReadUserQuery({ variables: { uuid } });
 
-  console.log(uuid);
-
   if (fetching) return <Loading />;
 
   return (

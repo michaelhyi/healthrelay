@@ -24,6 +24,22 @@ const Radiologist_1 = require("../entities/Radiologist");
 const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 let UserResolver = class UserResolver {
+    async readContact(uuid) {
+        const user = await User_1.User.findOne({ where: { uuid } });
+        if (user) {
+            if ((user === null || user === void 0 ? void 0 : user.profession) === "Radiologist") {
+                const radiologist = await Radiologist_1.Radiologist.findOne({ where: { uuid } });
+                return { user, doctor: radiologist };
+            }
+            else if ((user === null || user === void 0 ? void 0 : user.profession) === "Ordering Physician") {
+                const orderingPhysician = await OrderingPhysician_1.OrderingPhysician.findOne({
+                    where: { uuid },
+                });
+                return { user, doctor: orderingPhysician };
+            }
+        }
+        return null;
+    }
     async readUsers() {
         const users = await User_1.User.find();
         return users;
@@ -149,6 +165,13 @@ let UserResolver = class UserResolver {
         };
     }
 };
+__decorate([
+    (0, type_graphql_1.Mutation)(() => types_1.UserQuery),
+    __param(0, (0, type_graphql_1.Arg)("uuid")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "readContact", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [User_1.User]),
     __metadata("design:type", Function),

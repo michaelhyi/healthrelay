@@ -63,8 +63,6 @@ const CreateContact: React.FC<Props> = ({ navigation }) => {
                 contactUuid: uuid,
               });
 
-              console.log(response);
-
               if (!response.data?.createContact.success) {
                 setUuidError(response.data?.createContact.error?.message!);
               } else {

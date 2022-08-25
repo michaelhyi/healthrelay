@@ -16,6 +16,7 @@ exports.OrderResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Order_1 = require("../entities/Order");
 let OrderResolver = class OrderResolver {
+    async createOrder() { }
     async readOrders(uuid, profession) {
         let orders;
         if (profession === "Radiologist") {
@@ -27,6 +28,12 @@ let OrderResolver = class OrderResolver {
         return orders;
     }
 };
+__decorate([
+    (0, type_graphql_1.Mutation)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], OrderResolver.prototype, "createOrder", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [Order_1.Order]),
     __param(0, (0, type_graphql_1.Arg)("uuid")),

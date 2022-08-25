@@ -12,6 +12,7 @@ interface Props {
   route: {
     params: {
       uuid: string;
+      contact?: boolean;
     };
   };
   navigation: {
@@ -21,7 +22,7 @@ interface Props {
 }
 
 const Contacts: React.FC<Props> = ({ route, navigation }) => {
-  const { uuid } = route.params;
+  const { uuid, contact } = route.params;
   const [{ data, fetching }] = useReadContactsQuery({ variables: { uuid } });
 
   if (fetching) return <Loading />;
@@ -44,9 +45,11 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
         data={data?.readContacts}
         renderItem={({ item }) => (
           <Contact
+            contact={contact}
+            uuid={item.secondaryUuid}
             navigation={navigation}
             id={item.id}
-            name={item.firstName + item.lastName}
+            name={item.firstName + " " + item.lastName}
             profession={item.profession}
             organization={item.organization}
           />

@@ -8,6 +8,23 @@ import { UserQuery, UserResponse } from "../utils/types";
 
 @Resolver()
 export class UserResolver {
+  @Mutation(() => UserQuery)
+  async readContact(@Arg("uuid") uuid: string): Promise<UserQuery | null> {
+    const user = await User.findOne({ where: { uuid } });
+    if (user) {
+      if (user?.profession === "Radiologist") {
+        const radiologist = await Radiologist.findOne({ where: { uuid } });
+        return { user, doctor: radiologist };
+      } else if (user?.profession === "Ordering Physician") {
+        const orderingPhysician = await OrderingPhysician.findOne({
+          where: { uuid },
+        });
+        return { user, doctor: orderingPhysician };
+      }
+    }
+    return null;
+  }
+
   @Query(() => [User])
   async readUsers(): Promise<User[]> {
     const users = await User.find();

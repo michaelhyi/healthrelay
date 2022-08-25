@@ -13,6 +13,12 @@ const App = () => {
   let [fontsLoaded] = loadFonts();
   const [user, setUser] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [contact, setContact] = useState<null | {
+    uuid: string;
+    firstName: string;
+    lastName: string;
+    profession: string;
+  }>(null);
 
   useEffect(() => {
     (async () => {
@@ -35,7 +41,7 @@ const App = () => {
 
   return (
     <Container>
-      <Context.Provider value={{ user, setUser }}>
+      <Context.Provider value={{ user, setUser, contact, setContact }}>
         {user ? <TabNavigator /> : <LandingStack />}
       </Context.Provider>
     </Container>

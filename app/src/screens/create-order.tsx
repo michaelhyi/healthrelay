@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
+import { CheckIcon, Select } from "native-base";
+import React, { useContext, useEffect, useState } from "react";
 import {
+  Dimensions,
   StyleSheet,
   Text,
   TextInput,
@@ -7,24 +9,40 @@ import {
   View,
 } from "react-native";
 import Layout from "../components/Layout";
-import { useReadUserQuery } from "../generated/graphql";
+import User from "../components/User";
+import { useReadContactMutation, useReadUserQuery } from "../generated/graphql";
 import Context from "../utils/context";
+import { colors } from "../utils/styles";
 import Loading from "./loading";
 
 interface Props {
+  route: {
+    params: {
+      contact?: string;
+    };
+  };
   navigation: {
     navigate: (
       route: string,
       params: {
         uuid: string;
+        contact?: boolean;
       }
     ) => void;
   };
 }
 
-const CreateOrder: React.FC<Props> = ({ navigation }) => {
-  const { user } = useContext(Context);
+const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
+  const { user, contact, setContact } = useContext(Context);
   const [{ data, fetching }] = useReadUserQuery({ variables: { uuid: user } });
+
+  const [mrn, setMrn] = useState("");
+  const [priority, setPriority] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    setContact(null);
+  }, []);
 
   if (fetching) return <Loading />;
 
@@ -35,11 +53,31 @@ const CreateOrder: React.FC<Props> = ({ navigation }) => {
       </View>
       <View style={{ marginTop: 30 }}>
         <Text style={styles.header}>MRN</Text>
-        <TextInput style={styles.input} />
+        <TextInput value={mrn} onChangeText={setMrn} style={styles.input} />
       </View>
       <View style={{ marginTop: 15 }}>
         <Text style={styles.header}>Priority</Text>
-        <TextInput style={styles.input} />
+        <Select
+          selectedValue={priority}
+          accessibilityLabel="Select Priority"
+          minWidth={(Dimensions.get("window").width * 13) / 15}
+          placeholder="Select Priority"
+          style={{
+            fontFamily: "Poppins-Regular",
+            fontSize: 16,
+            height: 48,
+          }}
+          _selectedItem={{
+            bg: "#E5E5E5",
+            endIcon: <CheckIcon size="5" />,
+          }}
+          mt={1}
+          onValueChange={(itemValue) => setPriority(itemValue)}
+        >
+          <Select.Item label="Low" value="Low" />
+          <Select.Item label="Medium" value="Medium" />
+          <Select.Item label="High" value="High" />
+        </Select>
       </View>
       <View
         style={{
@@ -51,16 +89,54 @@ const CreateOrder: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.header}>Ordering Physician</Text>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("Contacts", { uuid: data?.readUser.user.uuid! })
+            navigation.navigate("Contacts", {
+              uuid: data?.readUser.user.uuid!,
+              contact: true,
+            })
           }
         >
           <Text style={styles.bluetext}>Select Contact</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ marginTop: 30 }}>
+      {contact && (
+        <>
+          <View style={{ padding: Dimensions.get("window").height / 128 }} />
+          <User
+            onPress={() =>
+              navigation.navigate("Profile", { uuid: contact.uuid })
+            }
+            firstName={contact.firstName}
+            lastName={contact.lastName}
+            profession={contact.profession}
+          />
+        </>
+      )}
+      <View style={{ marginTop: 24 }}>
         <Text style={styles.header}>Message</Text>
-        <TextInput multiline style={styles.message} />
+        <TextInput
+          value={message}
+          onChangeText={setMessage}
+          multiline
+          style={styles.message}
+        />
       </View>
+      <TouchableOpacity
+        style={{
+          backgroundColor: colors.blue_400,
+          padding: 12,
+          marginTop: 24,
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: "Poppins-SemiBold",
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          Create Order
+        </Text>
+      </TouchableOpacity>
     </Layout>
   );
 };

@@ -1,17 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../utils/styles";
-import React from "react";
+import React, { useContext } from "react";
+import Context from "../utils/context";
+import { useReadContactMutation } from "../generated/graphql";
 
 interface Props {
   navigation: {
     navigate: (route: string, params: { uuid: string }) => void;
+    goBack: () => void;
   };
   id: number;
   name: string;
   profession: "Radiologist" | "Ordering Physician" | string;
   organization: string;
   uuid: string;
+  contact?: boolean;
 }
 
 const Contact: React.FC<Props> = ({
@@ -20,10 +24,27 @@ const Contact: React.FC<Props> = ({
   profession,
   organization,
   uuid,
+  contact,
 }) => {
+  const { setContact } = useContext(Context);
+  const [, readContact] = useReadContactMutation();
+
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Profile", { uuid })}
+      onPress={async () => {
+        if (contact) {
+          const response = await readContact({ uuid });
+          setContact({
+            uuid: response.data?.readContact.user.uuid!,
+            firstName: response.data?.readContact.doctor?.firstName!,
+            lastName: response.data?.readContact.doctor?.lastName!,
+            profession: response.data?.readContact.user.profession!,
+          });
+          navigation.goBack();
+        } else {
+          navigation.navigate("Profile", { uuid });
+        }
+      }}
       style={styles.container}
     >
       <Ionicons name="person" size={45} color={colors.blue_400} />

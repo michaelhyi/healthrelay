@@ -1,8 +1,11 @@
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { Order } from "../entities/Order";
 
 @Resolver()
 export class OrderResolver {
+  @Mutation()
+  async createOrder() {}
+
   @Query(() => [Order])
   async readOrders(
     @Arg("uuid") uuid: string,

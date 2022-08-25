@@ -44,6 +44,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createContact: CreateContactResponse;
   login: UserResponse;
+  readContact: UserQuery;
   register: UserResponse;
 };
 
@@ -57,6 +58,11 @@ export type MutationCreateContactArgs = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationReadContactArgs = {
+  uuid: Scalars['String'];
 };
 
 
@@ -192,6 +198,13 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', error?: { __typename?: 'Error', field: string, message: string } | null, user?: { __typename?: 'User', id: number, uuid: string } | null } };
 
+export type ReadContactMutationVariables = Exact<{
+  uuid: Scalars['String'];
+}>;
+
+
+export type ReadContactMutation = { __typename?: 'Mutation', readContact: { __typename?: 'UserQuery', user: { __typename?: 'User', id: number, uuid: string, profession: string }, doctor?: { __typename?: 'Radiologist', id: number, firstName: string, lastName: string } | null } };
+
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -260,6 +273,26 @@ export const LoginDocument = gql`
 
 export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
+export const ReadContactDocument = gql`
+    mutation ReadContact($uuid: String!) {
+  readContact(uuid: $uuid) {
+    user {
+      id
+      uuid
+      profession
+    }
+    doctor {
+      id
+      firstName
+      lastName
+    }
+  }
+}
+    `;
+
+export function useReadContactMutation() {
+  return Urql.useMutation<ReadContactMutation, ReadContactMutationVariables>(ReadContactDocument);
 };
 export const RegisterDocument = gql`
     mutation Register($email: String!, $password: String!, $firstName: String!, $lastName: String!, $profession: String!, $organization: String!, $phone: String!) {

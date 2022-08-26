@@ -9,6 +9,15 @@ export const client = createClient({
     cacheExchange({
       updates: {
         Mutation: {
+          updateUser: (_result, _args, cache, _info) => {
+            const allFields = cache.inspectFields("Query");
+            const fieldInfos = allFields.filter(
+              (info) => info.fieldName === "readUser"
+            );
+            fieldInfos.forEach((fi) => {
+              cache.invalidate("Query", fi.fieldName, fi.arguments || {});
+            });
+          },
           createOrder: (_result, _args, cache, _info) => {
             const allFields = cache.inspectFields("Query");
             const fieldInfos = allFields.filter(

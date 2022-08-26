@@ -1,7 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import React, { useContext } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import BackButton from "../components/BackButton";
 import EditButton from "../components/EditButton";
 import Layout from "../components/Layout";
@@ -33,7 +40,9 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
     <Layout>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <BackButton navigation={navigation} />
-        {user.id === id && <EditButton navigation={navigation} />}
+        {user.id === id && (
+          <EditButton onPress={() => navigation.navigate("Edit Profile")} />
+        )}
       </View>
       <View style={styles.container}>
         <Ionicons name="person" size={100} color={colors.blue_400} />
@@ -59,6 +68,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
         <TouchableOpacity
           onPress={async () => {
             await Clipboard.setStringAsync(id.toString());
+            Alert.alert("Copied!", "Copied ID to clipboard.");
           }}
           style={styles.card}
         >
@@ -103,7 +113,12 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
             {data?.readUser.organization}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL(`mailto:${data?.readUser.email}`);
+          }}
+          style={styles.card}
+        >
           <Text
             style={{
               fontFamily: "Poppins-Medium",
@@ -124,7 +139,12 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
             {data?.readUser.email}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL(`tel:${data?.readUser.phone}`);
+          }}
+          style={styles.card}
+        >
           <Text
             style={{
               fontFamily: "Poppins-Medium",

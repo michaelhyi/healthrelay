@@ -36,7 +36,9 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
     <Layout>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <BackButton navigation={navigation} />
-        <EditButton navigation={navigation} />
+        {user.id === data?.readOrder.radiologist.id && (
+          <EditButton navigation={navigation} />
+        )}
       </View>
       <Text style={styles.header}>Order #{data?.readOrder.order.id}</Text>
       <View style={{ marginTop: 15 }}>

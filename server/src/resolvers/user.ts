@@ -1,10 +1,31 @@
 import argon2 from "argon2";
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
+import { getConnection } from "typeorm";
 import { User } from "../entities/User";
 import { UserResponse } from "../utils/types";
 
 @Resolver()
 export class UserResolver {
+  @Mutation(() => Boolean)
+  async updateUser(
+    @Arg("id", () => Int) id: number,
+    @Arg("firstName") firstName: string,
+    @Arg("lastName") lastName: string,
+    @Arg("organization") organization: string,
+    @Arg("email") email: string,
+    @Arg("phone") phone: string
+  ): Promise<boolean> {
+    await getConnection()
+      .getRepository(User)
+      .createQueryBuilder()
+      .update({ firstName, lastName, organization, email, phone })
+      .where({ id })
+      .returning("*")
+      .execute();
+
+    return true;
+  }
+
   @Query(() => User)
   async readUser(@Arg("id", () => Int) id: number): Promise<User> {
     const user = await User.findOne(id);

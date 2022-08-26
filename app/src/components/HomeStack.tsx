@@ -6,6 +6,7 @@ import Orders from "../screens/orders";
 import Contacts from "../screens/contacts";
 import Order from "../screens/order";
 import CreateContact from "../screens/create-contact";
+import EditProfile from "../screens/edit-profile";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ const HomeStack = () => {
       <Stack.Screen name="Contacts" component={Contacts} />
       <Stack.Screen name="Order" component={Order} />
       <Stack.Screen name="Create Contact" component={CreateContact} />
+      <Stack.Screen name="Edit Profile" component={EditProfile} />
     </Stack.Navigator>
   );
 };

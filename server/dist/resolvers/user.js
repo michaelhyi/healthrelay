@@ -18,9 +18,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const argon2_1 = __importDefault(require("argon2"));
 const type_graphql_1 = require("type-graphql");
+const typeorm_1 = require("typeorm");
 const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 let UserResolver = class UserResolver {
+    async updateUser(id, firstName, lastName, organization, email, phone) {
+        await (0, typeorm_1.getConnection)()
+            .getRepository(User_1.User)
+            .createQueryBuilder()
+            .update({ firstName, lastName, organization, email, phone })
+            .where({ id })
+            .returning("*")
+            .execute();
+        return true;
+    }
     async readUser(id) {
         const user = await User_1.User.findOne(id);
         return user;
@@ -116,6 +127,18 @@ let UserResolver = class UserResolver {
         };
     }
 };
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
+    __param(1, (0, type_graphql_1.Arg)("firstName")),
+    __param(2, (0, type_graphql_1.Arg)("lastName")),
+    __param(3, (0, type_graphql_1.Arg)("organization")),
+    __param(4, (0, type_graphql_1.Arg)("email")),
+    __param(5, (0, type_graphql_1.Arg)("phone")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String, String, String, String, String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "updateUser", null);
 __decorate([
     (0, type_graphql_1.Query)(() => User_1.User),
     __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),

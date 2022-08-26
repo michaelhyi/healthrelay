@@ -51,6 +51,7 @@ export type Mutation = {
   createOrder: Order;
   login: UserResponse;
   register: UserResponse;
+  updateUser: Scalars['Boolean'];
 };
 
 
@@ -83,6 +84,16 @@ export type MutationRegisterArgs = {
   password: Scalars['String'];
   phone: Scalars['String'];
   profession: Scalars['String'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['Int'];
+  lastName: Scalars['String'];
+  organization: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 export type Order = {
@@ -198,6 +209,18 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', error?: { __typename?: 'Error', field: string, message: string } | null, user?: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string } | null } };
+
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['Int'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  organization: Scalars['String'];
+  email: Scalars['String'];
+  phone: Scalars['String'];
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: boolean };
 
 export type ReadContactsQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -319,6 +342,22 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const UpdateUserDocument = gql`
+    mutation UpdateUser($id: Int!, $firstName: String!, $lastName: String!, $organization: String!, $email: String!, $phone: String!) {
+  updateUser(
+    id: $id
+    firstName: $firstName
+    lastName: $lastName
+    organization: $organization
+    email: $email
+    phone: $phone
+  )
+}
+    `;
+
+export function useUpdateUserMutation() {
+  return Urql.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument);
 };
 export const ReadContactsDocument = gql`
     query ReadContacts($id: Int!, $take: Int) {

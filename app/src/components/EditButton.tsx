@@ -3,14 +3,12 @@ import { TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 interface Props {
-  navigation: {
-    navigate: (route: string) => void;
-  };
+  onPress: () => void;
 }
 
-const EditButton: React.FC<Props> = ({ navigation }) => {
+const EditButton: React.FC<Props> = ({ onPress }) => {
   return (
-    <TouchableOpacity style={{ marginLeft: "auto" }}>
+    <TouchableOpacity onPress={onPress} style={{ marginLeft: "auto" }}>
       <Feather name="edit" size={20} style={{ marginTop: 36 }} />
     </TouchableOpacity>
   );

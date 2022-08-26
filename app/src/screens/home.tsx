@@ -14,6 +14,7 @@ import Loading from "./loading";
 interface Props {
   navigation: {
     navigate: (route: string, params?: { uuid: string }) => void;
+    goBack: () => void;
   };
 }
 

@@ -1,0 +1,17 @@
+mutation CreateOrder(
+  $mrn: String!
+  $priority: String!
+  $message: String!
+  $radiologistUuid: String!
+  $orderingPhysicianUuid: String!
+) {
+  createOrder(
+    mrn: $mrn
+    priority: $priority
+    message: $message
+    radiologistUuid: $radiologistUuid
+    orderingPhysicianUuid: $orderingPhysicianUuid
+  ) {
+    id
+  }
+}

@@ -1,16 +1,25 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
-  View,
-  Text,
   FlatList,
   StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import Layout from "../components/Layout";
-import { Ionicons } from "@expo/vector-icons";
-import { colors } from "../utils/styles";
 import BackButton from "../components/BackButton";
+import Layout from "../components/Layout";
+import { colors } from "../utils/styles";
+
+interface ItemProps {
+  title: string;
+  date: string;
+}
+
+interface RenderItemProps {
+  item: ItemProps;
+}
+
 const DATA = [
   {
     title: "Dr. Brian Wilson has completed Order #43",
@@ -36,7 +45,7 @@ interface Props {
   };
 }
 
-const Item = ({ title, date }) => (
+const Item: React.FC<ItemProps> = ({ title, date }) => (
   <TouchableOpacity
     style={{ flexDirection: "row", alignItems: "center", marginTop: 30 }}
   >
@@ -49,7 +58,9 @@ const Item = ({ title, date }) => (
 );
 
 const Notifications: React.FC<Props> = ({ navigation }) => {
-  const renderItem = ({ item }) => <Item title={item.title} date={item.date} />;
+  const renderItem: React.FC<RenderItemProps> = ({ item }) => (
+    <Item title={item.title} date={item.date} />
+  );
 
   return (
     <Layout>

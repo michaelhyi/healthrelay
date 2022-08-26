@@ -52,15 +52,14 @@ __decorate([
     __metadata("design:type", String)
 ], Radiologist.prototype, "phone", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => [Order_1.Order], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => Order_1.Order, (order) => order.radiologist),
+    (0, type_graphql_1.Field)(() => [Order_1.Order]),
+    (0, typeorm_1.OneToMany)(() => Order_1.Order, (order) => order.radiologist, { lazy: true }),
     __metadata("design:type", Array)
 ], Radiologist.prototype, "orders", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [Notification_1.Notification]),
     (0, typeorm_1.OneToMany)(() => Notification_1.Notification, (notification) => notification.radiologist, {
         lazy: true,
-        nullable: true,
     }),
     __metadata("design:type", Array)
 ], Radiologist.prototype, "notifications", void 0);

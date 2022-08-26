@@ -43,6 +43,8 @@ export type Error = {
 export type Mutation = {
   __typename?: 'Mutation';
   createContact: CreateContactResponse;
+  createOrder: Order;
+  deleteAllOrders: Scalars['Boolean'];
   login: UserResponse;
   readContact: UserQuery;
   register: UserResponse;
@@ -52,6 +54,15 @@ export type Mutation = {
 export type MutationCreateContactArgs = {
   contactUuid: Scalars['String'];
   uuid: Scalars['String'];
+};
+
+
+export type MutationCreateOrderArgs = {
+  message: Scalars['String'];
+  mrn: Scalars['String'];
+  orderingPhysicianUuid: Scalars['String'];
+  priority: Scalars['String'];
+  radiologistUuid: Scalars['String'];
 };
 
 
@@ -82,9 +93,7 @@ export type Notification = {
   date: Scalars['String'];
   id: Scalars['Float'];
   message: Scalars['String'];
-  orderingPhysician: OrderingPhysician;
   orderingPhysicianUuid: Scalars['String'];
-  radiologist: Radiologist;
   radiologistUuid: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -111,8 +120,8 @@ export type OrderingPhysician = {
   firstName: Scalars['String'];
   id: Scalars['Float'];
   lastName: Scalars['String'];
-  notifications?: Maybe<Array<Notification>>;
-  orders?: Maybe<Array<Order>>;
+  notifications: Array<Notification>;
+  orders: Array<Order>;
   organization: Scalars['String'];
   phone: Scalars['String'];
   profession: Scalars['String'];
@@ -123,7 +132,9 @@ export type OrderingPhysician = {
 export type Query = {
   __typename?: 'Query';
   readAllContacts: Array<Contact>;
+  readAllOrders: Array<Order>;
   readContacts: Array<Contact>;
+  readOrder: Order;
   readOrders: Array<Order>;
   readUser: UserQuery;
   readUsers: Array<User>;
@@ -132,6 +143,11 @@ export type Query = {
 
 export type QueryReadContactsArgs = {
   uuid: Scalars['String'];
+};
+
+
+export type QueryReadOrderArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -152,7 +168,7 @@ export type Radiologist = {
   id: Scalars['Float'];
   lastName: Scalars['String'];
   notifications: Array<Notification>;
-  orders?: Maybe<Array<Order>>;
+  orders: Array<Order>;
   organization: Scalars['String'];
   phone: Scalars['String'];
   profession: Scalars['String'];
@@ -190,6 +206,17 @@ export type CreateContactMutationVariables = Exact<{
 
 export type CreateContactMutation = { __typename?: 'Mutation', createContact: { __typename?: 'CreateContactResponse', success: boolean, error?: { __typename?: 'Error', field: string, message: string } | null } };
 
+export type CreateOrderMutationVariables = Exact<{
+  mrn: Scalars['String'];
+  priority: Scalars['String'];
+  message: Scalars['String'];
+  radiologistUuid: Scalars['String'];
+  orderingPhysicianUuid: Scalars['String'];
+}>;
+
+
+export type CreateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'Order', id: number } };
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -225,6 +252,13 @@ export type ReadContactsQueryVariables = Exact<{
 
 export type ReadContactsQuery = { __typename?: 'Query', readContacts: Array<{ __typename?: 'Contact', id: number, primaryUuid: string, secondaryUuid: string, firstName: string, lastName: string, organization: string, profession: string }> };
 
+export type ReadOrderQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ReadOrderQuery = { __typename?: 'Query', readOrder: { __typename?: 'Order', id: number, mrn: string, date: string, priority: string, status: string, message: string, radiologistUuid: string, orderingPhysicianUuid: string, radiologist: { __typename?: 'Radiologist', id: number, uuid: string, firstName: string, lastName: string, profession: string }, orderingPhysician: { __typename?: 'OrderingPhysician', id: number, uuid: string, firstName: string, lastName: string, profession: string } } };
+
 export type ReadOrdersQueryVariables = Exact<{
   uuid: Scalars['String'];
   profession: Scalars['String'];
@@ -238,7 +272,7 @@ export type ReadUserQueryVariables = Exact<{
 }>;
 
 
-export type ReadUserQuery = { __typename?: 'Query', readUser: { __typename?: 'UserQuery', user: { __typename?: 'User', id: number, uuid: string, email: string, profession: string }, doctor?: { __typename?: 'Radiologist', id: number, uuid: string, firstName: string, lastName: string, organization: string, phone: string, orders?: Array<{ __typename?: 'Order', id: number, date: string, priority: string, status: string }> | null } | null } };
+export type ReadUserQuery = { __typename?: 'Query', readUser: { __typename?: 'UserQuery', user: { __typename?: 'User', id: number, uuid: string, email: string, profession: string }, doctor?: { __typename?: 'Radiologist', id: number, uuid: string, firstName: string, lastName: string, organization: string, phone: string, orders: Array<{ __typename?: 'Order', id: number, date: string, priority: string, status: string }> } | null } };
 
 
 export const CreateContactDocument = gql`
@@ -255,6 +289,23 @@ export const CreateContactDocument = gql`
 
 export function useCreateContactMutation() {
   return Urql.useMutation<CreateContactMutation, CreateContactMutationVariables>(CreateContactDocument);
+};
+export const CreateOrderDocument = gql`
+    mutation CreateOrder($mrn: String!, $priority: String!, $message: String!, $radiologistUuid: String!, $orderingPhysicianUuid: String!) {
+  createOrder(
+    mrn: $mrn
+    priority: $priority
+    message: $message
+    radiologistUuid: $radiologistUuid
+    orderingPhysicianUuid: $orderingPhysicianUuid
+  ) {
+    id
+  }
+}
+    `;
+
+export function useCreateOrderMutation() {
+  return Urql.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument);
 };
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
@@ -336,6 +387,38 @@ export const ReadContactsDocument = gql`
 
 export function useReadContactsQuery(options: Omit<Urql.UseQueryArgs<ReadContactsQueryVariables>, 'query'>) {
   return Urql.useQuery<ReadContactsQuery, ReadContactsQueryVariables>({ query: ReadContactsDocument, ...options });
+};
+export const ReadOrderDocument = gql`
+    query ReadOrder($id: Int!) {
+  readOrder(id: $id) {
+    id
+    mrn
+    date
+    priority
+    status
+    message
+    radiologistUuid
+    radiologist {
+      id
+      uuid
+      firstName
+      lastName
+      profession
+    }
+    orderingPhysicianUuid
+    orderingPhysician {
+      id
+      uuid
+      firstName
+      lastName
+      profession
+    }
+  }
+}
+    `;
+
+export function useReadOrderQuery(options: Omit<Urql.UseQueryArgs<ReadOrderQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadOrderQuery, ReadOrderQueryVariables>({ query: ReadOrderDocument, ...options });
 };
 export const ReadOrdersDocument = gql`
     query ReadOrders($uuid: String!, $profession: String!) {

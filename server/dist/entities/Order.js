@@ -53,7 +53,9 @@ __decorate([
 ], Order.prototype, "radiologistUuid", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => Radiologist_1.Radiologist),
-    (0, typeorm_1.ManyToOne)(() => Radiologist_1.Radiologist, (radiologist) => radiologist.orders),
+    (0, typeorm_1.ManyToOne)(() => Radiologist_1.Radiologist, (radiologist) => radiologist.orders, {
+        lazy: true,
+    }),
     __metadata("design:type", Radiologist_1.Radiologist)
 ], Order.prototype, "radiologist", void 0);
 __decorate([
@@ -63,7 +65,7 @@ __decorate([
 ], Order.prototype, "orderingPhysicianUuid", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => OrderingPhysician_1.OrderingPhysician),
-    (0, typeorm_1.ManyToOne)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.orders),
+    (0, typeorm_1.ManyToOne)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.orders, { lazy: true }),
     __metadata("design:type", OrderingPhysician_1.OrderingPhysician)
 ], Order.prototype, "orderingPhysician", void 0);
 __decorate([

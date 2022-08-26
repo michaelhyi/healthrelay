@@ -5,7 +5,12 @@ import Row from "./Row";
 
 interface Props {
   navigation: {
-    navigate: (route: string) => void;
+    navigate: (
+      route: string,
+      params: {
+        id: number;
+      }
+    ) => void;
   };
   id: number;
   date: string;
@@ -24,7 +29,7 @@ const OrderCard: React.FC<Props> = ({
 }) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Order")}
+      onPress={() => navigation.navigate("Order", { id })}
       style={
         full
           ? { ...styles.container, width: "100%", marginTop: 18 }

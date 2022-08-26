@@ -37,8 +37,9 @@ __decorate([
     __metadata("design:type", String)
 ], Notification.prototype, "radiologistUuid", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => Radiologist_1.Radiologist),
-    (0, typeorm_1.ManyToOne)(() => Radiologist_1.Radiologist, (radiologist) => radiologist.notifications),
+    (0, typeorm_1.ManyToOne)(() => Radiologist_1.Radiologist, (radiologist) => radiologist.notifications, {
+        lazy: true,
+    }),
     __metadata("design:type", Radiologist_1.Radiologist)
 ], Notification.prototype, "radiologist", void 0);
 __decorate([
@@ -47,8 +48,7 @@ __decorate([
     __metadata("design:type", String)
 ], Notification.prototype, "orderingPhysicianUuid", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => OrderingPhysician_1.OrderingPhysician),
-    (0, typeorm_1.ManyToOne)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.notifications, {}),
+    (0, typeorm_1.ManyToOne)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.notifications, { lazy: true }),
     __metadata("design:type", OrderingPhysician_1.OrderingPhysician)
 ], Notification.prototype, "orderingPhysician", void 0);
 __decorate([

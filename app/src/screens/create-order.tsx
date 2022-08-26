@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Layout from "../components/Layout";
 import User from "../components/User";
-import { useReadContactMutation, useReadUserQuery } from "../generated/graphql";
+import { useCreateOrderMutation, useReadUserQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 import Loading from "./loading";
@@ -25,8 +25,9 @@ interface Props {
     navigate: (
       route: string,
       params: {
-        uuid: string;
+        uuid?: string;
         contact?: boolean;
+        id?: number;
       }
     ) => void;
   };
@@ -39,6 +40,8 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
   const [mrn, setMrn] = useState("");
   const [priority, setPriority] = useState("");
   const [message, setMessage] = useState("");
+
+  const [, createOrder] = useCreateOrderMutation();
 
   useEffect(() => {
     setContact(null);
@@ -62,10 +65,10 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
           accessibilityLabel="Select Priority"
           minWidth={(Dimensions.get("window").width * 13) / 15}
           placeholder="Select Priority"
+          fontFamily="Poppins-Regular"
+          fontSize={16}
           style={{
-            fontFamily: "Poppins-Regular",
-            fontSize: 16,
-            height: 48,
+            height: 64,
           }}
           _selectedItem={{
             bg: "#E5E5E5",
@@ -121,6 +124,19 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
         />
       </View>
       <TouchableOpacity
+        onPress={async () => {
+          const response = await createOrder({
+            mrn,
+            priority,
+            message,
+            radiologistUuid: user,
+            orderingPhysicianUuid: contact.uuid,
+          });
+
+          console.log(response);
+
+          navigation.navigate("Order", { id: response.data?.createOrder.id });
+        }}
         style={{
           backgroundColor: colors.blue_400,
           padding: 12,

@@ -43,7 +43,9 @@ export class Order extends BaseEntity {
   radiologistUuid!: string;
 
   @Field(() => Radiologist)
-  @ManyToOne(() => Radiologist, (radiologist) => radiologist.orders)
+  @ManyToOne(() => Radiologist, (radiologist) => radiologist.orders, {
+    lazy: true,
+  })
   radiologist!: Radiologist;
 
   @Field()
@@ -53,7 +55,8 @@ export class Order extends BaseEntity {
   @Field(() => OrderingPhysician)
   @ManyToOne(
     () => OrderingPhysician,
-    (orderingPhysician) => orderingPhysician.orders
+    (orderingPhysician) => orderingPhysician.orders,
+    { lazy: true }
   )
   orderingPhysician!: OrderingPhysician;
 

@@ -82,9 +82,9 @@ const Register: React.FC<Props> = ({ navigation }) => {
           accessibilityLabel="Select Profession"
           minWidth={(Dimensions.get("window").width * 13) / 15}
           placeholder="Select Profession"
+          fontFamily="Poppins-Regular"
+          fontSize={16}
           style={{
-            fontFamily: "Poppins-Regular",
-            fontSize: 16,
             height: 64,
           }}
           _selectedItem={{

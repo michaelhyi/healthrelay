@@ -17,6 +17,7 @@ interface Props {
   uuid: string;
   navigation: {
     navigate: (route: string) => void;
+    goBack: () => void;
   };
   data: ContactProps[];
 }

@@ -42,14 +42,14 @@ export class OrderingPhysician extends BaseEntity {
   @Column()
   phone!: string;
 
-  @Field(() => [Order], { nullable: true })
-  @OneToMany(() => Order, (order) => order.radiologist)
+  @Field(() => [Order])
+  @OneToMany(() => Order, (order) => order.radiologist, { lazy: true })
   orders!: Order[];
 
-  @Field(() => [Notification], {
-    nullable: true,
+  @Field(() => [Notification])
+  @OneToMany(() => Notification, (notification) => notification.radiologist, {
+    lazy: true,
   })
-  @OneToMany(() => Notification, (notification) => notification.radiologist)
   notifications!: Notification[];
 
   @Field(() => String)

@@ -30,19 +30,19 @@ export class Notification extends BaseEntity {
   @Column()
   radiologistUuid!: string;
 
-  @Field(() => Radiologist)
-  @ManyToOne(() => Radiologist, (radiologist) => radiologist.notifications)
+  @ManyToOne(() => Radiologist, (radiologist) => radiologist.notifications, {
+    lazy: true,
+  })
   radiologist!: Radiologist;
 
   @Field()
   @Column()
   orderingPhysicianUuid!: string;
 
-  @Field(() => OrderingPhysician)
   @ManyToOne(
     () => OrderingPhysician,
     (orderingPhysician) => orderingPhysician.notifications,
-    {}
+    { lazy: true }
   )
   orderingPhysician!: OrderingPhysician;
 

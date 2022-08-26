@@ -12,8 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Order = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const OrderingPhysician_1 = require("./OrderingPhysician");
-const Radiologist_1 = require("./Radiologist");
 let Order = class Order extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -47,27 +45,15 @@ __decorate([
     __metadata("design:type", String)
 ], Order.prototype, "message", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
+    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Order.prototype, "radiologistUuid", void 0);
+    __metadata("design:type", Number)
+], Order.prototype, "radiologistId", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => Radiologist_1.Radiologist),
-    (0, typeorm_1.ManyToOne)(() => Radiologist_1.Radiologist, (radiologist) => radiologist.orders, {
-        lazy: true,
-    }),
-    __metadata("design:type", Radiologist_1.Radiologist)
-], Order.prototype, "radiologist", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
+    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Order.prototype, "orderingPhysicianUuid", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => OrderingPhysician_1.OrderingPhysician),
-    (0, typeorm_1.ManyToOne)(() => OrderingPhysician_1.OrderingPhysician, (orderingPhysician) => orderingPhysician.orders, { lazy: true }),
-    __metadata("design:type", OrderingPhysician_1.OrderingPhysician)
-], Order.prototype, "orderingPhysician", void 0);
+    __metadata("design:type", Number)
+], Order.prototype, "orderingPhysicianId", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),

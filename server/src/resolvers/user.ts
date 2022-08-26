@@ -1,51 +1,20 @@
 import argon2 from "argon2";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { v4 } from "uuid";
-import { OrderingPhysician } from "../entities/OrderingPhysician";
-import { Radiologist } from "../entities/Radiologist";
+import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../entities/User";
-import { UserQuery, UserResponse } from "../utils/types";
+import { UserResponse } from "../utils/types";
 
 @Resolver()
 export class UserResolver {
-  @Mutation(() => UserQuery)
-  async readContact(@Arg("uuid") uuid: string): Promise<UserQuery | null> {
-    const user = await User.findOne({ where: { uuid } });
-    if (user) {
-      if (user?.profession === "Radiologist") {
-        const radiologist = await Radiologist.findOne({ where: { uuid } });
-        return { user, doctor: radiologist };
-      } else if (user?.profession === "Ordering Physician") {
-        const orderingPhysician = await OrderingPhysician.findOne({
-          where: { uuid },
-        });
-        return { user, doctor: orderingPhysician };
-      }
-    }
-    return null;
+  @Query(() => User)
+  async readUser(@Arg("id", () => Int) id: number): Promise<User> {
+    const user = await User.findOne(id);
+    return user!;
   }
 
   @Query(() => [User])
   async readUsers(): Promise<User[]> {
     const users = await User.find();
     return users;
-  }
-
-  @Query(() => UserQuery)
-  async readUser(@Arg("uuid") uuid: string): Promise<UserQuery | null> {
-    const user = await User.findOne({ where: { uuid } });
-    if (user) {
-      if (user?.profession === "Radiologist") {
-        const radiologist = await Radiologist.findOne({ where: { uuid } });
-        return { user, doctor: radiologist };
-      } else if (user?.profession === "Ordering Physician") {
-        const orderingPhysician = await OrderingPhysician.findOne({
-          where: { uuid },
-        });
-        return { user, doctor: orderingPhysician };
-      }
-    }
-    return null;
   }
 
   @Mutation(() => UserResponse)
@@ -92,15 +61,16 @@ export class UserResolver {
       };
     }
 
-    const uuid = v4();
-
     let user;
     try {
       user = await User.create({
-        uuid,
         email,
         password: await argon2.hash(password),
+        firstName,
+        lastName,
         profession,
+        organization,
+        phone,
       }).save();
     } catch (e) {
       if (
@@ -114,26 +84,6 @@ export class UserResolver {
           },
         };
       }
-    }
-
-    if (profession == "Radiologist") {
-      await Radiologist.create({
-        uuid,
-        firstName,
-        lastName,
-        organization,
-        phone,
-        profession,
-      }).save();
-    } else {
-      await OrderingPhysician.create({
-        uuid,
-        firstName,
-        lastName,
-        organization,
-        phone,
-        profession,
-      }).save();
     }
 
     return { user };

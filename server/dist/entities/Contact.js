@@ -20,35 +20,15 @@ __decorate([
     __metadata("design:type", Number)
 ], Contact.prototype, "id", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
+    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Contact.prototype, "primaryUuid", void 0);
+    __metadata("design:type", Number)
+], Contact.prototype, "radiologistId", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
+    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Contact.prototype, "secondaryUuid", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Contact.prototype, "firstName", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Contact.prototype, "lastName", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Contact.prototype, "organization", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Contact.prototype, "profession", void 0);
+    __metadata("design:type", Number)
+], Contact.prototype, "orderingPhysicianId", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),

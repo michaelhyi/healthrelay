@@ -1,19 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as Clipboard from "expo-clipboard";
 import React, { useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import BackButton from "../components/BackButton";
 import EditButton from "../components/EditButton";
 import Layout from "../components/Layout";
-import { useReadUserQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
-import Loading from "./loading";
-import * as Clipboard from "expo-clipboard";
 
 interface Props {
   route: {
     params: {
-      uuid: string;
+      id: number;
     };
   };
   navigation: {
@@ -24,16 +22,13 @@ interface Props {
 
 const Profile: React.FC<Props> = ({ route, navigation }) => {
   const { user } = useContext(Context);
-  const { uuid } = route.params;
-  const [{ data, fetching }] = useReadUserQuery({ variables: { uuid } });
-
-  if (fetching) return <Loading />;
+  const { id } = route.params;
 
   return (
     <Layout>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <BackButton navigation={navigation} />
-        {user === uuid && <EditButton navigation={navigation} />}
+        {user.id === id && <EditButton navigation={navigation} />}
       </View>
       <View style={styles.container}>
         <Ionicons name="person" size={100} color={colors.blue_400} />
@@ -45,8 +40,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
             marginTop: 24,
           }}
         >
-          Dr. {data?.readUser.doctor?.firstName}{" "}
-          {data?.readUser.doctor?.lastName}
+          Dr. {user.firstName} {user.lastName}
         </Text>
         <Text
           style={{
@@ -55,11 +49,11 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
             color: colors.blue_300,
           }}
         >
-          {data?.readUser.user.profession}
+          {user.profession}
         </Text>
         <TouchableOpacity
           onPress={async () => {
-            await Clipboard.setStringAsync(data?.readUser.user.uuid!);
+            await Clipboard.setStringAsync(id);
           }}
           style={styles.card}
         >
@@ -70,7 +64,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.blue_400,
             }}
           >
-            UUID
+            ID
           </Text>
           <Text
             style={{
@@ -80,7 +74,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.gray,
             }}
           >
-            {data?.readUser.user.uuid}
+            {user.id}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
@@ -101,7 +95,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.gray,
             }}
           >
-            {data?.readUser.doctor?.organization}
+            {user.organization}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
@@ -122,7 +116,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.gray,
             }}
           >
-            {data?.readUser.user.email}
+            {user.email}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
@@ -143,7 +137,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.gray,
             }}
           >
-            {data?.readUser.doctor?.phone}
+            {user.phone}
           </Text>
         </TouchableOpacity>
       </View>

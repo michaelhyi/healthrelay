@@ -1,15 +1,12 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, Int, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { OrderingPhysician } from "./OrderingPhysician";
-import { Radiologist } from "./Radiologist";
 
 @ObjectType()
 @Entity()
@@ -26,25 +23,13 @@ export class Notification extends BaseEntity {
   @Column()
   message!: string;
 
-  @Field()
+  @Field(() => Int)
   @Column()
-  radiologistUuid!: string;
+  radiologistId!: number;
 
-  @ManyToOne(() => Radiologist, (radiologist) => radiologist.notifications, {
-    lazy: true,
-  })
-  radiologist!: Radiologist;
-
-  @Field()
+  @Field(() => Int)
   @Column()
-  orderingPhysicianUuid!: string;
-
-  @ManyToOne(
-    () => OrderingPhysician,
-    (orderingPhysician) => orderingPhysician.notifications,
-    { lazy: true }
-  )
-  orderingPhysician!: OrderingPhysician;
+  orderingPhysicianId!: number;
 
   @Field(() => String)
   @CreateDateColumn()

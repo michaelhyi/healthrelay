@@ -1,5 +1,8 @@
-mutation CreateContact($uuid: String!, $contactUuid: String!) {
-  createContact(uuid: $uuid, contactUuid: $contactUuid) {
+mutation CreateContact($radiologistId: Int!, $orderingPhysicianId: Int!) {
+  createContact(
+    radiologistId: $radiologistId
+    orderingPhysicianId: $orderingPhysicianId
+  ) {
     error {
       field
       message

@@ -1,3 +1,4 @@
+import React, { useContext, useState } from "react";
 import {
   Alert,
   StyleSheet,
@@ -8,14 +9,9 @@ import {
 } from "react-native";
 import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
-import React, { useContext, useState } from "react";
-import { colors } from "../utils/styles";
+import { useCreateContactMutation } from "../generated/graphql";
 import Context from "../utils/context";
-import {
-  useCreateContactMutation,
-  useReadUserQuery,
-} from "../generated/graphql";
-import Loading from "./loading";
+import { colors } from "../utils/styles";
 
 interface Props {
   navigation: {
@@ -25,12 +21,9 @@ interface Props {
 
 const CreateContact: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
-  const [{ data, fetching }] = useReadUserQuery({ variables: { uuid: user } });
   const [, createContact] = useCreateContactMutation();
   const [uuid, setUuid] = useState("");
   const [uuidError, setUuidError] = useState<null | string>(null);
-
-  if (fetching) return <Loading />;
 
   return (
     <Layout>
@@ -59,7 +52,7 @@ const CreateContact: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             onPress={async () => {
               const response = await createContact({
-                uuid: data?.readUser.user.uuid!,
+                uuid: user.uuid!,
                 contactUuid: uuid,
               });
 

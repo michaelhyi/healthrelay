@@ -5,16 +5,13 @@ import SectionHeader from "./SectionHeader";
 
 interface ContactProps {
   id: number;
-  secondaryUuid: string;
-  firstName: string;
-  lastName: string;
-  organization: string;
-  profession: string;
+  radiologistId: number;
+  orderingPhysicianId: number;
 }
 
 interface Props {
   profession: string;
-  uuid: string;
+  id: number;
   navigation: {
     navigate: (route: string) => void;
     goBack: () => void;
@@ -28,19 +25,12 @@ interface ItemProps {
 
 const RecentContactsSection: React.FC<Props> = ({
   profession,
-  uuid,
+  id,
   navigation,
   data,
 }) => {
   const renderItem: React.FC<ItemProps> = ({ item }) => (
-    <Contact
-      uuid={item.secondaryUuid}
-      navigation={navigation}
-      id={item.id}
-      name={item.firstName + " " + item.lastName}
-      profession={item.profession}
-      organization={item.organization}
-    />
+    <Contact navigation={navigation} id={item.id} item={item} />
   );
 
   return (
@@ -51,7 +41,7 @@ const RecentContactsSection: React.FC<Props> = ({
         profession={profession}
         navigation={navigation}
         text="Contacts"
-        uuid={uuid}
+        id={id}
       />
       <FlatList
         showsVerticalScrollIndicator={false}

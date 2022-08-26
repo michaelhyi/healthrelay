@@ -23,11 +23,6 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
-], User.prototype, "uuid", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)({ unique: true }),
-    __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
@@ -37,7 +32,27 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
+], User.prototype, "firstName", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "lastName", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
 ], User.prototype, "profession", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "organization", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "phone", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),

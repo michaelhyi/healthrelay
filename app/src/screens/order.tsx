@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import BackButton from "../components/BackButton";
 import EditButton from "../components/EditButton";
 import Layout from "../components/Layout";
 import User from "../components/User";
-import { useReadOrderQuery, useReadUserQuery } from "../generated/graphql";
+import { useReadOrderQuery } from "../generated/graphql";
+import Context from "../utils/context";
 import Loading from "./loading";
 
 interface Props {
   route: {
     params: {
       id: number;
-      uuid: string;
     };
   };
   navigation: {
@@ -26,17 +26,12 @@ interface Props {
 }
 
 const Order: React.FC<Props> = ({ navigation, route }) => {
-  const { id, uuid } = route.params;
-  const [{ data: readUserData, fetching: readUserFetching }] = useReadUserQuery(
-    { variables: { uuid } }
-  );
+  const { user } = useContext(Context);
+  const { id } = route.params;
   const [{ data: readOrderData, fetching: readOrderFetching }] =
     useReadOrderQuery({ variables: { id } });
 
-  console.log(id);
-  console.log(readOrderData);
-
-  if (readUserFetching || readOrderFetching) return <Loading />;
+  if (readOrderFetching) return <Loading />;
 
   return (
     <Layout>
@@ -48,22 +43,22 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
       <View style={{ marginTop: 15 }}>
         <User
           firstName={
-            readUserData?.readUser.user.profession === "Radiologist"
+            user.profession === "Radiologist"
               ? readOrderData?.readOrder.orderingPhysician.firstName!
               : readOrderData?.readOrder.radiologist.firstName!
           }
           lastName={
-            readUserData?.readUser.user.profession === "Radiologist"
+            user.profession === "Radiologist"
               ? readOrderData?.readOrder.orderingPhysician.lastName!
               : readOrderData?.readOrder.radiologist.lastName!
           }
           profession={
-            readUserData?.readUser.user.profession === "Radiologist"
+            user.profession === "Radiologist"
               ? readOrderData?.readOrder.orderingPhysician.profession!
               : readOrderData?.readOrder.radiologist.profession!
           }
           onPress={() => {
-            if (readUserData?.readUser.user.profession === "Radiologist") {
+            if (user.profession === "Radiologist") {
               navigation.navigate("Profile", {
                 uuid: readOrderData?.readOrder.orderingPhysicianUuid!,
               });

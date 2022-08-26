@@ -15,26 +15,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Contact_1 = require("../entities/Contact");
-const OrderingPhysician_1 = require("../entities/OrderingPhysician");
-const Radiologist_1 = require("../entities/Radiologist");
+const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 let ContactResolver = class ContactResolver {
     async readAllContacts() {
         const contacts = await Contact_1.Contact.find({});
         return contacts;
     }
-    async readContacts(uuid) {
-        const contacts = await Contact_1.Contact.find({
-            where: { primaryUuid: uuid },
-        });
+    async readContacts(id, take) {
+        let contacts;
+        if (take) {
+            contacts = await Contact_1.Contact.find({
+                where: { radiologistId: id },
+                take,
+                order: {
+                    createdAt: "DESC",
+                },
+            });
+        }
+        else {
+            contacts = await Contact_1.Contact.find({
+                where: { radiologistId: id },
+            });
+        }
         return contacts;
     }
-    async createContact(uuid, contactUuid) {
-        const primary = await Radiologist_1.Radiologist.findOne({ where: { uuid } });
-        const secondary = await OrderingPhysician_1.OrderingPhysician.findOne({
-            where: { uuid: contactUuid },
+    async createContact(radiologistId, orderingPhysicianId) {
+        const orderingPhysician = await User_1.User.findOne({
+            where: { id: orderingPhysicianId },
         });
-        if (!secondary) {
+        if (!orderingPhysician) {
             return {
                 error: {
                     field: "Contact",
@@ -43,21 +53,22 @@ let ContactResolver = class ContactResolver {
                 success: false,
             };
         }
+        if (orderingPhysician.profession === "Radiologist") {
+            return {
+                error: {
+                    field: "Contact",
+                    message: "Contact must be Ordering Physician!",
+                },
+                success: false,
+            };
+        }
         await Contact_1.Contact.create({
-            primaryUuid: uuid,
-            secondaryUuid: contactUuid,
-            firstName: secondary.firstName,
-            lastName: secondary.lastName,
-            organization: secondary.organization,
-            profession: secondary.profession,
+            radiologistId,
+            orderingPhysicianId,
         }).save();
         await Contact_1.Contact.create({
-            primaryUuid: contactUuid,
-            secondaryUuid: uuid,
-            firstName: primary.firstName,
-            lastName: primary.lastName,
-            organization: primary.organization,
-            profession: primary.profession,
+            radiologistId,
+            orderingPhysicianId,
         }).save();
         return { success: true };
     }
@@ -70,17 +81,18 @@ __decorate([
 ], ContactResolver.prototype, "readAllContacts", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [Contact_1.Contact]),
-    __param(0, (0, type_graphql_1.Arg)("uuid")),
+    __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
+    __param(1, (0, type_graphql_1.Arg)("take", () => type_graphql_1.Int, { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], ContactResolver.prototype, "readContacts", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => types_1.CreateContactResponse),
-    __param(0, (0, type_graphql_1.Arg)("uuid")),
-    __param(1, (0, type_graphql_1.Arg)("contactUuid")),
+    __param(0, (0, type_graphql_1.Arg)("radiologistId", () => type_graphql_1.Int)),
+    __param(1, (0, type_graphql_1.Arg)("orderingPhysicianId", () => type_graphql_1.Int)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], ContactResolver.prototype, "createContact", null);
 ContactResolver = __decorate([

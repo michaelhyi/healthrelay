@@ -10,10 +10,9 @@ import {
 } from "react-native";
 import Layout from "../components/Layout";
 import User from "../components/User";
-import { useCreateOrderMutation, useReadUserQuery } from "../generated/graphql";
+import { useCreateOrderMutation } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
-import Loading from "./loading";
 
 interface Props {
   route: {
@@ -35,7 +34,6 @@ interface Props {
 
 const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
   const { user, contact, setContact } = useContext(Context);
-  const [{ data, fetching }] = useReadUserQuery({ variables: { uuid: user } });
 
   const [mrn, setMrn] = useState("");
   const [priority, setPriority] = useState("");
@@ -46,8 +44,6 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
   useEffect(() => {
     setContact(null);
   }, []);
-
-  if (fetching) return <Loading />;
 
   return (
     <Layout>
@@ -93,7 +89,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("Contacts", {
-              uuid: data?.readUser.user.uuid!,
+              uuid: user.uuid!,
               contact: true,
             })
           }
@@ -132,8 +128,6 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
             radiologistUuid: user,
             orderingPhysicianUuid: contact.uuid,
           });
-
-          console.log(response);
 
           navigation.navigate("Order", { id: response.data?.createOrder.id });
         }}

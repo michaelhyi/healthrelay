@@ -8,8 +8,6 @@ import { createConnection } from "typeorm";
 import { Contact } from "./entities/Contact";
 import { Notification } from "./entities/Notification";
 import { Order } from "./entities/Order";
-import { OrderingPhysician } from "./entities/OrderingPhysician";
-import { Radiologist } from "./entities/Radiologist";
 import { User } from "./entities/User";
 import { ContactResolver } from "./resolvers/contact";
 import { OrderResolver } from "./resolvers/order";
@@ -23,14 +21,7 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: true,
-    entities: [
-      User,
-      Radiologist,
-      OrderingPhysician,
-      Order,
-      Notification,
-      Contact,
-    ],
+    entities: [User, Order, Notification, Contact],
   });
 
   const app = express();

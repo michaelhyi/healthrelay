@@ -1,11 +1,7 @@
-query ReadContacts($uuid: String!) {
-  readContacts(uuid: $uuid) {
+query ReadContacts($id: Int!, $take: Int) {
+  readContacts(id: $id, take: $take) {
     id
-    primaryUuid
-    secondaryUuid
-    firstName
-    lastName
-    organization
-    profession
+    radiologistId
+    orderingPhysicianId
   }
 }

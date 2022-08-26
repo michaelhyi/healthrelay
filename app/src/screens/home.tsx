@@ -1,12 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Layout from "../components/Layout";
 import RecentContactsSection from "../components/RecentContactsSection";
 import RecentOrdersSection from "../components/RecentOrdersSection";
 import User from "../components/User";
-import { useReadContactsQuery, useReadUserQuery } from "../generated/graphql";
+import { useReadContactsQuery, useReadOrdersQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 import Loading from "./loading";
@@ -20,22 +20,24 @@ interface Props {
 
 const Home: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
-  const [{ data: userData, fetching: fetchingUserData }] = useReadUserQuery({
-    variables: { uuid: user },
+  const [{ data: orders, fetching: fetchingOrders }] = useReadOrdersQuery({
+    variables: { uuid: user.uuid, profession: user.profession, take: 4 },
   });
   const [{ data: contacts, fetching: fetchingContacts }] = useReadContactsQuery(
-    { variables: { uuid: user } }
+    {
+      variables: { uuid: user.uuid, take: 3 },
+    }
   );
 
-  if (fetchingUserData || fetchingContacts) return <Loading />;
+  if (fetchingOrders || fetchingContacts) return <Loading />;
 
   return (
     <Layout>
       <View style={styles.header_1}>
         <User
-          firstName={userData!.readUser.doctor!.firstName}
-          lastName={userData!.readUser.doctor!.lastName}
-          profession={userData!.readUser.user.profession}
+          firstName={user.firstName}
+          lastName={user.lastName}
+          profession={user.profession}
           onPress={() => navigation.navigate("Profile", { uuid: user })}
         />
         <TouchableOpacity
@@ -46,22 +48,20 @@ const Home: React.FC<Props> = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={{ marginTop: 36 }}>
-        <Text style={styles.welcome}>
-          Welcome Dr. {userData?.readUser.doctor?.lastName}!
-        </Text>
+        <Text style={styles.welcome}>Welcome Dr. {user.lastName}!</Text>
         <Text style={styles.date}>
           {format(new Date(), "EEEE MMMM do, yyyy p")}
         </Text>
       </View>
       <RecentOrdersSection
-        profession={userData?.readUser.user.profession!}
-        uuid={userData?.readUser.user.uuid!}
+        profession={user.profession}
+        uuid={user.uuid}
         navigation={navigation}
-        data={userData?.readUser.doctor?.orders!}
+        data={orders?.readOrders}
       />
       <RecentContactsSection
-        profession={userData?.readUser.user.profession!}
-        uuid={userData?.readUser.user.uuid!}
+        profession={user.profession}
+        uuid={user.uuid}
         navigation={navigation}
         data={contacts?.readContacts!}
       />

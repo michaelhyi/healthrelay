@@ -7,25 +7,18 @@ import { useReadContactMutation } from "../generated/graphql";
 
 interface Props {
   navigation: {
-    navigate: (route: string, params: { uuid: string }) => void;
+    navigate: (route: string, params: { id: number }) => void;
     goBack: () => void;
   };
   id: number;
-  name: string;
-  profession: "Radiologist" | "Ordering Physician" | string;
-  organization: string;
-  uuid: string;
-  contact?: boolean;
+  item: {
+    id: number;
+    radiologistId: number;
+    orderingPhysicianId: number;
+  };
 }
 
-const Contact: React.FC<Props> = ({
-  navigation,
-  name,
-  profession,
-  organization,
-  uuid,
-  contact,
-}) => {
+const Contact: React.FC<Props> = ({ navigation, item }) => {
   const { setContact } = useContext(Context);
   const [, readContact] = useReadContactMutation();
 

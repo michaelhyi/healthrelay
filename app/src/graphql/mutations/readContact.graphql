@@ -1,14 +1,6 @@
-mutation ReadContact($uuid: String!) {
-  readContact(uuid: $uuid) {
-    user {
-      id
-      uuid
-      profession
-    }
-    doctor {
-      id
-      firstName
-      lastName
-    }
+mutation ReadContact($id: Int!) {
+  readContact(id: $id) {
+    id
+    profession
   }
 }

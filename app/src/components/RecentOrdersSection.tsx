@@ -12,7 +12,7 @@ interface OrderProps {
 
 interface Props {
   profession: string;
-  uuid: string;
+  id: number;
   navigation: {
     navigate: (route: string) => void;
   };

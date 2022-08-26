@@ -13,8 +13,6 @@ const typeorm_1 = require("typeorm");
 const Contact_1 = require("./entities/Contact");
 const Notification_1 = require("./entities/Notification");
 const Order_1 = require("./entities/Order");
-const OrderingPhysician_1 = require("./entities/OrderingPhysician");
-const Radiologist_1 = require("./entities/Radiologist");
 const User_1 = require("./entities/User");
 const contact_1 = require("./resolvers/contact");
 const order_1 = require("./resolvers/order");
@@ -27,14 +25,7 @@ const main = async () => {
         password: "postgres",
         logging: true,
         synchronize: true,
-        entities: [
-            User_1.User,
-            Radiologist_1.Radiologist,
-            OrderingPhysician_1.OrderingPhysician,
-            Order_1.Order,
-            Notification_1.Notification,
-            Contact_1.Contact,
-        ],
+        entities: [User_1.User, Order_1.Order, Notification_1.Notification, Contact_1.Contact],
     });
     const app = (0, express_1.default)();
     app.use((0, cors_1.default)({

@@ -6,21 +6,7 @@ query ReadOrder($id: Int!) {
     priority
     status
     message
-    radiologistUuid
-    radiologist {
-      id
-      uuid
-      firstName
-      lastName
-      profession
-    }
-    orderingPhysicianUuid
-    orderingPhysician {
-      id
-      uuid
-      firstName
-      lastName
-      profession
-    }
+    radiologistId
+    orderingPhysicianId
   }
 }

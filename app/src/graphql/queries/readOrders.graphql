@@ -1,5 +1,5 @@
-query ReadOrders($uuid: String!, $profession: String!) {
-  readOrders(uuid: $uuid, profession: $profession) {
+query ReadOrders($id: Int!, $profession: String!, $take: Int) {
+  readOrders(id: $id, profession: $profession, take: $take) {
     id
     date
     priority

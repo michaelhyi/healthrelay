@@ -4,19 +4,19 @@ import { colors } from "../utils/styles";
 
 interface Props {
   profession: string;
-  uuid: string;
+  id: number;
   text: string;
   navigation: {
     navigate: (
       route: string,
-      params: { uuid: string; profession: string }
+      params: { id: number; profession: string }
     ) => void;
   };
 }
 
 const SectionHeader: React.FC<Props> = ({
   profession,
-  uuid,
+  id,
   text,
   navigation,
 }) => {
@@ -26,7 +26,7 @@ const SectionHeader: React.FC<Props> = ({
       <TouchableOpacity
         onPress={() =>
           navigation.navigate(text, {
-            uuid,
+            id,
             profession,
           })
         }

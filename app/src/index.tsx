@@ -11,10 +11,17 @@ import { sleep } from "./utils/sleep";
 
 const App = () => {
   let [fontsLoaded] = loadFonts();
-  const [user, setUser] = useState<number | null>(null);
+  const [user, setUser] = useState<{
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    profession: string;
+    organization: string;
+    phone: string;
+  } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [contact, setContact] = useState<null | {
-    uuid: string;
     firstName: string;
     lastName: string;
     profession: string;

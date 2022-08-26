@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, Int, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -15,29 +15,13 @@ export class Contact extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field()
+  @Field(() => Int)
   @Column()
-  primaryUuid!: string;
+  radiologistId!: number;
 
-  @Field()
+  @Field(() => Int)
   @Column()
-  secondaryUuid!: string;
-
-  @Field()
-  @Column()
-  firstName!: string;
-
-  @Field()
-  @Column()
-  lastName!: string;
-
-  @Field()
-  @Column()
-  organization!: string;
-
-  @Field()
-  @Column()
-  profession!: string;
+  orderingPhysicianId!: number;
 
   @Field(() => String)
   @CreateDateColumn()

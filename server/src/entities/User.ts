@@ -17,10 +17,6 @@ export class User extends BaseEntity {
 
   @Field()
   @Column({ unique: true })
-  uuid!: string;
-
-  @Field()
-  @Column({ unique: true })
   email!: string;
 
   @Column()
@@ -28,7 +24,23 @@ export class User extends BaseEntity {
 
   @Field()
   @Column()
+  firstName!: string;
+
+  @Field()
+  @Column()
+  lastName!: string;
+
+  @Field()
+  @Column()
   profession!: string;
+
+  @Field()
+  @Column()
+  organization!: string;
+
+  @Field()
+  @Column()
+  phone!: string;
 
   @Field(() => String)
   @CreateDateColumn()

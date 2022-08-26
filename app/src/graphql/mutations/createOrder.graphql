@@ -2,15 +2,15 @@ mutation CreateOrder(
   $mrn: String!
   $priority: String!
   $message: String!
-  $radiologistUuid: String!
-  $orderingPhysicianUuid: String!
+  $radiologistId: Int!
+  $orderingPhysicianId: Int!
 ) {
   createOrder(
     mrn: $mrn
     priority: $priority
     message: $message
-    radiologistUuid: $radiologistUuid
-    orderingPhysicianUuid: $orderingPhysicianUuid
+    radiologistId: $radiologistId
+    orderingPhysicianId: $orderingPhysicianId
   ) {
     id
   }

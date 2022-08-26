@@ -1,7 +1,6 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Contact } from "../entities/Contact";
-import { OrderingPhysician } from "../entities/OrderingPhysician";
-import { Radiologist } from "../entities/Radiologist";
+import { User } from "../entities/User";
 import { CreateContactResponse } from "../utils/types";
 
 @Resolver()
@@ -13,24 +12,38 @@ export class ContactResolver {
   }
 
   @Query(() => [Contact])
-  async readContacts(@Arg("uuid") uuid: string): Promise<Contact[]> {
-    const contacts = await Contact.find({
-      where: { primaryUuid: uuid },
-    });
+  async readContacts(
+    @Arg("id", () => Int) id: number,
+    @Arg("take", () => Int, { nullable: true }) take: number
+  ): Promise<Contact[]> {
+    let contacts;
+    if (take) {
+      contacts = await Contact.find({
+        where: { radiologistId: id },
+        take,
+        order: {
+          createdAt: "DESC",
+        },
+      });
+    } else {
+      contacts = await Contact.find({
+        where: { radiologistId: id },
+      });
+    }
+
     return contacts;
   }
 
   @Mutation(() => CreateContactResponse)
   async createContact(
-    @Arg("uuid") uuid: string,
-    @Arg("contactUuid") contactUuid: string
+    @Arg("radiologistId", () => Int) radiologistId: number,
+    @Arg("orderingPhysicianId", () => Int) orderingPhysicianId: number
   ): Promise<CreateContactResponse> {
-    const primary = await Radiologist.findOne({ where: { uuid } });
-
-    const secondary = await OrderingPhysician.findOne({
-      where: { uuid: contactUuid },
+    const orderingPhysician = await User.findOne({
+      where: { id: orderingPhysicianId },
     });
-    if (!secondary) {
+
+    if (!orderingPhysician) {
       return {
         error: {
           field: "Contact",
@@ -40,22 +53,24 @@ export class ContactResolver {
       };
     }
 
+    if (orderingPhysician.profession === "Radiologist") {
+      return {
+        error: {
+          field: "Contact",
+          message: "Contact must be Ordering Physician!",
+        },
+        success: false,
+      };
+    }
+
     await Contact.create({
-      primaryUuid: uuid,
-      secondaryUuid: contactUuid,
-      firstName: secondary.firstName,
-      lastName: secondary.lastName,
-      organization: secondary.organization,
-      profession: secondary.profession,
+      radiologistId,
+      orderingPhysicianId,
     }).save();
 
     await Contact.create({
-      primaryUuid: contactUuid,
-      secondaryUuid: uuid,
-      firstName: primary!.firstName,
-      lastName: primary!.lastName,
-      organization: primary!.organization,
-      profession: primary!.profession,
+      radiologistId,
+      orderingPhysicianId,
     }).save();
 
     return { success: true };

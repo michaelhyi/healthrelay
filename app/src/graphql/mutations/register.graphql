@@ -22,7 +22,12 @@ mutation Register(
     }
     user {
       id
-      uuid
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
     }
   }
 }

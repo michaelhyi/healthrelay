@@ -83,14 +83,13 @@ const Login: React.FC<Props> = ({ navigation }) => {
         <TouchableOpacity
           onPress={async () => {
             const response = await login({ email, password });
-            console.log(response);
 
             if (!response.data?.login.error) {
               await AsyncStorage.setItem(
                 "user",
-                JSON.stringify(response.data!.login.user!.uuid)
+                JSON.stringify(response.data!.login.user!)
               );
-              setUser(response.data!.login.user!.uuid);
+              setUser(response.data!.login.user!);
             } else {
               if (response.data?.login.error.field === "Email") {
                 setEmailError(response.data.login.error.message);

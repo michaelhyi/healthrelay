@@ -18,7 +18,7 @@ interface Props {
     navigate: (
       route: string,
       params?: {
-        uuid: string;
+        id: number;
       }
     ) => void;
     goBack: () => void;
@@ -28,10 +28,9 @@ interface Props {
 const Order: React.FC<Props> = ({ navigation, route }) => {
   const { user } = useContext(Context);
   const { id } = route.params;
-  const [{ data: readOrderData, fetching: readOrderFetching }] =
-    useReadOrderQuery({ variables: { id } });
+  const [{ data, fetching }] = useReadOrderQuery({ variables: { id } });
 
-  if (readOrderFetching) return <Loading />;
+  if (fetching) return <Loading />;
 
   return (
     <Layout>
@@ -39,32 +38,32 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
         <BackButton navigation={navigation} />
         <EditButton navigation={navigation} />
       </View>
-      <Text style={styles.header}>Order #{readOrderData?.readOrder.id}</Text>
+      <Text style={styles.header}>Order #{data?.readOrder.order.id}</Text>
       <View style={{ marginTop: 15 }}>
         <User
           firstName={
             user.profession === "Radiologist"
-              ? readOrderData?.readOrder.orderingPhysician.firstName!
-              : readOrderData?.readOrder.radiologist.firstName!
+              ? data?.readOrder.orderingPhysician.firstName!
+              : data?.readOrder.radiologist.firstName!
           }
           lastName={
             user.profession === "Radiologist"
-              ? readOrderData?.readOrder.orderingPhysician.lastName!
-              : readOrderData?.readOrder.radiologist.lastName!
+              ? data?.readOrder.orderingPhysician.lastName!
+              : data?.readOrder.radiologist.lastName!
           }
           profession={
             user.profession === "Radiologist"
-              ? readOrderData?.readOrder.orderingPhysician.profession!
-              : readOrderData?.readOrder.radiologist.profession!
+              ? data?.readOrder.orderingPhysician.profession!
+              : data?.readOrder.radiologist.profession!
           }
           onPress={() => {
             if (user.profession === "Radiologist") {
               navigation.navigate("Profile", {
-                uuid: readOrderData?.readOrder.orderingPhysicianUuid!,
+                id: data?.readOrder.order.orderingPhysicianId!,
               });
             } else {
               navigation.navigate("Profile", {
-                uuid: readOrderData?.readOrder.radiologistUuid!,
+                id: data?.readOrder.order.radiologistId!,
               });
             }
           }}
@@ -84,16 +83,14 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
           <Text style={styles.text}>Status</Text>
         </View>
         <View>
-          <Text style={styles.bluetext}>{readOrderData?.readOrder.mrn}</Text>
-          <Text style={styles.bluetext}>{readOrderData?.readOrder.date}</Text>
-          <Text style={styles.bluetext}>
-            {readOrderData?.readOrder.priority}
-          </Text>
-          <Text style={styles.bluetext}>{readOrderData?.readOrder.status}</Text>
+          <Text style={styles.bluetext}>{data?.readOrder.order.mrn}</Text>
+          <Text style={styles.bluetext}>{data?.readOrder.order.date}</Text>
+          <Text style={styles.bluetext}>{data?.readOrder.order.priority}</Text>
+          <Text style={styles.bluetext}>{data?.readOrder.order.status}</Text>
         </View>
       </View>
       <Text style={styles.messageheader}>Message</Text>
-      <Text style={styles.text}>{readOrderData?.readOrder.message}</Text>
+      <Text style={styles.text}>{data?.readOrder.order.message}</Text>
     </Layout>
   );
 };

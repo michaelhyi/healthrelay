@@ -27,7 +27,7 @@ const RecentOrdersSection: React.FC<Props> = ({
   profession,
   navigation,
   data,
-  uuid,
+  id,
 }) => {
   const renderItem: React.FC<ItemProps> = ({ item }) => (
     <OrderCard
@@ -45,7 +45,7 @@ const RecentOrdersSection: React.FC<Props> = ({
     >
       <SectionHeader
         profession={profession}
-        uuid={uuid}
+        id={id}
         text="Orders"
         navigation={navigation}
       />

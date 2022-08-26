@@ -9,8 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateContactResponse = exports.UserResponse = exports.Error = void 0;
+exports.OrderResponse = exports.CreateContactResponse = exports.UserResponse = exports.Error = void 0;
 const type_graphql_1 = require("type-graphql");
+const Order_1 = require("../entities/Order");
 const User_1 = require("../entities/User");
 let Error = class Error {
 };
@@ -54,4 +55,22 @@ CreateContactResponse = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], CreateContactResponse);
 exports.CreateContactResponse = CreateContactResponse;
+let OrderResponse = class OrderResponse {
+};
+__decorate([
+    (0, type_graphql_1.Field)(() => Order_1.Order),
+    __metadata("design:type", Order_1.Order)
+], OrderResponse.prototype, "order", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => User_1.User),
+    __metadata("design:type", User_1.User)
+], OrderResponse.prototype, "radiologist", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => User_1.User),
+    __metadata("design:type", User_1.User)
+], OrderResponse.prototype, "orderingPhysician", void 0);
+OrderResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], OrderResponse);
+exports.OrderResponse = OrderResponse;
 //# sourceMappingURL=types.js.map

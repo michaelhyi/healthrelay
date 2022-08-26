@@ -68,11 +68,6 @@ export class ContactResolver {
       orderingPhysicianId,
     }).save();
 
-    await Contact.create({
-      radiologistId,
-      orderingPhysicianId,
-    }).save();
-
     return { success: true };
   }
 }

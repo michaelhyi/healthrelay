@@ -66,10 +66,6 @@ let ContactResolver = class ContactResolver {
             radiologistId,
             orderingPhysicianId,
         }).save();
-        await Contact_1.Contact.create({
-            radiologistId,
-            orderingPhysicianId,
-        }).save();
         return { success: true };
     }
 };

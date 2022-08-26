@@ -5,8 +5,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import BackButton from "../components/BackButton";
 import EditButton from "../components/EditButton";
 import Layout from "../components/Layout";
+import { useReadUserQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
+import Loading from "./loading";
 
 interface Props {
   route: {
@@ -23,6 +25,9 @@ interface Props {
 const Profile: React.FC<Props> = ({ route, navigation }) => {
   const { user } = useContext(Context);
   const { id } = route.params;
+  const [{ data, fetching }] = useReadUserQuery({ variables: { id } });
+
+  if (fetching) return <Loading />;
 
   return (
     <Layout>
@@ -40,7 +45,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
             marginTop: 24,
           }}
         >
-          Dr. {user.firstName} {user.lastName}
+          Dr. {data?.readUser.firstName} {data?.readUser.lastName}
         </Text>
         <Text
           style={{
@@ -49,11 +54,11 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
             color: colors.blue_300,
           }}
         >
-          {user.profession}
+          {data?.readUser.profession}
         </Text>
         <TouchableOpacity
           onPress={async () => {
-            await Clipboard.setStringAsync(id);
+            await Clipboard.setStringAsync(id.toString());
           }}
           style={styles.card}
         >
@@ -74,7 +79,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.gray,
             }}
           >
-            {user.id}
+            {data?.readUser.id}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
@@ -95,7 +100,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.gray,
             }}
           >
-            {user.organization}
+            {data?.readUser.organization}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
@@ -116,7 +121,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.gray,
             }}
           >
-            {user.email}
+            {data?.readUser.email}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
@@ -137,7 +142,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
               color: colors.gray,
             }}
           >
-            {user.phone}
+            {data?.readUser.phone}
           </Text>
         </TouchableOpacity>
       </View>

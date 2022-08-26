@@ -16,6 +16,8 @@ exports.OrderResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Order_1 = require("../entities/Order");
 const date_fns_1 = require("date-fns");
+const User_1 = require("../entities/User");
+const types_1 = require("../utils/types");
 let OrderResolver = class OrderResolver {
     async readAllOrders() {
         const orders = await Order_1.Order.find({});
@@ -23,7 +25,13 @@ let OrderResolver = class OrderResolver {
     }
     async readOrder(id) {
         const order = await Order_1.Order.findOne(id);
-        return order;
+        const radiologist = await User_1.User.findOne({
+            where: { id: order === null || order === void 0 ? void 0 : order.radiologistId },
+        });
+        const orderingPhysician = await User_1.User.findOne({
+            where: { id: order === null || order === void 0 ? void 0 : order.orderingPhysicianId },
+        });
+        return { order, radiologist, orderingPhysician };
     }
     async createOrder(mrn, priority, message, radiologistId, orderingPhysicianId) {
         const order = await Order_1.Order.create({
@@ -79,7 +87,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrderResolver.prototype, "readAllOrders", null);
 __decorate([
-    (0, type_graphql_1.Query)(() => Order_1.Order),
+    (0, type_graphql_1.Query)(() => types_1.OrderResponse),
     __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),

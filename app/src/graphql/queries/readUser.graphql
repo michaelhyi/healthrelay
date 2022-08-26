@@ -1,0 +1,11 @@
+query ReadUser($id: Int!) {
+  readUser(id: $id) {
+    id
+    email
+    firstName
+    lastName
+    profession
+    organization
+    phone
+  }
+}

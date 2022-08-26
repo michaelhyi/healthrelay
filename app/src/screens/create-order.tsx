@@ -24,7 +24,6 @@ interface Props {
     navigate: (
       route: string,
       params: {
-        uuid?: string;
         contact?: boolean;
         id?: number;
       }
@@ -89,7 +88,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("Contacts", {
-              uuid: user.uuid!,
+              id: user.id!,
               contact: true,
             })
           }
@@ -101,9 +100,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
         <>
           <View style={{ padding: Dimensions.get("window").height / 128 }} />
           <User
-            onPress={() =>
-              navigation.navigate("Profile", { uuid: contact.uuid })
-            }
+            onPress={() => navigation.navigate("Profile", { id: contact.id })}
             firstName={contact.firstName}
             lastName={contact.lastName}
             profession={contact.profession}
@@ -125,8 +122,8 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
             mrn,
             priority,
             message,
-            radiologistUuid: user,
-            orderingPhysicianUuid: contact.uuid,
+            radiologistId: user.id,
+            orderingPhysicianId: contact.id,
           });
 
           navigation.navigate("Order", { id: response.data?.createOrder.id });

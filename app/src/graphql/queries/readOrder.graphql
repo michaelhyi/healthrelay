@@ -1,12 +1,28 @@
 query ReadOrder($id: Int!) {
   readOrder(id: $id) {
-    id
-    mrn
-    date
-    priority
-    status
-    message
-    radiologistId
-    orderingPhysicianId
+    order {
+      id
+      mrn
+      date
+      priority
+      status
+      message
+      radiologistId
+      orderingPhysicianId
+    }
+    radiologist {
+      id
+      firstName
+      lastName
+      profession
+      organization
+    }
+    orderingPhysician {
+      id
+      firstName
+      lastName
+      profession
+      organization
+    }
   }
 }

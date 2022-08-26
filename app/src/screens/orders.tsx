@@ -10,7 +10,7 @@ import Loading from "./loading";
 interface Props {
   route: {
     params: {
-      uuid: string;
+      id: number;
       profession: string;
     };
   };
@@ -21,10 +21,10 @@ interface Props {
 }
 
 const Orders: React.FC<Props> = ({ route, navigation }) => {
-  const { uuid, profession } = route.params;
+  const { id, profession } = route.params;
   const [{ data, fetching }] = useReadOrdersQuery({
     variables: {
-      uuid,
+      id,
       profession,
     },
   });

@@ -22,8 +22,8 @@ interface Props {
 const CreateContact: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
   const [, createContact] = useCreateContactMutation();
-  const [uuid, setUuid] = useState("");
-  const [uuidError, setUuidError] = useState<null | string>(null);
+  const [id, setId] = useState<string>("");
+  const [idError, setIdError] = useState<null | string>(null);
 
   return (
     <Layout>
@@ -41,25 +41,25 @@ const CreateContact: React.FC<Props> = ({ navigation }) => {
         }}
       >
         <View>
-          <Text style={styles.header}>Add Contact UUID</Text>
+          <Text style={styles.header}>Add Contact ID</Text>
           <TextInput
             autoCapitalize="none"
-            value={uuid}
-            onChangeText={setUuid}
+            value={id}
+            onChangeText={setId}
             style={styles.input}
           />
-          {uuidError && <Text style={styles.error}>{uuidError}</Text>}
+          {idError && <Text style={styles.error}>{idError}</Text>}
           <TouchableOpacity
             onPress={async () => {
               const response = await createContact({
-                uuid: user.uuid!,
-                contactUuid: uuid,
+                radiologistId: user.id!,
+                orderingPhysicianId: parseInt(id),
               });
 
               if (!response.data?.createContact.success) {
-                setUuidError(response.data?.createContact.error?.message!);
+                setIdError(response.data?.createContact.error?.message!);
               } else {
-                setUuidError(null);
+                setIdError(null);
                 Alert.alert("Success!", "User has been added to contacts!");
                 navigation.goBack();
               }

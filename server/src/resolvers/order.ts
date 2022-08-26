@@ -1,6 +1,8 @@
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Order } from "../entities/Order";
 import { format } from "date-fns";
+import { User } from "../entities/User";
+import { OrderResponse } from "../utils/types";
 
 @Resolver()
 export class OrderResolver {
@@ -10,12 +12,17 @@ export class OrderResolver {
     return orders;
   }
 
-  @Query(() => Order)
-  async readOrder(
-    @Arg("id", () => Int) id: number
-  ): Promise<Order | undefined> {
+  @Query(() => OrderResponse)
+  async readOrder(@Arg("id", () => Int) id: number): Promise<OrderResponse> {
     const order = await Order.findOne(id);
-    return order;
+    const radiologist = await User.findOne({
+      where: { id: order?.radiologistId },
+    });
+    const orderingPhysician = await User.findOne({
+      where: { id: order?.orderingPhysicianId },
+    });
+
+    return { order, radiologist, orderingPhysician };
   }
 
   @Mutation(() => Order)

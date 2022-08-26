@@ -1,5 +1,6 @@
 import React from "react";
-import { Dimensions, FlatList, View } from "react-native";
+import { ActivityIndicator, Dimensions, FlatList, View } from "react-native";
+import { useReadUserQuery } from "../generated/graphql";
 import Contact from "./Contact";
 import SectionHeader from "./SectionHeader";
 
@@ -29,9 +30,24 @@ const RecentContactsSection: React.FC<Props> = ({
   navigation,
   data,
 }) => {
-  const renderItem: React.FC<ItemProps> = ({ item }) => (
-    <Contact navigation={navigation} id={item.id} item={item} />
-  );
+  const renderItem: React.FC<ItemProps> = ({ item }) => {
+    const [{ data, fetching }] = useReadUserQuery({
+      variables: { id: item.orderingPhysicianId },
+    });
+
+    if (fetching) return <ActivityIndicator />;
+
+    return (
+      <Contact
+        id={data?.readUser.id!}
+        navigation={navigation}
+        firstName={data?.readUser.firstName!}
+        lastName={data?.readUser.lastName!}
+        profession={data?.readUser.profession!}
+        organization={data?.readUser.organization!}
+      />
+    );
+  };
 
   return (
     <View

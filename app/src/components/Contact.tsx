@@ -1,9 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { colors } from "../utils/styles";
 import React, { useContext } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Context from "../utils/context";
-import { useReadContactMutation } from "../generated/graphql";
+import { colors } from "../utils/styles";
 
 interface Props {
   navigation: {
@@ -11,38 +10,46 @@ interface Props {
     goBack: () => void;
   };
   id: number;
-  item: {
-    id: number;
-    radiologistId: number;
-    orderingPhysicianId: number;
-  };
+  firstName: string;
+  lastName: string;
+  contact?: boolean;
+  profession: string;
+  organization: string;
 }
 
-const Contact: React.FC<Props> = ({ navigation, item }) => {
+const Contact: React.FC<Props> = ({
+  navigation,
+  id,
+  contact,
+  profession,
+  organization,
+  firstName,
+  lastName,
+}) => {
   const { setContact } = useContext(Context);
-  const [, readContact] = useReadContactMutation();
 
   return (
     <TouchableOpacity
       onPress={async () => {
         if (contact) {
-          const response = await readContact({ uuid });
           setContact({
-            uuid: response.data?.readContact.user.uuid!,
-            firstName: response.data?.readContact.doctor?.firstName!,
-            lastName: response.data?.readContact.doctor?.lastName!,
-            profession: response.data?.readContact.user.profession!,
+            id: id!,
+            firstName: firstName!,
+            lastName: lastName!,
+            profession: profession!,
           });
           navigation.goBack();
         } else {
-          navigation.navigate("Profile", { uuid });
+          navigation.navigate("Profile", { id });
         }
       }}
       style={styles.container}
     >
       <Ionicons name="person" size={45} color={colors.blue_400} />
       <View style={{ marginLeft: 24 }}>
-        <Text style={styles.name}>Dr. {name}</Text>
+        <Text style={styles.name}>
+          Dr. {firstName} {lastName}
+        </Text>
         <Text style={styles.profession}>
           {profession} at {organization}
         </Text>

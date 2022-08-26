@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
+import { Order } from "../entities/Order";
 import { User } from "../entities/User";
 
 @ObjectType()
@@ -26,4 +27,16 @@ export class CreateContactResponse {
 
   @Field(() => Boolean)
   success!: boolean;
+}
+
+@ObjectType()
+export class OrderResponse {
+  @Field(() => Order)
+  order?: Order;
+
+  @Field(() => User)
+  radiologist?: User;
+
+  @Field(() => User)
+  orderingPhysician?: User;
 }

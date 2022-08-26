@@ -13,7 +13,7 @@ import Loading from "./loading";
 
 interface Props {
   navigation: {
-    navigate: (route: string, params?: { uuid: string }) => void;
+    navigate: (route: string, params?: { id: number }) => void;
     goBack: () => void;
   };
 }
@@ -21,11 +21,11 @@ interface Props {
 const Home: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
   const [{ data: orders, fetching: fetchingOrders }] = useReadOrdersQuery({
-    variables: { uuid: user.uuid, profession: user.profession, take: 4 },
+    variables: { id: user.id, profession: user.profession, take: 4 },
   });
   const [{ data: contacts, fetching: fetchingContacts }] = useReadContactsQuery(
     {
-      variables: { uuid: user.uuid, take: 3 },
+      variables: { id: user.id, take: 3 },
     }
   );
 
@@ -38,7 +38,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
           firstName={user.firstName}
           lastName={user.lastName}
           profession={user.profession}
-          onPress={() => navigation.navigate("Profile", { uuid: user })}
+          onPress={() => navigation.navigate("Profile", { id: user.id })}
         />
         <TouchableOpacity
           onPress={() => navigation.navigate("Notifications")}
@@ -55,13 +55,13 @@ const Home: React.FC<Props> = ({ navigation }) => {
       </View>
       <RecentOrdersSection
         profession={user.profession}
-        uuid={user.uuid}
+        id={user.id}
         navigation={navigation}
-        data={orders?.readOrders}
+        data={orders?.readOrders!}
       />
       <RecentContactsSection
         profession={user.profession}
-        uuid={user.uuid}
+        id={user.id}
         navigation={navigation}
         data={contacts?.readContacts!}
       />

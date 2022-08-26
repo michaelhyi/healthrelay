@@ -1,17 +1,22 @@
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import BackButton from "../components/BackButton";
 import Contact from "../components/Contact";
 import Layout from "../components/Layout";
 import Search from "../components/Search";
-import { useReadContactsQuery } from "../generated/graphql";
+import { useReadContactsQuery, useReadUserQuery } from "../generated/graphql";
 import Loading from "./loading";
 
 interface Props {
   route: {
     params: {
-      uuid: string;
+      id: number;
       contact?: boolean;
     };
   };
@@ -22,8 +27,8 @@ interface Props {
 }
 
 const Contacts: React.FC<Props> = ({ route, navigation }) => {
-  const { uuid, contact } = route.params;
-  const [{ data, fetching }] = useReadContactsQuery({ variables: { uuid } });
+  const { id, contact } = route.params;
+  const [{ data, fetching }] = useReadContactsQuery({ variables: { id } });
 
   if (fetching) return <Loading />;
 
@@ -43,17 +48,25 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
         style={{ marginTop: 12 }}
         showsVerticalScrollIndicator={false}
         data={data?.readContacts}
-        renderItem={({ item }) => (
-          <Contact
-            contact={contact}
-            uuid={item.secondaryUuid}
-            navigation={navigation}
-            id={item.id}
-            name={item.firstName + " " + item.lastName}
-            profession={item.profession}
-            organization={item.organization}
-          />
-        )}
+        renderItem={({ item }) => {
+          const [{ data, fetching }] = useReadUserQuery({
+            variables: { id: item.orderingPhysicianId },
+          });
+
+          if (fetching) return <ActivityIndicator />;
+
+          return (
+            <Contact
+              contact={contact}
+              id={data?.readUser.id!}
+              navigation={navigation}
+              firstName={data?.readUser.firstName!}
+              lastName={data?.readUser.lastName!}
+              profession={data?.readUser.profession!}
+              organization={data?.readUser.organization!}
+            />
+          );
+        }}
       />
     </Layout>
   );

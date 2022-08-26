@@ -1,6 +1,0 @@
-mutation ReadContact($id: Int!) {
-  readContact(id: $id) {
-    id
-    profession
-  }
-}

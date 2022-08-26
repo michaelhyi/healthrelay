@@ -60,7 +60,6 @@ let OrderResolver = class OrderResolver {
             else {
                 orders = await Order_1.Order.find({
                     where: { orderingPhysicianId: id },
-                    take,
                     order: {
                         createdAt: "DESC",
                     },
@@ -110,7 +109,7 @@ __decorate([
     __param(1, (0, type_graphql_1.Arg)("profession")),
     __param(2, (0, type_graphql_1.Arg)("take", () => type_graphql_1.Int, { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, Number]),
+    __metadata("design:paramtypes", [Number, String, Object]),
     __metadata("design:returntype", Promise)
 ], OrderResolver.prototype, "readOrders", null);
 OrderResolver = __decorate([

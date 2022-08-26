@@ -38,7 +38,26 @@ let ContactResolver = class ContactResolver {
                 where: { radiologistId: id },
             });
         }
-        return contacts;
+        let ret = [];
+        for (let i = 0; i < contacts.length; i++) {
+            const id = contacts[i].id;
+            const radiologistId = contacts[i].radiologistId;
+            const orderingPhysicianId = contacts[i].orderingPhysicianId;
+            const radiologist = await User_1.User.findOne({
+                where: { id: radiologistId },
+            });
+            const orderingPhysician = await User_1.User.findOne({
+                where: { id: orderingPhysicianId },
+            });
+            ret.push({
+                id,
+                radiologistId,
+                orderingPhysicianId,
+                radiologist,
+                orderingPhysician,
+            });
+        }
+        return ret;
     }
     async createContact(radiologistId, orderingPhysicianId) {
         const orderingPhysician = await User_1.User.findOne({
@@ -76,11 +95,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ContactResolver.prototype, "readAllContacts", null);
 __decorate([
-    (0, type_graphql_1.Query)(() => [Contact_1.Contact]),
+    (0, type_graphql_1.Query)(() => [types_1.ContactResponse]),
     __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
     __param(1, (0, type_graphql_1.Arg)("take", () => type_graphql_1.Int, { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], ContactResolver.prototype, "readContacts", null);
 __decorate([

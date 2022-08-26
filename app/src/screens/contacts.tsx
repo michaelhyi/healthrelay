@@ -49,21 +49,15 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
         showsVerticalScrollIndicator={false}
         data={data?.readContacts}
         renderItem={({ item }) => {
-          const [{ data, fetching }] = useReadUserQuery({
-            variables: { id: item.orderingPhysicianId },
-          });
-
-          if (fetching) return <ActivityIndicator />;
-
           return (
             <Contact
               contact={contact}
-              id={data?.readUser.id!}
+              id={item.orderingPhysicianId}
               navigation={navigation}
-              firstName={data?.readUser.firstName!}
-              lastName={data?.readUser.lastName!}
-              profession={data?.readUser.profession!}
-              organization={data?.readUser.organization!}
+              firstName={item.orderingPhysician.firstName}
+              lastName={item.orderingPhysician.lastName}
+              profession={item.orderingPhysician.profession}
+              organization={item.orderingPhysician.organization}
             />
           );
         }}

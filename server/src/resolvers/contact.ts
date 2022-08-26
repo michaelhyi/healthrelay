@@ -1,7 +1,7 @@
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Contact } from "../entities/Contact";
 import { User } from "../entities/User";
-import { CreateContactResponse } from "../utils/types";
+import { ContactResponse, CreateContactResponse } from "../utils/types";
 
 @Resolver()
 export class ContactResolver {
@@ -11,11 +11,11 @@ export class ContactResolver {
     return contacts;
   }
 
-  @Query(() => [Contact])
+  @Query(() => [ContactResponse])
   async readContacts(
     @Arg("id", () => Int) id: number,
-    @Arg("take", () => Int, { nullable: true }) take: number
-  ): Promise<Contact[]> {
+    @Arg("take", () => Int, { nullable: true }) take: number | null
+  ): Promise<ContactResponse[]> {
     let contacts;
     if (take) {
       contacts = await Contact.find({
@@ -31,7 +31,30 @@ export class ContactResolver {
       });
     }
 
-    return contacts;
+    let ret: ContactResponse[] = [];
+
+    for (let i = 0; i < contacts.length; i++) {
+      const id = contacts[i].id;
+      const radiologistId = contacts[i].radiologistId;
+      const orderingPhysicianId = contacts[i].orderingPhysicianId;
+
+      const radiologist = await User.findOne({
+        where: { id: radiologistId },
+      });
+      const orderingPhysician = await User.findOne({
+        where: { id: orderingPhysicianId },
+      });
+
+      ret.push({
+        id,
+        radiologistId,
+        orderingPhysicianId,
+        radiologist,
+        orderingPhysician,
+      });
+    }
+
+    return ret;
   }
 
   @Mutation(() => CreateContactResponse)

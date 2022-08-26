@@ -50,7 +50,7 @@ export class OrderResolver {
   async readOrders(
     @Arg("id", () => Int) id: number,
     @Arg("profession") profession: string,
-    @Arg("take", () => Int, { nullable: true }) take: number
+    @Arg("take", () => Int, { nullable: true }) take: number | null
   ): Promise<Order[]> {
     let orders;
     if (take) {
@@ -65,7 +65,6 @@ export class OrderResolver {
       } else {
         orders = await Order.find({
           where: { orderingPhysicianId: id },
-          take,
           order: {
             createdAt: "DESC",
           },

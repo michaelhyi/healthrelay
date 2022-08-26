@@ -20,16 +20,11 @@ interface Props {
 
 const Home: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
-  const [{ data: orders, fetching: fetchingOrders }] = useReadOrdersQuery({
+  const [{ data, fetching }] = useReadOrdersQuery({
     variables: { id: user.id, profession: user.profession, take: 4 },
   });
-  const [{ data: contacts, fetching: fetchingContacts }] = useReadContactsQuery(
-    {
-      variables: { id: user.id, take: 3 },
-    }
-  );
 
-  if (fetchingOrders || fetchingContacts) return <Loading />;
+  if (fetching) return <Loading />;
 
   return (
     <Layout>
@@ -57,13 +52,12 @@ const Home: React.FC<Props> = ({ navigation }) => {
         profession={user.profession}
         id={user.id}
         navigation={navigation}
-        data={orders?.readOrders!}
+        data={data?.readOrders!}
       />
       <RecentContactsSection
         profession={user.profession}
         id={user.id}
         navigation={navigation}
-        data={contacts?.readContacts!}
       />
     </Layout>
   );

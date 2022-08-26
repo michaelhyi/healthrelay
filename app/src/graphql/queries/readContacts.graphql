@@ -3,5 +3,23 @@ query ReadContacts($id: Int!, $take: Int) {
     id
     radiologistId
     orderingPhysicianId
+    radiologist {
+      id
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
+    }
+    orderingPhysician {
+      id
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
+    }
   }
 }

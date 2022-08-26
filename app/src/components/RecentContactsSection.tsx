@@ -1,14 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ActivityIndicator, Dimensions, FlatList, View } from "react-native";
-import { useReadUserQuery } from "../generated/graphql";
+import { useReadContactsQuery, useReadUserQuery } from "../generated/graphql";
+import Context from "../utils/context";
 import Contact from "./Contact";
 import SectionHeader from "./SectionHeader";
-
-interface ContactProps {
-  id: number;
-  radiologistId: number;
-  orderingPhysicianId: number;
-}
 
 interface Props {
   profession: string;
@@ -17,37 +12,19 @@ interface Props {
     navigate: (route: string) => void;
     goBack: () => void;
   };
-  data: ContactProps[];
-}
-
-interface ItemProps {
-  item: ContactProps;
 }
 
 const RecentContactsSection: React.FC<Props> = ({
   profession,
   id,
   navigation,
-  data,
 }) => {
-  const renderItem: React.FC<ItemProps> = ({ item }) => {
-    const [{ data, fetching }] = useReadUserQuery({
-      variables: { id: item.orderingPhysicianId },
-    });
+  const { user } = useContext(Context);
+  const [{ data, fetching }] = useReadContactsQuery({
+    variables: { id: user.id, take: 3 },
+  });
 
-    if (fetching) return <ActivityIndicator />;
-
-    return (
-      <Contact
-        id={data?.readUser.id!}
-        navigation={navigation}
-        firstName={data?.readUser.firstName!}
-        lastName={data?.readUser.lastName!}
-        profession={data?.readUser.profession!}
-        organization={data?.readUser.organization!}
-      />
-    );
-  };
+  if (fetching) return <ActivityIndicator />;
 
   return (
     <View
@@ -61,8 +38,17 @@ const RecentContactsSection: React.FC<Props> = ({
       />
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={data}
-        renderItem={renderItem}
+        data={data?.readContacts}
+        renderItem={({ item }) => (
+          <Contact
+            id={item.orderingPhysicianId}
+            navigation={navigation}
+            firstName={item.orderingPhysician.firstName!}
+            lastName={item.orderingPhysician.lastName!}
+            profession={item.orderingPhysician.profession!}
+            organization={item?.orderingPhysician.organization!}
+          />
+        )}
       />
     </View>
   );

@@ -24,6 +24,15 @@ export type Contact = {
   updatedAt: Scalars['String'];
 };
 
+export type ContactResponse = {
+  __typename?: 'ContactResponse';
+  id: Scalars['Int'];
+  orderingPhysician: User;
+  orderingPhysicianId: Scalars['Int'];
+  radiologist: User;
+  radiologistId: Scalars['Int'];
+};
+
 export type CreateContactResponse = {
   __typename?: 'CreateContactResponse';
   error?: Maybe<Error>;
@@ -101,7 +110,7 @@ export type Query = {
   __typename?: 'Query';
   readAllContacts: Array<Contact>;
   readAllOrders: Array<Order>;
-  readContacts: Array<Contact>;
+  readContacts: Array<ContactResponse>;
   readOrder: OrderResponse;
   readOrders: Array<Order>;
   readUser: User;
@@ -196,7 +205,7 @@ export type ReadContactsQueryVariables = Exact<{
 }>;
 
 
-export type ReadContactsQuery = { __typename?: 'Query', readContacts: Array<{ __typename?: 'Contact', id: number, radiologistId: number, orderingPhysicianId: number }> };
+export type ReadContactsQuery = { __typename?: 'Query', readContacts: Array<{ __typename?: 'ContactResponse', id: number, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string }, orderingPhysician: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string } }> };
 
 export type ReadOrderQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -317,6 +326,24 @@ export const ReadContactsDocument = gql`
     id
     radiologistId
     orderingPhysicianId
+    radiologist {
+      id
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
+    }
+    orderingPhysician {
+      id
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
+    }
   }
 }
     `;

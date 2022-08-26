@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, Int, ObjectType } from "type-graphql";
 import { Order } from "../entities/Order";
 import { User } from "../entities/User";
 
@@ -39,4 +39,22 @@ export class OrderResponse {
 
   @Field(() => User)
   orderingPhysician?: User;
+}
+
+@ObjectType()
+export class ContactResponse {
+  @Field(() => Int)
+  id?: number | undefined;
+
+  @Field(() => Int)
+  radiologistId?: number | undefined;
+
+  @Field(() => Int)
+  orderingPhysicianId?: number | undefined;
+
+  @Field(() => User)
+  radiologist?: User | undefined;
+
+  @Field(() => User)
+  orderingPhysician?: User | undefined;
 }

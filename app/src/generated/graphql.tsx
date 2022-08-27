@@ -52,8 +52,10 @@ export type Mutation = {
   deleteOrder: Scalars['Boolean'];
   login: UserResponse;
   readContact: User;
+  readOrder: OrderResponse;
   register: UserResponse;
   updateOrder: Scalars['Boolean'];
+  updateOrderStatus: Scalars['Boolean'];
   updateUser: Scalars['Boolean'];
 };
 
@@ -89,6 +91,11 @@ export type MutationReadContactArgs = {
 };
 
 
+export type MutationReadOrderArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationRegisterArgs = {
   email: Scalars['String'];
   firstName: Scalars['String'];
@@ -106,6 +113,12 @@ export type MutationUpdateOrderArgs = {
   mrn: Scalars['String'];
   orderingPhysicianId: Scalars['Int'];
   priority: Scalars['String'];
+};
+
+
+export type MutationUpdateOrderStatusArgs = {
+  id: Scalars['Int'];
+  status: Scalars['String'];
 };
 
 
@@ -151,7 +164,6 @@ export type Query = {
   readAllContacts: Array<Contact>;
   readAllOrders: Array<Order>;
   readContacts: Array<ContactResponse>;
-  readOrder: OrderResponse;
   readOrders: Array<Order>;
   readUser: User;
   readUsers: Array<User>;
@@ -161,11 +173,6 @@ export type Query = {
 export type QueryReadContactsArgs = {
   id: Scalars['Int'];
   take?: InputMaybe<Scalars['Int']>;
-};
-
-
-export type QueryReadOrderArgs = {
-  id: Scalars['Int'];
 };
 
 
@@ -240,6 +247,13 @@ export type ReadContactMutationVariables = Exact<{
 
 export type ReadContactMutation = { __typename?: 'Mutation', readContact: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string } };
 
+export type ReadOrderMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ReadOrderMutation = { __typename?: 'Mutation', readOrder: { __typename?: 'OrderResponse', id: number, mrn: string, date: string, priority: string, status: string, message: string, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string }, orderingPhysician: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string } } };
+
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -264,6 +278,14 @@ export type UpdateOrderMutationVariables = Exact<{
 
 export type UpdateOrderMutation = { __typename?: 'Mutation', updateOrder: boolean };
 
+export type UpdateOrderStatusMutationVariables = Exact<{
+  id: Scalars['Int'];
+  status: Scalars['String'];
+}>;
+
+
+export type UpdateOrderStatusMutation = { __typename?: 'Mutation', updateOrderStatus: boolean };
+
 export type UpdateUserMutationVariables = Exact<{
   id: Scalars['Int'];
   firstName: Scalars['String'];
@@ -283,13 +305,6 @@ export type ReadContactsQueryVariables = Exact<{
 
 
 export type ReadContactsQuery = { __typename?: 'Query', readContacts: Array<{ __typename?: 'ContactResponse', id: number, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string }, orderingPhysician: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string } }> };
-
-export type ReadOrderQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type ReadOrderQuery = { __typename?: 'Query', readOrder: { __typename?: 'OrderResponse', id: number, mrn: string, date: string, priority: string, status: string, message: string, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string }, orderingPhysician: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string } } };
 
 export type ReadOrdersQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -389,6 +404,38 @@ export const ReadContactDocument = gql`
 export function useReadContactMutation() {
   return Urql.useMutation<ReadContactMutation, ReadContactMutationVariables>(ReadContactDocument);
 };
+export const ReadOrderDocument = gql`
+    mutation ReadOrder($id: Int!) {
+  readOrder(id: $id) {
+    id
+    mrn
+    date
+    priority
+    status
+    message
+    radiologistId
+    orderingPhysicianId
+    radiologist {
+      id
+      firstName
+      lastName
+      profession
+      organization
+    }
+    orderingPhysician {
+      id
+      firstName
+      lastName
+      profession
+      organization
+    }
+  }
+}
+    `;
+
+export function useReadOrderMutation() {
+  return Urql.useMutation<ReadOrderMutation, ReadOrderMutationVariables>(ReadOrderDocument);
+};
 export const RegisterDocument = gql`
     mutation Register($email: String!, $password: String!, $firstName: String!, $lastName: String!, $profession: String!, $organization: String!, $phone: String!) {
   register(
@@ -434,6 +481,15 @@ export const UpdateOrderDocument = gql`
 
 export function useUpdateOrderMutation() {
   return Urql.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument);
+};
+export const UpdateOrderStatusDocument = gql`
+    mutation UpdateOrderStatus($id: Int!, $status: String!) {
+  updateOrderStatus(id: $id, status: $status)
+}
+    `;
+
+export function useUpdateOrderStatusMutation() {
+  return Urql.useMutation<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>(UpdateOrderStatusDocument);
 };
 export const UpdateUserDocument = gql`
     mutation UpdateUser($id: Int!, $firstName: String!, $lastName: String!, $organization: String!, $email: String!, $phone: String!) {
@@ -481,38 +537,6 @@ export const ReadContactsDocument = gql`
 
 export function useReadContactsQuery(options: Omit<Urql.UseQueryArgs<ReadContactsQueryVariables>, 'query'>) {
   return Urql.useQuery<ReadContactsQuery, ReadContactsQueryVariables>({ query: ReadContactsDocument, ...options });
-};
-export const ReadOrderDocument = gql`
-    query ReadOrder($id: Int!) {
-  readOrder(id: $id) {
-    id
-    mrn
-    date
-    priority
-    status
-    message
-    radiologistId
-    orderingPhysicianId
-    radiologist {
-      id
-      firstName
-      lastName
-      profession
-      organization
-    }
-    orderingPhysician {
-      id
-      firstName
-      lastName
-      profession
-      organization
-    }
-  }
-}
-    `;
-
-export function useReadOrderQuery(options: Omit<Urql.UseQueryArgs<ReadOrderQueryVariables>, 'query'>) {
-  return Urql.useQuery<ReadOrderQuery, ReadOrderQueryVariables>({ query: ReadOrderDocument, ...options });
 };
 export const ReadOrdersDocument = gql`
     query ReadOrders($id: Int!, $profession: String!, $take: Int) {

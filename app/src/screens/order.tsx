@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
+import { CheckIcon } from "native-base";
+import React, { useContext, useEffect, useState } from "react";
 import {
+  Alert,
   Dimensions,
   StyleSheet,
   Text,
@@ -10,7 +12,10 @@ import BackButton from "../components/BackButton";
 import EditButton from "../components/EditButton";
 import Layout from "../components/Layout";
 import User from "../components/User";
-import { useReadOrderQuery } from "../generated/graphql";
+import {
+  useReadOrderMutation,
+  useUpdateOrderStatusMutation,
+} from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 import Loading from "./loading";
@@ -36,15 +41,34 @@ interface Props {
 const Order: React.FC<Props> = ({ navigation, route }) => {
   const { user } = useContext(Context);
   const { id } = route.params;
-  const [{ data, fetching }] = useReadOrderQuery({ variables: { id } });
+  const [, readOrder] = useReadOrderMutation();
+  const [, updateOrderStatus] = useUpdateOrderStatusMutation();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any | null>(null);
 
-  if (fetching) return <Loading />;
+  useEffect(() => {
+    (async () => {
+      let response = await readOrder({ id });
+      if (
+        response.data?.readOrder.status === "Pending" &&
+        user.profession === "Ordering Physician" &&
+        user.id === response.data.readOrder.orderingPhysicianId
+      ) {
+        await updateOrderStatus({ id, status: "Opened" });
+        response = await readOrder({ id });
+      }
+      setData(response.data?.readOrder);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <Layout>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <BackButton navigation={navigation} />
-        {user.id === data?.readOrder.radiologist.id && (
+        {user.id === data.radiologist.id && (
           <EditButton
             onPress={() => {
               navigation.navigate("Edit Order", { data });
@@ -52,32 +76,32 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
           />
         )}
       </View>
-      <Text style={styles.header}>Order #{data?.readOrder.id}</Text>
+      <Text style={styles.header}>Order #{data?.id}</Text>
       <View style={{ marginTop: 15 }}>
         <User
           firstName={
             user.profession === "Radiologist"
-              ? data?.readOrder.orderingPhysician.firstName!
-              : data?.readOrder.radiologist.firstName!
+              ? data.orderingPhysician.firstName!
+              : data.radiologist.firstName!
           }
           lastName={
             user.profession === "Radiologist"
-              ? data?.readOrder.orderingPhysician.lastName!
-              : data?.readOrder.radiologist.lastName!
+              ? data?.orderingPhysician.lastName!
+              : data?.radiologist.lastName!
           }
           profession={
             user.profession === "Radiologist"
-              ? data?.readOrder.orderingPhysician.profession!
-              : data?.readOrder.radiologist.profession!
+              ? data.orderingPhysician.profession!
+              : data?.radiologist.profession!
           }
           onPress={() => {
             if (user.profession === "Radiologist") {
               navigation.navigate("Profile", {
-                id: data?.readOrder.orderingPhysicianId!,
+                id: data?.orderingPhysicianId!,
               });
             } else {
               navigation.navigate("Profile", {
-                id: data?.readOrder.radiologistId!,
+                id: data?.radiologistId!,
               });
             }
           }}
@@ -97,14 +121,14 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
           <Text style={styles.text}>Status</Text>
         </View>
         <View>
-          <Text style={styles.bluetext}>{data?.readOrder.mrn}</Text>
-          <Text style={styles.bluetext}>{data?.readOrder.date}</Text>
-          <Text style={styles.bluetext}>{data?.readOrder.priority}</Text>
-          <Text style={styles.bluetext}>{data?.readOrder.status}</Text>
+          <Text style={styles.bluetext}>{data?.mrn}</Text>
+          <Text style={styles.bluetext}>{data?.date}</Text>
+          <Text style={styles.bluetext}>{data?.priority}</Text>
+          <Text style={styles.bluetext}>{data?.status}</Text>
         </View>
       </View>
       <Text style={styles.messageheader}>Message</Text>
-      <Text style={styles.text}>{data?.readOrder.message}</Text>
+      <Text style={styles.text}>{data?.message}</Text>
       <View
         style={{
           position: "absolute",
@@ -117,23 +141,70 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
           marginBottom: 48,
         }}
       >
-        <TouchableOpacity
-          style={{
-            backgroundColor: colors.blue_400,
-            padding: 12,
-            width: Dimensions.get("window").width - 48,
-          }}
-        >
-          <Text
+        {user.profession === "Radiologist" && (
+          <TouchableOpacity
             style={{
-              fontFamily: "Poppins-SemiBold",
-              color: "white",
-              textAlign: "center",
+              backgroundColor: colors.blue_400,
+              padding: 12,
+              width: Dimensions.get("window").width - 48,
             }}
           >
-            Send Reminder
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                fontFamily: "Poppins-SemiBold",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              Send Reminder
+            </Text>
+          </TouchableOpacity>
+        )}
+        {user.profession === "Ordering Physician" && (
+          <TouchableOpacity
+            onPress={() => {
+              if (data.status !== "Completed") {
+                Alert.alert("Mark As Complete?", "", [
+                  {
+                    text: "Yes",
+                    onPress: async () => {
+                      setLoading(true);
+                      setData({ ...data, status: "Completed" });
+                      await updateOrderStatus({ id, status: "Completed" });
+                      Alert.alert(
+                        "Success!",
+                        "Order has been marked as completed."
+                      );
+                      setLoading(false);
+                    },
+                  },
+                  { text: "No", style: "cancel" },
+                ]);
+              }
+            }}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor:
+                data.status !== "Completed" ? colors.blue_400 : "green",
+              padding: 12,
+              width: Dimensions.get("window").width - 48,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Poppins-SemiBold",
+                color: "white",
+                textAlign: "center",
+                marginRight: data.status === "Completed" ? 6 : 0,
+              }}
+            >
+              Mark As Complete
+            </Text>
+            {data.status === "Completed" && <CheckIcon color="white" />}
+          </TouchableOpacity>
+        )}
       </View>
     </Layout>
   );

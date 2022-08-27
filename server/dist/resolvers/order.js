@@ -20,6 +20,16 @@ const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 const typeorm_1 = require("typeorm");
 let OrderResolver = class OrderResolver {
+    async updateOrderStatus(id, status) {
+        await (0, typeorm_1.getConnection)()
+            .getRepository(Order_1.Order)
+            .createQueryBuilder()
+            .update({ status })
+            .where({ id })
+            .returning("*")
+            .execute();
+        return true;
+    }
     async deleteOrder(id) {
         await Order_1.Order.delete({ id });
         return true;
@@ -97,6 +107,14 @@ let OrderResolver = class OrderResolver {
 __decorate([
     (0, type_graphql_1.Mutation)(() => Boolean),
     __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
+    __param(1, (0, type_graphql_1.Arg)("status")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:returntype", Promise)
+], OrderResolver.prototype, "updateOrderStatus", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
@@ -119,7 +137,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrderResolver.prototype, "readAllOrders", null);
 __decorate([
-    (0, type_graphql_1.Query)(() => types_1.OrderResponse),
+    (0, type_graphql_1.Mutation)(() => types_1.OrderResponse),
     __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),

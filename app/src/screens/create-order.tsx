@@ -13,6 +13,7 @@ import User from "../components/User";
 import { useCreateOrderMutation } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
+import Loading from "./loading";
 
 interface Props {
   route: {
@@ -33,6 +34,7 @@ interface Props {
 
 const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
   const { user, contact, setContact } = useContext(Context);
+  const [loading, setLoading] = useState(true);
 
   const [mrn, setMrn] = useState("");
   const [priority, setPriority] = useState("");
@@ -42,7 +44,10 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     setContact(null);
+    setLoading(false);
   }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <Layout>

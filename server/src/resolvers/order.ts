@@ -8,6 +8,22 @@ import { getConnection } from "typeorm";
 @Resolver()
 export class OrderResolver {
   @Mutation(() => Boolean)
+  async updateOrderStatus(
+    @Arg("id", () => Int) id: number,
+    @Arg("status") status: string
+  ): Promise<boolean> {
+    await getConnection()
+      .getRepository(Order)
+      .createQueryBuilder()
+      .update({ status })
+      .where({ id })
+      .returning("*")
+      .execute();
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
   async deleteOrder(@Arg("id", () => Int) id: number): Promise<boolean> {
     await Order.delete({ id });
     return true;
@@ -38,7 +54,7 @@ export class OrderResolver {
     return orders;
   }
 
-  @Query(() => OrderResponse)
+  @Mutation(() => OrderResponse)
   async readOrder(@Arg("id", () => Int) id: number): Promise<OrderResponse> {
     const order = await Order.findOne(id);
     const radiologist = await User.findOne({

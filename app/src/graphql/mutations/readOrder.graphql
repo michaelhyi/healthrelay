@@ -1,4 +1,4 @@
-query ReadOrder($id: Int!) {
+mutation ReadOrder($id: Int!) {
   readOrder(id: $id) {
     id
     mrn

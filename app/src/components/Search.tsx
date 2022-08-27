@@ -3,7 +3,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { colors } from "../utils/styles";
 
-const Search = () => {
+interface Props {
+  value: string;
+  onChangeText: (text: string) => void;
+}
+
+const Search: React.FC<Props> = ({ value, onChangeText }) => {
   return (
     <View style={styles.container}>
       <AntDesign
@@ -13,6 +18,8 @@ const Search = () => {
         style={{ marginLeft: 8 }}
       />
       <TextInput
+        value={value}
+        onChangeText={onChangeText}
         style={{
           fontFamily: "Poppins-Regular",
           fontSize: 16,

@@ -1,0 +1,15 @@
+mutation UpdateOrder(
+  $id: Int!
+  $mrn: String!
+  $priority: String!
+  $message: String!
+  $orderingPhysicianId: Int!
+) {
+  updateOrder(
+    id: $id
+    mrn: $mrn
+    priority: $priority
+    message: $message
+    orderingPhysicianId: $orderingPhysicianId
+  )
+}

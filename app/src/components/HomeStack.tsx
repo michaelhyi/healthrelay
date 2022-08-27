@@ -1,12 +1,13 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import Home from "../screens/home";
-import Profile from "../screens/profile";
-import Notifications from "../screens/notifications";
-import Orders from "../screens/orders";
 import Contacts from "../screens/contacts";
-import Order from "../screens/order";
 import CreateContact from "../screens/create-contact";
+import EditOrder from "../screens/edit-order";
 import EditProfile from "../screens/edit-profile";
+import Home from "../screens/home";
+import Notifications from "../screens/notifications";
+import Order from "../screens/order";
+import Orders from "../screens/orders";
+import Profile from "../screens/profile";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ const HomeStack = () => {
       <Stack.Screen name="Order" component={Order} />
       <Stack.Screen name="Create Contact" component={CreateContact} />
       <Stack.Screen name="Edit Profile" component={EditProfile} />
+      <Stack.Screen name="Edit Order" component={EditOrder} />
     </Stack.Navigator>
   );
 };

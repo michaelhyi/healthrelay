@@ -18,6 +18,10 @@ const Contact_1 = require("../entities/Contact");
 const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 let ContactResolver = class ContactResolver {
+    async readContact(id) {
+        const user = await User_1.User.findOne({ id });
+        return user;
+    }
     async readAllContacts() {
         const contacts = await Contact_1.Contact.find({});
         return contacts;
@@ -88,6 +92,13 @@ let ContactResolver = class ContactResolver {
         return { success: true };
     }
 };
+__decorate([
+    (0, type_graphql_1.Mutation)(() => User_1.User),
+    __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ContactResolver.prototype, "readContact", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [Contact_1.Contact]),
     __metadata("design:type", Function),

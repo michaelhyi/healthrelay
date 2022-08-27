@@ -1,6 +1,7 @@
 import { createClient, dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { IP_ADDRESS } from "@env";
+import { DeleteOrderMutationVariables } from "../generated/graphql";
 
 export const client = createClient({
   url: `http://${IP_ADDRESS}:4000/graphql`,
@@ -9,6 +10,23 @@ export const client = createClient({
     cacheExchange({
       updates: {
         Mutation: {
+          deleteOrder: (_result, args, cache, _info) => {
+            cache.invalidate({
+              __typename: "Order",
+              id: (args as DeleteOrderMutationVariables).id,
+            });
+          },
+          updateOrder: (_result, _args, cache, _info) => {
+            const allFields = cache.inspectFields("Query");
+            const fieldInfos = allFields.filter(
+              (info) =>
+                info.fieldName === "readOrder" ||
+                info.fieldName === "readOrders"
+            );
+            fieldInfos.forEach((fi) => {
+              cache.invalidate("Query", fi.fieldName, fi.arguments || {});
+            });
+          },
           updateUser: (_result, _args, cache, _info) => {
             const allFields = cache.inspectFields("Query");
             const fieldInfos = allFields.filter(

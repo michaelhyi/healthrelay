@@ -1,11 +1,18 @@
 import React, { useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import BackButton from "../components/BackButton";
 import EditButton from "../components/EditButton";
 import Layout from "../components/Layout";
 import User from "../components/User";
 import { useReadOrderQuery } from "../generated/graphql";
 import Context from "../utils/context";
+import { colors } from "../utils/styles";
 import Loading from "./loading";
 
 interface Props {
@@ -18,7 +25,8 @@ interface Props {
     navigate: (
       route: string,
       params?: {
-        id: number;
+        id?: number;
+        data?: any;
       }
     ) => void;
     goBack: () => void;
@@ -37,10 +45,14 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <BackButton navigation={navigation} />
         {user.id === data?.readOrder.radiologist.id && (
-          <EditButton navigation={navigation} />
+          <EditButton
+            onPress={() => {
+              navigation.navigate("Edit Order", { data });
+            }}
+          />
         )}
       </View>
-      <Text style={styles.header}>Order #{data?.readOrder.order.id}</Text>
+      <Text style={styles.header}>Order #{data?.readOrder.id}</Text>
       <View style={{ marginTop: 15 }}>
         <User
           firstName={
@@ -61,11 +73,11 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
           onPress={() => {
             if (user.profession === "Radiologist") {
               navigation.navigate("Profile", {
-                id: data?.readOrder.order.orderingPhysicianId!,
+                id: data?.readOrder.orderingPhysicianId!,
               });
             } else {
               navigation.navigate("Profile", {
-                id: data?.readOrder.order.radiologistId!,
+                id: data?.readOrder.radiologistId!,
               });
             }
           }}
@@ -85,14 +97,44 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
           <Text style={styles.text}>Status</Text>
         </View>
         <View>
-          <Text style={styles.bluetext}>{data?.readOrder.order.mrn}</Text>
-          <Text style={styles.bluetext}>{data?.readOrder.order.date}</Text>
-          <Text style={styles.bluetext}>{data?.readOrder.order.priority}</Text>
-          <Text style={styles.bluetext}>{data?.readOrder.order.status}</Text>
+          <Text style={styles.bluetext}>{data?.readOrder.mrn}</Text>
+          <Text style={styles.bluetext}>{data?.readOrder.date}</Text>
+          <Text style={styles.bluetext}>{data?.readOrder.priority}</Text>
+          <Text style={styles.bluetext}>{data?.readOrder.status}</Text>
         </View>
       </View>
       <Text style={styles.messageheader}>Message</Text>
-      <Text style={styles.text}>{data?.readOrder.order.message}</Text>
+      <Text style={styles.text}>{data?.readOrder.message}</Text>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: 48,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            backgroundColor: colors.blue_400,
+            padding: 12,
+            width: Dimensions.get("window").width - 48,
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "Poppins-SemiBold",
+              color: "white",
+              textAlign: "center",
+            }}
+          >
+            Send Reminder
+          </Text>
+        </TouchableOpacity>
+      </View>
     </Layout>
   );
 };

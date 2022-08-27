@@ -1,5 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -30,6 +30,30 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
   const { id, contact } = route.params;
   const [{ data, fetching }] = useReadContactsQuery({ variables: { id } });
 
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState<any>(null);
+
+  useEffect(() => {
+    if (!fetching && typeof data?.readContacts !== "undefined") {
+      setFilteredData(data.readContacts);
+    }
+  }, [data, fetching]);
+
+  const filter = (text: string) => {
+    if (text.length === 0) setSearch("");
+    else if (text && data) {
+      const newData = data.readContacts.filter((item: any) => {
+        const itemData = item.orderingPhysician.firstName
+          ? item.orderingPhysician.firstName.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredData(newData);
+      setSearch(text);
+    }
+  };
+
   if (fetching) return <Loading />;
 
   return (
@@ -43,11 +67,11 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
           <AntDesign name="plus" size={20} style={{ marginTop: 36 }} />
         </TouchableOpacity>
       </View>
-      <Search />
+      <Search value={search} onChangeText={(text) => filter(text)} />
       <FlatList
         style={{ marginTop: 12 }}
         showsVerticalScrollIndicator={false}
-        data={data?.readContacts}
+        data={filteredData}
         renderItem={({ item }) => {
           return (
             <Contact

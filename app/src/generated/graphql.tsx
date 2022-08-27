@@ -49,8 +49,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   createContact: CreateContactResponse;
   createOrder: Order;
+  deleteOrder: Scalars['Boolean'];
   login: UserResponse;
+  readContact: User;
   register: UserResponse;
+  updateOrder: Scalars['Boolean'];
   updateUser: Scalars['Boolean'];
 };
 
@@ -70,9 +73,19 @@ export type MutationCreateOrderArgs = {
 };
 
 
+export type MutationDeleteOrderArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationReadContactArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -84,6 +97,15 @@ export type MutationRegisterArgs = {
   password: Scalars['String'];
   phone: Scalars['String'];
   profession: Scalars['String'];
+};
+
+
+export type MutationUpdateOrderArgs = {
+  id: Scalars['Int'];
+  message: Scalars['String'];
+  mrn: Scalars['String'];
+  orderingPhysicianId: Scalars['Int'];
+  priority: Scalars['String'];
 };
 
 
@@ -112,9 +134,16 @@ export type Order = {
 
 export type OrderResponse = {
   __typename?: 'OrderResponse';
-  order: Order;
+  date: Scalars['String'];
+  id: Scalars['Float'];
+  message: Scalars['String'];
+  mrn: Scalars['String'];
   orderingPhysician: User;
+  orderingPhysicianId: Scalars['Int'];
+  priority: Scalars['String'];
   radiologist: User;
+  radiologistId: Scalars['Int'];
+  status: Scalars['String'];
 };
 
 export type Query = {
@@ -189,6 +218,13 @@ export type CreateOrderMutationVariables = Exact<{
 
 export type CreateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'Order', id: number } };
 
+export type DeleteOrderMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteOrderMutation = { __typename?: 'Mutation', deleteOrder: boolean };
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -196,6 +232,13 @@ export type LoginMutationVariables = Exact<{
 
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', error?: { __typename?: 'Error', field: string, message: string } | null, user?: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string } | null } };
+
+export type ReadContactMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ReadContactMutation = { __typename?: 'Mutation', readContact: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string } };
 
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
@@ -209,6 +252,17 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', error?: { __typename?: 'Error', field: string, message: string } | null, user?: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string } | null } };
+
+export type UpdateOrderMutationVariables = Exact<{
+  id: Scalars['Int'];
+  mrn: Scalars['String'];
+  priority: Scalars['String'];
+  message: Scalars['String'];
+  orderingPhysicianId: Scalars['Int'];
+}>;
+
+
+export type UpdateOrderMutation = { __typename?: 'Mutation', updateOrder: boolean };
 
 export type UpdateUserMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -235,7 +289,7 @@ export type ReadOrderQueryVariables = Exact<{
 }>;
 
 
-export type ReadOrderQuery = { __typename?: 'Query', readOrder: { __typename?: 'OrderResponse', order: { __typename?: 'Order', id: number, mrn: string, date: string, priority: string, status: string, message: string, radiologistId: number, orderingPhysicianId: number }, radiologist: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string }, orderingPhysician: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string } } };
+export type ReadOrderQuery = { __typename?: 'Query', readOrder: { __typename?: 'OrderResponse', id: number, mrn: string, date: string, priority: string, status: string, message: string, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string }, orderingPhysician: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string } } };
 
 export type ReadOrdersQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -289,6 +343,15 @@ export const CreateOrderDocument = gql`
 export function useCreateOrderMutation() {
   return Urql.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument);
 };
+export const DeleteOrderDocument = gql`
+    mutation DeleteOrder($id: Int!) {
+  deleteOrder(id: $id)
+}
+    `;
+
+export function useDeleteOrderMutation() {
+  return Urql.useMutation<DeleteOrderMutation, DeleteOrderMutationVariables>(DeleteOrderDocument);
+};
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
@@ -311,6 +374,20 @@ export const LoginDocument = gql`
 
 export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
+export const ReadContactDocument = gql`
+    mutation ReadContact($id: Int!) {
+  readContact(id: $id) {
+    id
+    firstName
+    lastName
+    profession
+  }
+}
+    `;
+
+export function useReadContactMutation() {
+  return Urql.useMutation<ReadContactMutation, ReadContactMutationVariables>(ReadContactDocument);
 };
 export const RegisterDocument = gql`
     mutation Register($email: String!, $password: String!, $firstName: String!, $lastName: String!, $profession: String!, $organization: String!, $phone: String!) {
@@ -342,6 +419,21 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const UpdateOrderDocument = gql`
+    mutation UpdateOrder($id: Int!, $mrn: String!, $priority: String!, $message: String!, $orderingPhysicianId: Int!) {
+  updateOrder(
+    id: $id
+    mrn: $mrn
+    priority: $priority
+    message: $message
+    orderingPhysicianId: $orderingPhysicianId
+  )
+}
+    `;
+
+export function useUpdateOrderMutation() {
+  return Urql.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument);
 };
 export const UpdateUserDocument = gql`
     mutation UpdateUser($id: Int!, $firstName: String!, $lastName: String!, $organization: String!, $email: String!, $phone: String!) {
@@ -393,16 +485,14 @@ export function useReadContactsQuery(options: Omit<Urql.UseQueryArgs<ReadContact
 export const ReadOrderDocument = gql`
     query ReadOrder($id: Int!) {
   readOrder(id: $id) {
-    order {
-      id
-      mrn
-      date
-      priority
-      status
-      message
-      radiologistId
-      orderingPhysicianId
-    }
+    id
+    mrn
+    date
+    priority
+    status
+    message
+    radiologistId
+    orderingPhysicianId
     radiologist {
       id
       firstName

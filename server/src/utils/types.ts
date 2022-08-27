@@ -1,5 +1,4 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import { Order } from "../entities/Order";
 import { User } from "../entities/User";
 
 @ObjectType()
@@ -31,8 +30,29 @@ export class CreateContactResponse {
 
 @ObjectType()
 export class OrderResponse {
-  @Field(() => Order)
-  order?: Order;
+  @Field()
+  id!: number;
+
+  @Field()
+  mrn!: string;
+
+  @Field()
+  date!: string;
+
+  @Field()
+  priority!: string;
+
+  @Field()
+  status!: string;
+
+  @Field()
+  message!: string;
+
+  @Field(() => Int)
+  radiologistId!: number;
+
+  @Field(() => Int)
+  orderingPhysicianId!: number;
 
   @Field(() => User)
   radiologist?: User;

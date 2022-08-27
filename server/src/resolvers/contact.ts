@@ -5,6 +5,12 @@ import { ContactResponse, CreateContactResponse } from "../utils/types";
 
 @Resolver()
 export class ContactResolver {
+  @Mutation(() => User)
+  async readContact(@Arg("id", () => Int) id: number): Promise<User> {
+    const user = await User.findOne({ id });
+    return user!;
+  }
+
   @Query(() => [Contact])
   async readAllContacts(): Promise<Contact[]> {
     const contacts = await Contact.find({});

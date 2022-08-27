@@ -3,9 +3,35 @@ import { Order } from "../entities/Order";
 import { format } from "date-fns";
 import { User } from "../entities/User";
 import { OrderResponse } from "../utils/types";
+import { getConnection } from "typeorm";
 
 @Resolver()
 export class OrderResolver {
+  @Mutation(() => Boolean)
+  async deleteOrder(@Arg("id", () => Int) id: number): Promise<boolean> {
+    await Order.delete({ id });
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async updateOrder(
+    @Arg("id", () => Int) id: number,
+    @Arg("mrn") mrn: string,
+    @Arg("priority") priority: string,
+    @Arg("message") message: string,
+    @Arg("orderingPhysicianId", () => Int) orderingPhysicianId: number
+  ): Promise<boolean> {
+    await getConnection()
+      .getRepository(Order)
+      .createQueryBuilder()
+      .update({ mrn, priority, message, orderingPhysicianId })
+      .where({ id })
+      .returning("*")
+      .execute();
+
+    return true;
+  }
+
   @Query(() => [Order])
   async readAllOrders(): Promise<Order[]> {
     const orders = await Order.find({});
@@ -22,7 +48,7 @@ export class OrderResolver {
       where: { id: order?.orderingPhysicianId },
     });
 
-    return { order, radiologist, orderingPhysician };
+    return { ...order!, radiologist, orderingPhysician };
   }
 
   @Mutation(() => Order)

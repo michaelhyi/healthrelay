@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
@@ -29,16 +29,39 @@ const Orders: React.FC<Props> = ({ route, navigation }) => {
     },
   });
 
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState<any>(null);
+
+  useEffect(() => {
+    if (!fetching && typeof data?.readOrders !== "undefined") {
+      setFilteredData(data.readOrders);
+    }
+  }, [data, fetching]);
+
+  const filter = (text: string) => {
+    if (text.length === 0) setSearch("");
+    else if (text && data) {
+      const newData = data.readOrders.filter((item: any) => {
+        const id = item.id;
+        const itemData = id ? id.toString().toUpperCase() : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredData(newData);
+      setSearch(text);
+    }
+  };
+
   if (fetching) return <Loading />;
 
   return (
     <Layout>
       <BackButton navigation={navigation} />
-      <Search />
+      <Search value={search} onChangeText={(text) => filter(text)} />
       <FlatList
         style={{ marginTop: 12 }}
         showsVerticalScrollIndicator={false}
-        data={data?.readOrders}
+        data={filteredData}
         renderItem={({ item }) => (
           <OrderCard
             navigation={navigation}

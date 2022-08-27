@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactResponse = exports.OrderResponse = exports.CreateContactResponse = exports.UserResponse = exports.Error = void 0;
 const type_graphql_1 = require("type-graphql");
-const Order_1 = require("../entities/Order");
 const User_1 = require("../entities/User");
 let Error = class Error {
 };
@@ -58,9 +57,37 @@ exports.CreateContactResponse = CreateContactResponse;
 let OrderResponse = class OrderResponse {
 };
 __decorate([
-    (0, type_graphql_1.Field)(() => Order_1.Order),
-    __metadata("design:type", Order_1.Order)
-], OrderResponse.prototype, "order", void 0);
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], OrderResponse.prototype, "id", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrderResponse.prototype, "mrn", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrderResponse.prototype, "date", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrderResponse.prototype, "priority", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrderResponse.prototype, "status", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrderResponse.prototype, "message", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
+    __metadata("design:type", Number)
+], OrderResponse.prototype, "radiologistId", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
+    __metadata("design:type", Number)
+], OrderResponse.prototype, "orderingPhysicianId", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => User_1.User),
     __metadata("design:type", User_1.User)

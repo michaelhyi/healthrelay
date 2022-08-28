@@ -139,9 +139,9 @@ export type Order = {
   message: Scalars['String'];
   mrn: Scalars['String'];
   orderingPhysicianId: Scalars['Int'];
-  priority: Scalars['String'];
+  priority: Scalars['Int'];
   radiologistId: Scalars['Int'];
-  status: Scalars['String'];
+  status: Scalars['Int'];
   updatedAt: Scalars['String'];
 };
 
@@ -153,10 +153,10 @@ export type OrderResponse = {
   mrn: Scalars['String'];
   orderingPhysician: User;
   orderingPhysicianId: Scalars['Int'];
-  priority: Scalars['String'];
+  priority: Scalars['Int'];
   radiologist: User;
   radiologistId: Scalars['Int'];
-  status: Scalars['String'];
+  status: Scalars['Int'];
 };
 
 export type Query = {
@@ -252,7 +252,7 @@ export type ReadOrderMutationVariables = Exact<{
 }>;
 
 
-export type ReadOrderMutation = { __typename?: 'Mutation', readOrder: { __typename?: 'OrderResponse', id: number, mrn: string, date: string, priority: string, status: string, message: string, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string }, orderingPhysician: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string } } };
+export type ReadOrderMutation = { __typename?: 'Mutation', readOrder: { __typename?: 'OrderResponse', id: number, mrn: string, date: string, priority: number, status: number, message: string, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string }, orderingPhysician: { __typename?: 'User', id: number, firstName: string, lastName: string, profession: string, organization: string } } };
 
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
@@ -313,7 +313,7 @@ export type ReadOrdersQueryVariables = Exact<{
 }>;
 
 
-export type ReadOrdersQuery = { __typename?: 'Query', readOrders: Array<{ __typename?: 'Order', id: number, date: string, priority: string, status: string }> };
+export type ReadOrdersQuery = { __typename?: 'Query', readOrders: Array<{ __typename?: 'Order', id: number, date: string, priority: number, status: number, createdAt: string }> };
 
 export type ReadUserQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -545,6 +545,7 @@ export const ReadOrdersDocument = gql`
     date
     priority
     status
+    createdAt
   }
 }
     `;

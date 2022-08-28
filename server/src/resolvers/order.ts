@@ -12,10 +12,15 @@ export class OrderResolver {
     @Arg("id", () => Int) id: number,
     @Arg("status") status: string
   ): Promise<boolean> {
+    let statusValue;
+    if (status === "Pending") statusValue = 0;
+    else if (status == "Opened") statusValue = 1;
+    else statusValue = 2;
+
     await getConnection()
       .getRepository(Order)
       .createQueryBuilder()
-      .update({ status })
+      .update({ status: statusValue })
       .where({ id })
       .returning("*")
       .execute();
@@ -37,10 +42,15 @@ export class OrderResolver {
     @Arg("message") message: string,
     @Arg("orderingPhysicianId", () => Int) orderingPhysicianId: number
   ): Promise<boolean> {
+    let priorityValue;
+    if (priority === "Low") priorityValue = 0;
+    else if (priority == "Medium") priorityValue = 1;
+    else priorityValue = 2;
+
     await getConnection()
       .getRepository(Order)
       .createQueryBuilder()
-      .update({ mrn, priority, message, orderingPhysicianId })
+      .update({ mrn, priority: priorityValue, message, orderingPhysicianId })
       .where({ id })
       .returning("*")
       .execute();
@@ -75,11 +85,16 @@ export class OrderResolver {
     @Arg("radiologistId", () => Int) radiologistId: number,
     @Arg("orderingPhysicianId", () => Int) orderingPhysicianId: number
   ): Promise<Order> {
+    let priorityValue;
+    if (priority === "Low") priorityValue = 0;
+    else if (priority == "Medium") priorityValue = 1;
+    else priorityValue = 2;
+
     const order = await Order.create({
       mrn,
       date: format(new Date(), "MMMM do, yyyy"),
-      priority,
-      status: "Pending",
+      priority: priorityValue,
+      status: 0,
       message,
       radiologistId,
       orderingPhysicianId,
@@ -100,16 +115,10 @@ export class OrderResolver {
         orders = await Order.find({
           where: { radiologistId: id },
           take,
-          order: {
-            createdAt: "DESC",
-          },
         });
       } else {
         orders = await Order.find({
           where: { orderingPhysicianId: id },
-          order: {
-            createdAt: "DESC",
-          },
         });
       }
     } else {

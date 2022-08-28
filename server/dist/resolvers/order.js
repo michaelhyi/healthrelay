@@ -21,10 +21,17 @@ const types_1 = require("../utils/types");
 const typeorm_1 = require("typeorm");
 let OrderResolver = class OrderResolver {
     async updateOrderStatus(id, status) {
+        let statusValue;
+        if (status === "Pending")
+            statusValue = 0;
+        else if (status == "Opened")
+            statusValue = 1;
+        else
+            statusValue = 2;
         await (0, typeorm_1.getConnection)()
             .getRepository(Order_1.Order)
             .createQueryBuilder()
-            .update({ status })
+            .update({ status: statusValue })
             .where({ id })
             .returning("*")
             .execute();
@@ -35,10 +42,17 @@ let OrderResolver = class OrderResolver {
         return true;
     }
     async updateOrder(id, mrn, priority, message, orderingPhysicianId) {
+        let priorityValue;
+        if (priority === "Low")
+            priorityValue = 0;
+        else if (priority == "Medium")
+            priorityValue = 1;
+        else
+            priorityValue = 2;
         await (0, typeorm_1.getConnection)()
             .getRepository(Order_1.Order)
             .createQueryBuilder()
-            .update({ mrn, priority, message, orderingPhysicianId })
+            .update({ mrn, priority: priorityValue, message, orderingPhysicianId })
             .where({ id })
             .returning("*")
             .execute();
@@ -59,11 +73,18 @@ let OrderResolver = class OrderResolver {
         return Object.assign(Object.assign({}, order), { radiologist, orderingPhysician });
     }
     async createOrder(mrn, priority, message, radiologistId, orderingPhysicianId) {
+        let priorityValue;
+        if (priority === "Low")
+            priorityValue = 0;
+        else if (priority == "Medium")
+            priorityValue = 1;
+        else
+            priorityValue = 2;
         const order = await Order_1.Order.create({
             mrn,
             date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
-            priority,
-            status: "Pending",
+            priority: priorityValue,
+            status: 0,
             message,
             radiologistId,
             orderingPhysicianId,
@@ -77,17 +98,11 @@ let OrderResolver = class OrderResolver {
                 orders = await Order_1.Order.find({
                     where: { radiologistId: id },
                     take,
-                    order: {
-                        createdAt: "DESC",
-                    },
                 });
             }
             else {
                 orders = await Order_1.Order.find({
                     where: { orderingPhysicianId: id },
-                    order: {
-                        createdAt: "DESC",
-                    },
                 });
             }
         }

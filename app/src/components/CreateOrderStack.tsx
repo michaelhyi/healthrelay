@@ -10,7 +10,10 @@ const Stack = createStackNavigator();
 
 const CreateOrderStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      initialRouteName="Create Order Screen"
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name="Create Order Screen" component={CreateOrder} />
       <Stack.Screen name="Contacts" component={Contacts} />
       <Stack.Screen name="Profile" component={Profile} />

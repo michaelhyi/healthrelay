@@ -30,14 +30,14 @@ __decorate([
     __metadata("design:type", String)
 ], Order.prototype, "date", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
+    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], Order.prototype, "priority", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
+    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], Order.prototype, "status", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),

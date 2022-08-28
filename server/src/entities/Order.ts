@@ -23,13 +23,13 @@ export class Order extends BaseEntity {
   @Column()
   date!: string;
 
-  @Field()
+  @Field(() => Int)
   @Column()
-  priority!: string;
+  priority!: number;
 
-  @Field()
+  @Field(() => Int)
   @Column()
-  status!: string;
+  status!: number;
 
   @Field()
   @Column()

@@ -39,11 +39,11 @@ export class OrderResponse {
   @Field()
   date!: string;
 
-  @Field()
-  priority!: string;
+  @Field(() => Int)
+  priority!: number;
 
-  @Field()
-  status!: string;
+  @Field(() => Int)
+  status!: number;
 
   @Field()
   message!: string;

@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Layout from "../components/Layout";
 import RecentContactsSection from "../components/RecentContactsSection";
@@ -23,8 +23,21 @@ const Home: React.FC<Props> = ({ navigation }) => {
   const [{ data, fetching }] = useReadOrdersQuery({
     variables: { id: user.id, profession: user.profession, take: 4 },
   });
+  const [loading, setLoading] = useState(true);
+  const [orders, setOrders] = useState<any>(null);
 
-  if (fetching) return <Loading />;
+  useEffect(() => {
+    if (!fetching && data) {
+      const orders = data.readOrders;
+      orders.sort((a, b) =>
+        a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+      );
+      setOrders(orders);
+      setLoading(false);
+    }
+  }, [data, fetching]);
+
+  if (fetching || loading) return <Loading />;
 
   return (
     <Layout>

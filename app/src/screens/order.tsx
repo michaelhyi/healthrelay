@@ -123,8 +123,20 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
         <View>
           <Text style={styles.bluetext}>{data?.mrn}</Text>
           <Text style={styles.bluetext}>{data?.date}</Text>
-          <Text style={styles.bluetext}>{data?.priority}</Text>
-          <Text style={styles.bluetext}>{data?.status}</Text>
+          <Text style={styles.bluetext}>
+            {data?.priority === 0
+              ? "Low"
+              : data.priority === 1
+              ? "Medium"
+              : "High"}
+          </Text>
+          <Text style={styles.bluetext}>
+            {data.status === 0
+              ? "Pending"
+              : data.status === 1
+              ? "Opened"
+              : "Completed"}
+          </Text>
         </View>
       </View>
       <Text style={styles.messageheader}>Message</Text>
@@ -163,7 +175,7 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
         {user.profession === "Ordering Physician" && (
           <TouchableOpacity
             onPress={() => {
-              if (data.status !== "Completed") {
+              if (data.status !== 2) {
                 Alert.alert("Mark As Complete?", "", [
                   {
                     text: "Yes",
@@ -186,8 +198,7 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor:
-                data.status !== "Completed" ? colors.blue_400 : "green",
+              backgroundColor: data.status !== 2 ? colors.blue_400 : "green",
               padding: 12,
               width: Dimensions.get("window").width - 48,
             }}
@@ -197,12 +208,12 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
                 fontFamily: "Poppins-SemiBold",
                 color: "white",
                 textAlign: "center",
-                marginRight: data.status === "Completed" ? 6 : 0,
+                marginRight: data.status === 2 ? 6 : 0,
               }}
             >
               Mark As Complete
             </Text>
-            {data.status === "Completed" && <CheckIcon color="white" />}
+            {data.status === 2 && <CheckIcon color="white" />}
           </TouchableOpacity>
         )}
       </View>

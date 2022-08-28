@@ -6,8 +6,8 @@ import SectionHeader from "./SectionHeader";
 interface OrderProps {
   id: number;
   date: string;
-  priority: string;
-  status: string;
+  priority: number;
+  status: number;
 }
 
 interface Props {

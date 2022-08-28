@@ -4,5 +4,6 @@ query ReadOrders($id: Int!, $profession: String!, $take: Int) {
     date
     priority
     status
+    createdAt
   }
 }

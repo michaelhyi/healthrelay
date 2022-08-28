@@ -14,8 +14,8 @@ interface Props {
   };
   id: number;
   date: string;
-  priority: "Low" | "Medium" | "High" | string;
-  status: "Pending" | "Opened" | "Complete" | string;
+  priority: number;
+  status: number;
   full?: boolean;
 }
 
@@ -38,8 +38,14 @@ const OrderCard: React.FC<Props> = ({
     >
       <Text style={styles.id}>Order #{id}</Text>
       <Row name="Date" text={date} />
-      <Row name="Priority" text={priority} />
-      <Row name="Status" text={status} />
+      <Row
+        name="Priority"
+        text={priority === 0 ? "Low" : priority === 1 ? "Medium" : "High"}
+      />
+      <Row
+        name="Status"
+        text={status === 0 ? "Pending" : status === 1 ? "Opened" : "Completed"}
+      />
     </TouchableOpacity>
   );
 };

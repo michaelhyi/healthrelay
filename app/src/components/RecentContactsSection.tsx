@@ -21,7 +21,7 @@ const RecentContactsSection: React.FC<Props> = ({
 }) => {
   const { user } = useContext(Context);
   const [{ data, fetching }] = useReadContactsQuery({
-    variables: { id: user.id, take: 3 },
+    variables: { id: user.id },
   });
 
   if (fetching) return <ActivityIndicator />;

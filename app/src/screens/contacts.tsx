@@ -1,5 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -11,6 +11,7 @@ import Contact from "../components/Contact";
 import Layout from "../components/Layout";
 import Search from "../components/Search";
 import { useReadContactsQuery, useReadUserQuery } from "../generated/graphql";
+import Context from "../utils/context";
 import Loading from "./loading";
 
 interface Props {
@@ -27,6 +28,7 @@ interface Props {
 }
 
 const Contacts: React.FC<Props> = ({ route, navigation }) => {
+  const { user } = useContext(Context);
   const { id, contact } = route.params;
   const [{ data, fetching }] = useReadContactsQuery({ variables: { id } });
 
@@ -40,8 +42,10 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
   }, [data, fetching]);
 
   const filter = (text: string) => {
-    if (text.length === 0) setSearch("");
-    else if (text && data) {
+    if (text.length === 0) {
+      setSearch("");
+      setFilteredData(data?.readContacts);
+    } else if (text && data) {
       const newData = data.readContacts.filter((item: any) => {
         const itemData = item.orderingPhysician.firstName
           ? item.orderingPhysician.firstName.toUpperCase()
@@ -60,12 +64,14 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
     <Layout>
       <View style={{ flexDirection: "row" }}>
         <BackButton navigation={navigation} />
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Create Contact")}
-          style={{ marginLeft: "auto" }}
-        >
-          <AntDesign name="plus" size={20} style={{ marginTop: 36 }} />
-        </TouchableOpacity>
+        {user.profession === "Radiologist" && (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Create Contact")}
+            style={{ marginLeft: "auto" }}
+          >
+            <AntDesign name="plus" size={20} style={{ marginTop: 36 }} />
+          </TouchableOpacity>
+        )}
       </View>
       <Search value={search} onChangeText={(text) => filter(text)} />
       <FlatList

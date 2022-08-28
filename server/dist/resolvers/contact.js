@@ -26,22 +26,10 @@ let ContactResolver = class ContactResolver {
         const contacts = await Contact_1.Contact.find({});
         return contacts;
     }
-    async readContacts(id, take) {
-        let contacts;
-        if (take) {
-            contacts = await Contact_1.Contact.find({
-                where: { radiologistId: id },
-                take,
-                order: {
-                    createdAt: "DESC",
-                },
-            });
-        }
-        else {
-            contacts = await Contact_1.Contact.find({
-                where: { radiologistId: id },
-            });
-        }
+    async readContacts(id) {
+        const contacts = await Contact_1.Contact.find({
+            where: { radiologistId: id },
+        });
         let ret = [];
         for (let i = 0; i < contacts.length; i++) {
             const id = contacts[i].id;
@@ -85,6 +73,17 @@ let ContactResolver = class ContactResolver {
                 success: false,
             };
         }
+        const contacts = await Contact_1.Contact.find({ where: { radiologistId } });
+        if (contacts.filter((v) => v.orderingPhysicianId === orderingPhysicianId)
+            .length > 0) {
+            return {
+                error: {
+                    field: "Contact",
+                    message: "You already have this contact added.",
+                },
+                success: false,
+            };
+        }
         await Contact_1.Contact.create({
             radiologistId,
             orderingPhysicianId,
@@ -108,9 +107,8 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Query)(() => [types_1.ContactResponse]),
     __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
-    __param(1, (0, type_graphql_1.Arg)("take", () => type_graphql_1.Int, { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], ContactResolver.prototype, "readContacts", null);
 __decorate([

@@ -1,5 +1,5 @@
-query ReadContacts($id: Int!, $take: Int) {
-  readContacts(id: $id, take: $take) {
+query ReadContacts($id: Int!) {
+  readContacts(id: $id) {
     id
     radiologistId
     orderingPhysicianId

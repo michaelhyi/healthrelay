@@ -45,8 +45,10 @@ const Orders: React.FC<Props> = ({ navigation }) => {
   }, [data, fetching]);
 
   const filter = (text: string) => {
-    if (text.length === 0) setSearch("");
-    else if (text && data) {
+    if (text.length === 0) {
+      setSearch("");
+      setFilteredData(data?.readOrders);
+    } else if (text && data) {
       const newData = data.readOrders.filter((item: any) => {
         const id = item.id;
         const itemData = id ? id.toString().toUpperCase() : "".toUpperCase();

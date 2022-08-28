@@ -50,7 +50,7 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
     (async () => {
       let response = await readOrder({ id });
       if (
-        response.data?.readOrder.status === "Pending" &&
+        response.data?.readOrder.status === 0 &&
         user.profession === "Ordering Physician" &&
         user.id === response.data.readOrder.orderingPhysicianId
       ) {
@@ -68,7 +68,7 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
     <Layout>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <BackButton navigation={navigation} />
-        {user.id === data.radiologist.id && (
+        {user.id === data.radiologist.id && data.status !== 2 && (
           <EditButton
             onPress={() => {
               navigation.navigate("Edit Order", { data });
@@ -153,7 +153,7 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
           marginBottom: 48,
         }}
       >
-        {user.profession === "Radiologist" && (
+        {user.profession === "Radiologist" && data.status !== 2 && (
           <TouchableOpacity
             style={{
               backgroundColor: colors.blue_400,

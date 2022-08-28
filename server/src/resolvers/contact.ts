@@ -19,23 +19,11 @@ export class ContactResolver {
 
   @Query(() => [ContactResponse])
   async readContacts(
-    @Arg("id", () => Int) id: number,
-    @Arg("take", () => Int, { nullable: true }) take: number | null
+    @Arg("id", () => Int) id: number
   ): Promise<ContactResponse[]> {
-    let contacts;
-    if (take) {
-      contacts = await Contact.find({
-        where: { radiologistId: id },
-        take,
-        order: {
-          createdAt: "DESC",
-        },
-      });
-    } else {
-      contacts = await Contact.find({
-        where: { radiologistId: id },
-      });
-    }
+    const contacts = await Contact.find({
+      where: { radiologistId: id },
+    });
 
     let ret: ContactResponse[] = [];
 
@@ -87,6 +75,20 @@ export class ContactResolver {
         error: {
           field: "Contact",
           message: "Contact must be Ordering Physician!",
+        },
+        success: false,
+      };
+    }
+
+    const contacts = await Contact.find({ where: { radiologistId } });
+    if (
+      contacts.filter((v) => v.orderingPhysicianId === orderingPhysicianId)
+        .length > 0
+    ) {
+      return {
+        error: {
+          field: "Contact",
+          message: "You already have this contact added.",
         },
         success: false,
       };

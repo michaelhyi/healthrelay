@@ -37,8 +37,15 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
 
   const [mrn, setMrn] = useState("");
+  const [mrnError, setMrnError] = useState<null | string>(null);
+
   const [priority, setPriority] = useState("");
+  const [priorityError, setPriorityError] = useState<null | string>(null);
+
+  const [contactError, setContactError] = useState<null | string>(null);
+
   const [message, setMessage] = useState("");
+  const [messageError, setMessageError] = useState<null | string>(null);
 
   const [, createOrder] = useCreateOrderMutation();
 
@@ -58,6 +65,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
         <Text style={styles.header}>MRN</Text>
         <TextInput value={mrn} onChangeText={setMrn} style={styles.input} />
       </View>
+      {mrnError && <Text style={styles.error}>{mrnError}</Text>}
       <View style={{ marginTop: 15 }}>
         <Text style={styles.header}>Priority</Text>
         <Select
@@ -82,6 +90,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
           <Select.Item label="High" value="High" />
         </Select>
       </View>
+      {priorityError && <Text style={styles.error}>{priorityError}</Text>}
       <View
         style={{
           flexDirection: "row",
@@ -112,6 +121,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
           />
         </>
       )}
+      {contactError && <Text style={styles.error}>{contactError}</Text>}
       <View style={{ marginTop: 24 }}>
         <Text style={styles.header}>Message</Text>
         <TextInput
@@ -121,17 +131,40 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
           style={styles.message}
         />
       </View>
+      {messageError && <Text style={styles.error}>{messageError}</Text>}
       <TouchableOpacity
         onPress={async () => {
-          const response = await createOrder({
-            mrn,
-            priority,
-            message,
-            radiologistId: user.id,
-            orderingPhysicianId: contact.id,
-          });
+          if (mrn.length === 0) {
+            setMrnError("You must enter a MRN.");
+            setPriorityError(null);
+            setContactError(null);
+            setMessageError(null);
+          } else if (priority.length === 0) {
+            setMrnError(null);
+            setPriorityError("You must select a priority.");
+            setContactError(null);
+            setMessageError(null);
+          } else if (!contact) {
+            setMrnError(null);
+            setPriorityError(null);
+            setContactError("You must select a contact.");
+            setMessageError(null);
+          } else if (message.length === 0) {
+            setMrnError(null);
+            setPriorityError(null);
+            setContactError(null);
+            setMessageError("You must write a message.");
+          } else {
+            const response = await createOrder({
+              mrn,
+              priority,
+              message,
+              radiologistId: user.id,
+              orderingPhysicianId: contact.id,
+            });
 
-          navigation.navigate("Order", { id: response.data?.createOrder.id });
+            navigation.navigate("Order", { id: response.data?.createOrder.id });
+          }
         }}
         style={{
           backgroundColor: colors.blue_400,
@@ -184,6 +217,11 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
     color: "black",
     height: 150,
+  },
+  error: {
+    fontFamily: "Poppins-SemiBold",
+    color: "#CC3333",
+    marginTop: 14,
   },
 });
 

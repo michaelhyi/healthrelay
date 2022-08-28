@@ -172,7 +172,6 @@ export type Query = {
 
 export type QueryReadContactsArgs = {
   id: Scalars['Int'];
-  take?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -300,7 +299,6 @@ export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: boolean 
 
 export type ReadContactsQueryVariables = Exact<{
   id: Scalars['Int'];
-  take?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -508,8 +506,8 @@ export function useUpdateUserMutation() {
   return Urql.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument);
 };
 export const ReadContactsDocument = gql`
-    query ReadContacts($id: Int!, $take: Int) {
-  readContacts(id: $id, take: $take) {
+    query ReadContacts($id: Int!) {
+  readContacts(id: $id) {
     id
     radiologistId
     orderingPhysicianId

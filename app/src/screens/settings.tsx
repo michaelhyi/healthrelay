@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext } from "react";
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 import Layout from "../components/Layout";
 import Context from "../utils/context";
 
@@ -27,15 +27,15 @@ const Settings = () => {
           }}
           style={{
             backgroundColor: "#B6DCFE",
-            padding: 25,
-            borderRadius: 36,
+            padding: (Dimensions.get("window").width * 25) / 428,
+            borderRadius: (Dimensions.get("window").width * 36) / 428,
             width: Dimensions.get("window").width * (13 / 15),
           }}
         >
           <Text
             style={{
               fontFamily: "Poppins-Medium",
-              fontSize: 18,
+              fontSize: (Dimensions.get("window").width * 18) / 428,
               textAlign: "center",
             }}
           >

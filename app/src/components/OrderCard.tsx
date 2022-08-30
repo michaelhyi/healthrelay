@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Dimensions, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { colors } from "../utils/styles";
 import Row from "./Row";
 
@@ -32,8 +32,15 @@ const OrderCard: React.FC<Props> = ({
       onPress={() => navigation.navigate("Order", { id })}
       style={
         full
-          ? { ...styles.container, width: "100%", marginTop: 18 }
-          : { ...styles.container, width: 256 }
+          ? {
+              ...styles.container,
+              width: "100%",
+              marginTop: (Dimensions.get("window").width * 18) / 428,
+            }
+          : {
+              ...styles.container,
+              width: (Dimensions.get("window").width * 256) / 428,
+            }
       }
     >
       <Text style={styles.id}>Order #{id}</Text>
@@ -53,15 +60,15 @@ const OrderCard: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    borderRadius: 12,
-    padding: 12,
-    marginRight: 24,
+    borderRadius: (Dimensions.get("window").width * 12) / 428,
+    padding: (Dimensions.get("window").width * 12) / 428,
+    marginRight: (Dimensions.get("window").width * 24) / 428,
   },
   id: {
     fontFamily: "Poppins-Medium",
-    fontSize: 16,
+    fontSize: (Dimensions.get("window").width * 16) / 428,
     color: colors.blue_400,
-    marginBottom: 36,
+    marginBottom: (Dimensions.get("window").width * 36) / 428,
   },
 });
 

@@ -41,7 +41,10 @@ const RecentOrdersSection: React.FC<Props> = ({
 
   return (
     <View
-      style={{ marginTop: 36, height: Dimensions.get("window").height / 5 }}
+      style={{
+        marginTop: (Dimensions.get("window").width * 36) / 428,
+        height: Dimensions.get("window").height / 5,
+      }}
     >
       <SectionHeader
         profession={profession}

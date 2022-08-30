@@ -78,11 +78,11 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
   return (
     <Layout>
       <BackButton navigation={navigation} />
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 20) / 428 }}>
         <Text style={styles.header}>MRN</Text>
         <TextInput style={styles.input} value={mrn} onChangeText={setMrn} />
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 20) / 428 }}>
         <Text style={styles.header}>Priority</Text>
         <Select
           selectedValue={priority}
@@ -90,9 +90,9 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
           minWidth={(Dimensions.get("window").width * 13) / 15}
           placeholder="Select Priority"
           fontFamily="Poppins-Regular"
-          fontSize={16}
+          fontSize={(Dimensions.get("window").width * 16) / 428}
           style={{
-            height: 64,
+            height: (Dimensions.get("window").width * 64) / 428,
           }}
           _selectedItem={{
             bg: "#E5E5E5",
@@ -110,7 +110,7 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          marginTop: 25,
+          marginTop: (Dimensions.get("window").width * 25) / 428,
         }}
       >
         <Text style={styles.header}>Ordering Physician</Text>
@@ -136,7 +136,7 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
           />
         </>
       )}
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 20) / 428 }}>
         <Text style={styles.header}>Message</Text>
         <TextInput
           multiline
@@ -165,8 +165,8 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
         }}
         style={{
           backgroundColor: colors.blue_400,
-          padding: 12,
-          marginTop: 24,
+          padding: (Dimensions.get("window").width * 12) / 428,
+          marginTop: (Dimensions.get("window").width * 24) / 428,
         }}
       >
         <Text
@@ -203,8 +203,8 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
         }}
         style={{
           backgroundColor: "#FF7575",
-          padding: 12,
-          marginTop: 24,
+          padding: (Dimensions.get("window").width * 12) / 428,
+          marginTop: (Dimensions.get("window").width * 24) / 428,
         }}
       >
         <Text
@@ -223,20 +223,20 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 14,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "#999999",
   },
   input: {
-    marginTop: 15,
+    marginTop: (Dimensions.get("window").width * 15) / 428,
     borderBottomColor: "#DDDDDD",
-    borderBottomWidth: 1,
-    fontSize: 14,
+    borderBottomWidth: (Dimensions.get("window").width * 1) / 428,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "black",
   },
   bluetext: {
-    fontSize: 12,
+    fontSize: (Dimensions.get("window").width * 12) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "#59A5D8",
   },

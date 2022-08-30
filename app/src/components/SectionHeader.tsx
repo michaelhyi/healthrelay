@@ -1,5 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { colors } from "../utils/styles";
 
 interface Props {
@@ -42,11 +48,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 24,
+    marginBottom: (Dimensions.get("window").width * 24) / 428,
   },
   main: {
     fontFamily: "Poppins-Medium",
-    fontSize: 20,
+    fontSize: (Dimensions.get("window").width * 20) / 428,
     color: colors.blue_400,
   },
   btn: {

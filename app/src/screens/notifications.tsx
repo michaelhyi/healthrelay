@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useContext } from "react";
 import {
+  Dimensions,
   FlatList,
   StyleSheet,
   Text,
@@ -50,11 +51,20 @@ const Notifications: React.FC<Props> = ({ navigation }) => {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                marginTop: 30,
+                marginTop: (Dimensions.get("window").width * 30) / 428,
               }}
             >
-              <Ionicons name="person" size={40} color={colors.blue_400} />
-              <View style={{ marginLeft: 11, flexShrink: 1 }}>
+              <Ionicons
+                name="person"
+                size={(Dimensions.get("window").width * 40) / 428}
+                color={colors.blue_400}
+              />
+              <View
+                style={{
+                  marginLeft: (Dimensions.get("window").width * 11) / 428,
+                  flexShrink: 1,
+                }}
+              >
                 <Text style={styles.title}>{item.message}</Text>
                 <Text style={styles.date}>{item.date}</Text>
               </View>
@@ -68,13 +78,13 @@ const Notifications: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 16,
+    fontSize: (Dimensions.get("window").width * 16) / 428,
     flexShrink: 1,
     fontFamily: "Poppins-Medium",
     color: "#133C55",
   },
   date: {
-    fontSize: 12,
+    fontSize: (Dimensions.get("window").width * 12) / 428,
     fontFamily: "Poppins-Regular",
     color: "#386FA4",
   },

@@ -1,12 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Layout from "../components/Layout";
 import RecentContactsSection from "../components/RecentContactsSection";
 import RecentOrdersSection from "../components/RecentOrdersSection";
 import User from "../components/User";
-import { useReadContactsQuery, useReadOrdersQuery } from "../generated/graphql";
+import { useReadOrdersQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 import Loading from "./loading";
@@ -33,7 +39,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
         a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
       );
       orders = orders.slice(0, 4);
-      console.log(orders);
+
       setOrders(orders);
       setLoading(false);
     }
@@ -54,10 +60,14 @@ const Home: React.FC<Props> = ({ navigation }) => {
           onPress={() => navigation.navigate("Notifications")}
           style={{ marginLeft: "auto" }}
         >
-          <Ionicons name="notifications" size={30} color={colors.blue_400} />
+          <Ionicons
+            name="notifications"
+            size={(Dimensions.get("window").width * 30) / 428}
+            color={colors.blue_400}
+          />
         </TouchableOpacity>
       </View>
-      <View style={{ marginTop: 36 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 36) / 428 }}>
         <Text style={styles.welcome}>Welcome Dr. {user.lastName}!</Text>
         <Text style={styles.date}>
           {format(new Date(), "EEEE MMMM do, yyyy p")}
@@ -82,18 +92,18 @@ const styles = StyleSheet.create({
   header_1: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 24,
+    marginTop: (Dimensions.get("window").width * 24) / 428,
   },
 
   welcome: {
     fontFamily: "Poppins-SemiBold",
-    fontSize: 28,
+    fontSize: (Dimensions.get("window").width * 28) / 428,
     color: colors.blue_500,
   },
 
   date: {
     fontFamily: "Poppins-Regular",
-    fontSize: 14,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     color: colors.blue_400,
   },
 });

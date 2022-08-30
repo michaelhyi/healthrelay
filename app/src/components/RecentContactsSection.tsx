@@ -28,7 +28,10 @@ const RecentContactsSection: React.FC<Props> = ({
 
   return (
     <View
-      style={{ marginTop: 24, height: Dimensions.get("window").height / 2.5 }}
+      style={{
+        marginTop: (Dimensions.get("window").width * 24) / 428,
+        height: Dimensions.get("window").height / 2.5,
+      }}
     >
       <SectionHeader
         profession={profession}

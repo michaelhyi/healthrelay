@@ -1,16 +1,11 @@
 import { AntDesign } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, FlatList, TouchableOpacity, View } from "react-native";
 import BackButton from "../components/BackButton";
 import Contact from "../components/Contact";
 import Layout from "../components/Layout";
 import Search from "../components/Search";
-import { useReadContactsQuery, useReadUserQuery } from "../generated/graphql";
+import { useReadContactsQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import Loading from "./loading";
 
@@ -69,13 +64,17 @@ const Contacts: React.FC<Props> = ({ route, navigation }) => {
             onPress={() => navigation.navigate("Create Contact")}
             style={{ marginLeft: "auto" }}
           >
-            <AntDesign name="plus" size={20} style={{ marginTop: 36 }} />
+            <AntDesign
+              name="plus"
+              size={(Dimensions.get("window").width * 20) / 428}
+              style={{ marginTop: (Dimensions.get("window").width * 36) / 428 }}
+            />
           </TouchableOpacity>
         )}
       </View>
       <Search value={search} onChangeText={(text) => filter(text)} />
       <FlatList
-        style={{ marginTop: 12 }}
+        style={{ marginTop: (Dimensions.get("window").width * 12) / 428 }}
         showsVerticalScrollIndicator={false}
         data={filteredData}
         renderItem={({ item }) => {

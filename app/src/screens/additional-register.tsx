@@ -50,13 +50,17 @@ const AdditionalRegister: React.FC<Props> = ({ navigation, route }) => {
         <View style={styles.icon} />
         <Text style={styles.logoText}>HealthRelay</Text>
         <View style={styles.textInput}>
-          <Ionicons name="person" size={25} color="#999999" />
+          <Ionicons
+            name="person"
+            size={(Dimensions.get("window").width * 25) / 428}
+            color="#999999"
+          />
           <TextInput
             style={{
               flex: 1,
               color: "#999999",
-              fontSize: 16,
-              marginLeft: 15,
+              fontSize: (Dimensions.get("window").width * 16) / 428,
+              marginLeft: (Dimensions.get("window").width * 15) / 428,
               fontFamily: "Poppins-Regular",
             }}
             placeholder="First Name"
@@ -67,13 +71,17 @@ const AdditionalRegister: React.FC<Props> = ({ navigation, route }) => {
         </View>
         {firstNameError && <Text style={styles.error}>{firstNameError}</Text>}
         <View style={styles.textInput}>
-          <Ionicons name="person" size={25} color="#999999" />
+          <Ionicons
+            name="person"
+            size={(Dimensions.get("window").width * 25) / 428}
+            color="#999999"
+          />
           <TextInput
             style={{
               flex: 1,
               color: "#999999",
-              fontSize: 16,
-              marginLeft: 15,
+              fontSize: (Dimensions.get("window").width * 16) / 428,
+              marginLeft: (Dimensions.get("window").width * 15) / 428,
               fontFamily: "Poppins-Regular",
             }}
             placeholder="Last Name"
@@ -84,13 +92,17 @@ const AdditionalRegister: React.FC<Props> = ({ navigation, route }) => {
         </View>
         {lastNameError && <Text style={styles.error}>{lastNameError}</Text>}
         <View style={styles.textInput}>
-          <Octicons name="organization" size={25} color="#999999" />
+          <Octicons
+            name="organization"
+            size={(Dimensions.get("window").width * 25) / 428}
+            color="#999999"
+          />
           <TextInput
             style={{
               flex: 1,
               color: "#999999",
-              fontSize: 16,
-              marginLeft: 15,
+              fontSize: (Dimensions.get("window").width * 16) / 428,
+              marginLeft: (Dimensions.get("window").width * 15) / 428,
               fontFamily: "Poppins-Regular",
             }}
             placeholder="Organization"
@@ -103,13 +115,17 @@ const AdditionalRegister: React.FC<Props> = ({ navigation, route }) => {
           <Text style={styles.error}>{organizationError}</Text>
         )}
         <View style={styles.textInput}>
-          <AntDesign name="phone" size={25} color="#999999" />
+          <AntDesign
+            name="phone"
+            size={(Dimensions.get("window").width * 25) / 428}
+            color="#999999"
+          />
           <TextInput
             style={{
               flex: 1,
               color: "#999999",
-              fontSize: 16,
-              marginLeft: 15,
+              fontSize: (Dimensions.get("window").width * 16) / 428,
+              marginLeft: (Dimensions.get("window").width * 15) / 428,
               fontFamily: "Poppins-Regular",
             }}
             placeholder="Phone"
@@ -164,7 +180,12 @@ const AdditionalRegister: React.FC<Props> = ({ navigation, route }) => {
           }}
           style={styles.button}
         >
-          <Text style={{ fontFamily: "Poppins-Medium", fontSize: 18 }}>
+          <Text
+            style={{
+              fontFamily: "Poppins-Medium",
+              fontSize: (Dimensions.get("window").width * 18) / 428,
+            }}
+          >
             Register
           </Text>
         </TouchableOpacity>
@@ -186,35 +207,35 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    width: 75,
-    height: 75,
+    width: (Dimensions.get("window").width * 75) / 428,
+    height: (Dimensions.get("window").width * 75) / 428,
     backgroundColor: "#DDDDDD",
-    borderRadius: 12,
-    marginBottom: 16,
+    borderRadius: (Dimensions.get("window").width * 12) / 428,
+    marginBottom: (Dimensions.get("window").width * 16) / 428,
   },
 
   logoText: {
     fontFamily: "Poppins-Bold",
     color: "#386FA4",
-    fontSize: 36,
-    marginBottom: 24,
+    fontSize: (Dimensions.get("window").width * 36) / 428,
+    marginBottom: (Dimensions.get("window").width * 24) / 428,
   },
 
   textInput: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#e5e5e5",
-    padding: 24,
-    borderRadius: 12,
+    padding: (Dimensions.get("window").width * 24) / 428,
+    borderRadius: (Dimensions.get("window").width * 12) / 428,
     width: (Dimensions.get("window").width * 13) / 15,
-    marginTop: 16,
+    marginTop: (Dimensions.get("window").width * 16) / 428,
   },
 
   button: {
-    marginTop: 24,
+    marginTop: (Dimensions.get("window").width * 24) / 428,
     backgroundColor: "#B6DCFE",
-    padding: 25,
-    borderRadius: 36,
+    padding: (Dimensions.get("window").width * 25) / 428,
+    borderRadius: (Dimensions.get("window").width * 36) / 428,
     width: (Dimensions.get("window").width * 13) / 15,
     alignItems: "center",
   },
@@ -226,7 +247,7 @@ const styles = StyleSheet.create({
   error: {
     fontFamily: "Poppins-SemiBold",
     color: "#CC3333",
-    marginTop: 14,
+    marginTop: (Dimensions.get("window").width * 14) / 428,
   },
 });
 

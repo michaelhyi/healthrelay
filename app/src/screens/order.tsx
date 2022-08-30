@@ -79,7 +79,7 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
         )}
       </View>
       <Text style={styles.header}>Order #{data?.id}</Text>
-      <View style={{ marginTop: 15 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 15) / 428 }}>
         <User
           firstName={
             user.profession === "Radiologist"
@@ -113,7 +113,7 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          marginTop: 25,
+          marginTop: (Dimensions.get("window").width * 25) / 428,
         }}
       >
         <View>
@@ -152,15 +152,17 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
           right: 0,
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 48,
+          marginBottom: (Dimensions.get("window").width * 48) / 428,
         }}
       >
         {user.profession === "Radiologist" && data.status !== 2 && (
           <TouchableOpacity
             style={{
               backgroundColor: colors.blue_400,
-              padding: 12,
-              width: Dimensions.get("window").width - 48,
+              padding: (Dimensions.get("window").width * 12) / 428,
+              width:
+                Dimensions.get("window").width -
+                (Dimensions.get("window").width * 48) / 428,
             }}
           >
             <Text
@@ -215,8 +217,10 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: data.status !== 2 ? colors.blue_400 : "green",
-              padding: 12,
-              width: Dimensions.get("window").width - 48,
+              padding: (Dimensions.get("window").width * 12) / 428,
+              width:
+                Dimensions.get("window").width -
+                (Dimensions.get("window").width * 48) / 428,
             }}
           >
             <Text
@@ -224,7 +228,10 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
                 fontFamily: "Poppins-SemiBold",
                 color: "white",
                 textAlign: "center",
-                marginRight: data.status === 2 ? 6 : 0,
+                marginRight:
+                  data.status === 2
+                    ? (Dimensions.get("window").width * 6) / 428
+                    : 0,
               }}
             >
               Mark As Complete
@@ -239,40 +246,40 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 24,
+    fontSize: (Dimensions.get("window").width * 24) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "#386FA4",
-    marginTop: 20,
+    marginTop: (Dimensions.get("window").width * 20) / 428,
   },
   name: {
-    fontSize: 18,
+    fontSize: (Dimensions.get("window").width * 18) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "#386FA4",
   },
   position: {
-    fontSize: 14,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-Semibold",
     color: "#59A5D8",
   },
   text: {
-    fontSize: 16,
+    fontSize: (Dimensions.get("window").width * 16) / 428,
     fontFamily: "Poppins-Medium",
     color: "#999999",
-    marginBottom: 4,
+    marginBottom: (Dimensions.get("window").width * 4) / 428,
   },
   bluetext: {
     textAlign: "right",
-    fontSize: 16,
+    fontSize: (Dimensions.get("window").width * 16) / 428,
     fontFamily: "Poppins-Regular",
     color: "#386FA4",
-    marginBottom: 4,
+    marginBottom: (Dimensions.get("window").width * 4) / 428,
   },
   messageheader: {
-    fontSize: 20,
+    fontSize: (Dimensions.get("window").width * 20) / 428,
     fontFamily: "Poppins-Medium",
     color: "#386FA4",
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: (Dimensions.get("window").width * 20) / 428,
+    marginBottom: (Dimensions.get("window").width * 20) / 428,
   },
 });
 

@@ -3,6 +3,7 @@ import * as Clipboard from "expo-clipboard";
 import React, { useContext } from "react";
 import {
   Alert,
+  Dimensions,
   Linking,
   StyleSheet,
   Text,
@@ -45,13 +46,17 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
         )}
       </View>
       <View style={styles.container}>
-        <Ionicons name="person" size={100} color={colors.blue_400} />
+        <Ionicons
+          name="person"
+          size={(Dimensions.get("window").width * 100) / 428}
+          color={colors.blue_400}
+        />
         <Text
           style={{
             fontFamily: "Poppins-SemiBold",
-            fontSize: 32,
+            fontSize: (Dimensions.get("window").width * 32) / 428,
             color: colors.blue_400,
-            marginTop: 24,
+            marginTop: (Dimensions.get("window").width * 24) / 428,
           }}
         >
           Dr. {data?.readUser.firstName} {data?.readUser.lastName}
@@ -59,7 +64,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
         <Text
           style={{
             fontFamily: "Poppins-Regular",
-            fontSize: 20,
+            fontSize: (Dimensions.get("window").width * 20) / 428,
             color: colors.blue_300,
           }}
         >
@@ -75,7 +80,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
           <Text
             style={{
               fontFamily: "Poppins-Medium",
-              fontSize: 18,
+              fontSize: (Dimensions.get("window").width * 18) / 428,
               color: colors.blue_400,
             }}
           >
@@ -83,9 +88,9 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
           </Text>
           <Text
             style={{
-              marginTop: 12,
+              marginTop: (Dimensions.get("window").width * 12) / 428,
               fontFamily: "Poppins-Regular",
-              fontSize: 14,
+              fontSize: (Dimensions.get("window").width * 14) / 428,
               color: colors.gray,
             }}
           >
@@ -96,7 +101,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
           <Text
             style={{
               fontFamily: "Poppins-Medium",
-              fontSize: 18,
+              fontSize: (Dimensions.get("window").width * 18) / 428,
               color: colors.blue_400,
             }}
           >
@@ -104,9 +109,9 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
           </Text>
           <Text
             style={{
-              marginTop: 12,
+              marginTop: (Dimensions.get("window").width * 12) / 428,
               fontFamily: "Poppins-Regular",
-              fontSize: 14,
+              fontSize: (Dimensions.get("window").width * 14) / 428,
               color: colors.gray,
             }}
           >
@@ -122,7 +127,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
           <Text
             style={{
               fontFamily: "Poppins-Medium",
-              fontSize: 18,
+              fontSize: (Dimensions.get("window").width * 18) / 428,
               color: colors.blue_400,
             }}
           >
@@ -130,9 +135,9 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
           </Text>
           <Text
             style={{
-              marginTop: 12,
+              marginTop: (Dimensions.get("window").width * 12) / 428,
               fontFamily: "Poppins-Regular",
-              fontSize: 14,
+              fontSize: (Dimensions.get("window").width * 14) / 428,
               color: colors.gray,
             }}
           >
@@ -148,7 +153,7 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
           <Text
             style={{
               fontFamily: "Poppins-Medium",
-              fontSize: 18,
+              fontSize: (Dimensions.get("window").width * 18) / 428,
               color: colors.blue_400,
             }}
           >
@@ -156,9 +161,9 @@ const Profile: React.FC<Props> = ({ route, navigation }) => {
           </Text>
           <Text
             style={{
-              marginTop: 12,
+              marginTop: (Dimensions.get("window").width * 12) / 428,
               fontFamily: "Poppins-Regular",
-              fontSize: 14,
+              fontSize: (Dimensions.get("window").width * 14) / 428,
               color: colors.gray,
             }}
           >
@@ -178,9 +183,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
     width: "100%",
-    padding: 24,
-    borderRadius: 12,
-    marginTop: 24,
+    padding: (Dimensions.get("window").width * 24) / 428,
+    borderRadius: (Dimensions.get("window").width * 12) / 428,
+    marginTop: (Dimensions.get("window").width * 24) / 428,
   },
 });
 

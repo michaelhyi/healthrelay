@@ -1,6 +1,7 @@
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useContext } from "react";
+import { Dimensions } from "react-native";
 import Settings from "../screens/settings";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
@@ -28,7 +29,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="home"
-              size={25}
+              size={(Dimensions.get("window").width * 25) / 428}
               color={focused ? colors.blue_400 : colors.gray}
             />
           ),
@@ -42,7 +43,7 @@ const TabNavigator = () => {
             tabBarIcon: ({ focused }) => (
               <AntDesign
                 name="plus"
-                size={25}
+                size={(Dimensions.get("window").width * 25) / 428}
                 color={focused ? colors.blue_400 : colors.gray}
               />
             ),
@@ -57,7 +58,7 @@ const TabNavigator = () => {
             tabBarIcon: ({ focused }) => (
               <AntDesign
                 name="folder1"
-                size={25}
+                size={(Dimensions.get("window").width * 25) / 428}
                 color={focused ? colors.blue_400 : colors.gray}
               />
             ),
@@ -71,7 +72,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="settings"
-              size={25}
+              size={(Dimensions.get("window").width * 25) / 428}
               color={focused ? colors.blue_400 : colors.gray}
             />
           ),

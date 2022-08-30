@@ -1,6 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useContext } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 
@@ -45,8 +51,12 @@ const Contact: React.FC<Props> = ({
       }}
       style={styles.container}
     >
-      <Ionicons name="person" size={45} color={colors.blue_400} />
-      <View style={{ marginLeft: 24 }}>
+      <Ionicons
+        name="person"
+        size={(Dimensions.get("window").width * 45) / 428}
+        color={colors.blue_400}
+      />
+      <View style={{ marginLeft: (Dimensions.get("window").width * 24) / 428 }}>
         <Text style={styles.name}>
           Dr. {firstName} {lastName}
         </Text>
@@ -61,23 +71,23 @@ const Contact: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    borderRadius: 12,
+    borderRadius: (Dimensions.get("window").width * 12) / 428,
     flexDirection: "row",
     alignItems: "center",
-    padding: 24,
-    marginBottom: 18,
+    padding: (Dimensions.get("window").width * 24) / 428,
+    marginBottom: (Dimensions.get("window").width * 18) / 428,
   },
 
   name: {
     color: colors.blue_400,
     fontFamily: "Poppins-SemiBold",
-    fontSize: 18,
+    fontSize: (Dimensions.get("window").width * 18) / 428,
   },
 
   profession: {
     color: colors.blue_300,
     fontFamily: "Poppins-Regular",
-    fontSize: 12,
+    fontSize: (Dimensions.get("window").width * 12) / 428,
   },
 });
 

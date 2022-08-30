@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { colors } from "../utils/styles";
 
 interface Props {
@@ -23,12 +23,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: "Poppins-Medium",
-    fontSize: 12,
+    fontSize: (Dimensions.get("window").width * 12) / 428,
     color: colors.gray,
   },
   text: {
     fontFamily: "Poppins-Regular",
-    fontSize: 12,
+    fontSize: (Dimensions.get("window").width * 12) / 428,
     color: colors.blue_400,
     marginLeft: "auto",
   },

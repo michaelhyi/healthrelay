@@ -1,7 +1,7 @@
 import { useRoute } from "@react-navigation/native";
 import { CheckIcon, Select } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { Dimensions, FlatList, Text, View } from "react-native";
 import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
 import OrderCard from "../components/OrderCard";
@@ -72,14 +72,14 @@ const Orders: React.FC<Props> = ({ navigation }) => {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          marginTop: 16,
+          marginTop: (Dimensions.get("window").width * 16) / 428,
           justifyContent: "space-between",
         }}
       >
         <Text
           style={{
             fontFamily: "Poppins-Medium",
-            fontSize: 16,
+            fontSize: (Dimensions.get("window").width * 16) / 428,
           }}
         >
           Sort By
@@ -89,16 +89,16 @@ const Orders: React.FC<Props> = ({ navigation }) => {
           accessibilityLabel="Sort By"
           placeholder="Sort By"
           fontFamily="Poppins-Regular"
-          fontSize={16}
+          fontSize={(Dimensions.get("window").width * 16) / 428}
           style={{
-            height: 32,
+            height: (Dimensions.get("window").width * 32) / 428,
           }}
-          width={256}
+          width={(Dimensions.get("window").width * 256) / 428}
           _selectedItem={{
             bg: "#E5E5E5",
             endIcon: <CheckIcon size="5" />,
           }}
-          mt={1}
+          mt={(Dimensions.get("window").width * 1) / 428}
           onValueChange={(itemValue) => {
             setSortBy(itemValue);
             if (!fetching && typeof data?.readOrders !== "undefined") {
@@ -157,7 +157,7 @@ const Orders: React.FC<Props> = ({ navigation }) => {
         </Select>
       </View>
       <FlatList
-        style={{ marginTop: 12 }}
+        style={{ marginTop: (Dimensions.get("window").width * 12) / 428 }}
         showsVerticalScrollIndicator={false}
         data={filteredData}
         renderItem={({ item }) => (

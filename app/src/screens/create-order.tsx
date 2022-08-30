@@ -62,15 +62,20 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <Layout>
-      <View style={{ alignItems: "center", marginTop: 15 }}>
+      <View
+        style={{
+          alignItems: "center",
+          marginTop: (Dimensions.get("window").width * 15) / 428,
+        }}
+      >
         <Text style={styles.title}>Create Order</Text>
       </View>
-      <View style={{ marginTop: 30 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 30) / 428 }}>
         <Text style={styles.header}>MRN</Text>
         <TextInput value={mrn} onChangeText={setMrn} style={styles.input} />
       </View>
       {mrnError && <Text style={styles.error}>{mrnError}</Text>}
-      <View style={{ marginTop: 15 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 15) / 428 }}>
         <Text style={styles.header}>Priority</Text>
         <Select
           selectedValue={priority}
@@ -78,9 +83,9 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
           minWidth={(Dimensions.get("window").width * 13) / 15}
           placeholder="Select Priority"
           fontFamily="Poppins-Regular"
-          fontSize={16}
+          fontSize={(Dimensions.get("window").width * 16) / 428}
           style={{
-            height: 64,
+            height: (Dimensions.get("window").width * 64) / 428,
           }}
           _selectedItem={{
             bg: "#E5E5E5",
@@ -99,7 +104,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          marginTop: 25,
+          marginTop: (Dimensions.get("window").width * 25) / 428,
         }}
       >
         <Text style={styles.header}>Ordering Physician</Text>
@@ -126,7 +131,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
         </>
       )}
       {contactError && <Text style={styles.error}>{contactError}</Text>}
-      <View style={{ marginTop: 24 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 24) / 428 }}>
         <Text style={styles.header}>Message</Text>
         <TextInput
           value={message}
@@ -177,8 +182,8 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
         }}
         style={{
           backgroundColor: colors.blue_400,
-          padding: 12,
-          marginTop: 24,
+          padding: (Dimensions.get("window").width * 12) / 428,
+          marginTop: (Dimensions.get("window").width * 24) / 428,
         }}
       >
         <Text
@@ -197,40 +202,40 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 24,
+    fontSize: (Dimensions.get("window").width * 24) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "black",
   },
   header: {
-    fontSize: 14,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "#999999",
   },
   bluetext: {
-    fontSize: 12,
+    fontSize: (Dimensions.get("window").width * 12) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "#59A5D8",
   },
   input: {
-    marginTop: 15,
+    marginTop: (Dimensions.get("window").width * 15) / 428,
     borderBottomColor: "#DDDDDD",
-    borderBottomWidth: 1,
-    fontSize: 14,
+    borderBottomWidth: (Dimensions.get("window").width * 1) / 428,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "black",
   },
   message: {
     borderBottomColor: "#DDDDDD",
-    borderBottomWidth: 1,
-    fontSize: 14,
+    borderBottomWidth: (Dimensions.get("window").width * 1) / 428,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "black",
-    height: 150,
+    height: (Dimensions.get("window").width * 150) / 428,
   },
   error: {
     fontFamily: "Poppins-SemiBold",
     color: "#CC3333",
-    marginTop: 14,
+    marginTop: (Dimensions.get("window").width * 14) / 428,
   },
 });
 

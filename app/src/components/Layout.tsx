@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 
 interface Props {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F9F9F9",
     paddingTop: Constants.statusBarHeight,
-    paddingHorizontal: 24,
+    paddingHorizontal: (Dimensions.get("window").width * 24) / 428,
   },
 });
 

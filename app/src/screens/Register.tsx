@@ -40,13 +40,17 @@ const Register: React.FC<Props> = ({ navigation }) => {
         <View style={styles.icon} />
         <Text style={styles.logoText}>HealthRelay</Text>
         <View style={styles.textInput}>
-          <AntDesign name="mail" size={25} color="#999999" />
+          <AntDesign
+            name="mail"
+            size={(Dimensions.get("window").width * 25) / 428}
+            color="#999999"
+          />
           <TextInput
             style={{
               flex: 1,
               color: "#999999",
-              fontSize: 16,
-              marginLeft: 15,
+              fontSize: (Dimensions.get("window").width * 16) / 428,
+              marginLeft: (Dimensions.get("window").width * 15) / 428,
               fontFamily: "Poppins-Regular",
             }}
             placeholder="Email"
@@ -58,13 +62,17 @@ const Register: React.FC<Props> = ({ navigation }) => {
         </View>
         {emailError && <Text style={styles.error}>{emailError}</Text>}
         <View style={styles.textInput}>
-          <AntDesign name="key" size={25} color="#999999" />
+          <AntDesign
+            name="key"
+            size={(Dimensions.get("window").width * 25) / 428}
+            color="#999999"
+          />
           <TextInput
             style={{
               flex: 1,
               color: "#999999",
-              fontSize: 16,
-              marginLeft: 15,
+              fontSize: (Dimensions.get("window").width * 16) / 428,
+              marginLeft: (Dimensions.get("window").width * 15) / 428,
               fontFamily: "Poppins-Regular",
             }}
             placeholder="Password"
@@ -76,16 +84,16 @@ const Register: React.FC<Props> = ({ navigation }) => {
           />
         </View>
         {passwordError && <Text style={styles.error}>{passwordError}</Text>}
-        <View style={{ padding: 6 }} />
+        <View style={{ padding: (Dimensions.get("window").width * 6) / 428 }} />
         <Select
           selectedValue={profession}
           accessibilityLabel="Select Profession"
           minWidth={(Dimensions.get("window").width * 13) / 15}
           placeholder="Select Profession"
           fontFamily="Poppins-Regular"
-          fontSize={16}
+          fontSize={(Dimensions.get("window").width * 16) / 428}
           style={{
-            height: 64,
+            height: (Dimensions.get("window").width * 64) / 428,
           }}
           _selectedItem={{
             bg: "#E5E5E5",
@@ -122,7 +130,12 @@ const Register: React.FC<Props> = ({ navigation }) => {
           }}
           style={styles.button}
         >
-          <Text style={{ fontFamily: "Poppins-Medium", fontSize: 18 }}>
+          <Text
+            style={{
+              fontFamily: "Poppins-Medium",
+              fontSize: (Dimensions.get("window").width * 18) / 428,
+            }}
+          >
             Next
           </Text>
         </TouchableOpacity>
@@ -144,42 +157,42 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    width: 75,
-    height: 75,
+    width: (Dimensions.get("window").width * 75) / 428,
+    height: (Dimensions.get("window").width * 75) / 428,
     backgroundColor: "#DDDDDD",
-    borderRadius: 12,
-    marginBottom: 16,
+    borderRadius: (Dimensions.get("window").width * 12) / 428,
+    marginBottom: (Dimensions.get("window").width * 16) / 428,
   },
 
   logoText: {
     fontFamily: "Poppins-Bold",
     color: "#386FA4",
-    fontSize: 36,
-    marginBottom: 24,
+    fontSize: (Dimensions.get("window").width * 36) / 428,
+    marginBottom: (Dimensions.get("window").width * 24) / 428,
   },
 
   textInput: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#e5e5e5",
-    padding: 24,
-    borderRadius: 12,
+    padding: (Dimensions.get("window").width * 24) / 428,
+    borderRadius: (Dimensions.get("window").width * 12) / 428,
     width: (Dimensions.get("window").width * 13) / 15,
-    marginTop: 16,
+    marginTop: (Dimensions.get("window").width * 16) / 428,
   },
 
   button: {
-    marginTop: 48,
+    marginTop: (Dimensions.get("window").width * 48) / 428,
     backgroundColor: "#B6DCFE",
-    padding: 25,
-    borderRadius: 36,
+    padding: (Dimensions.get("window").width * 25) / 428,
+    borderRadius: (Dimensions.get("window").width * 36) / 428,
     width: (Dimensions.get("window").width * 13) / 15,
     alignItems: "center",
   },
   error: {
     fontFamily: "Poppins-SemiBold",
     color: "#CC3333",
-    marginTop: 14,
+    marginTop: (Dimensions.get("window").width * 14) / 428,
   },
 });
 

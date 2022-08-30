@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect, useState } from "react";
 import {
   Alert,
+  Dimensions,
   StyleSheet,
   Text,
   TextInput,
@@ -47,7 +48,7 @@ const EditProfile: React.FC<Props> = ({ navigation }) => {
       <BackButton navigation={navigation} />
       <View
         style={{
-          marginTop: 40,
+          marginTop: (Dimensions.get("window").width * 40) / 428,
           flexDirection: "row",
         }}
       >
@@ -59,7 +60,12 @@ const EditProfile: React.FC<Props> = ({ navigation }) => {
             onChangeText={setFirstName}
           />
         </View>
-        <View style={{ width: "40%", marginLeft: 48 }}>
+        <View
+          style={{
+            width: "40%",
+            marginLeft: (Dimensions.get("window").width * 48) / 428,
+          }}
+        >
           <Text style={styles.header}>Last Name</Text>
           <TextInput
             style={styles.input}
@@ -68,7 +74,7 @@ const EditProfile: React.FC<Props> = ({ navigation }) => {
           />
         </View>
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 20) / 428 }}>
         <Text style={styles.header}>Organization</Text>
         <TextInput
           style={styles.input}
@@ -76,11 +82,11 @@ const EditProfile: React.FC<Props> = ({ navigation }) => {
           onChangeText={setOrganization}
         />
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 20) / 428 }}>
         <Text style={styles.header}>Email</Text>
         <TextInput style={styles.input} value={email} onChangeText={setEmail} />
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: (Dimensions.get("window").width * 20) / 428 }}>
         <Text style={styles.header}>Phone</Text>
         <TextInput style={styles.input} value={phone} onChangeText={setPhone} />
       </View>
@@ -121,8 +127,8 @@ const EditProfile: React.FC<Props> = ({ navigation }) => {
         }}
         style={{
           backgroundColor: colors.blue_400,
-          padding: 12,
-          marginTop: 24,
+          padding: (Dimensions.get("window").width * 12) / 428,
+          marginTop: (Dimensions.get("window").width * 24) / 428,
         }}
       >
         <Text
@@ -141,15 +147,15 @@ const EditProfile: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 14,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "#999999",
   },
   input: {
-    marginTop: 15,
+    marginTop: (Dimensions.get("window").width * 15) / 428,
     borderBottomColor: "#DDDDDD",
-    borderBottomWidth: 1,
-    fontSize: 14,
+    borderBottomWidth: (Dimensions.get("window").width * 1) / 428,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "black",
   },

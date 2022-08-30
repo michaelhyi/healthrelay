@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import {
   Alert,
+  Dimensions,
   StyleSheet,
   Text,
   TextInput,
@@ -75,8 +76,8 @@ const CreateContact: React.FC<Props> = ({ navigation }) => {
             }}
             style={{
               backgroundColor: colors.blue_400,
-              padding: 12,
-              marginTop: 24,
+              padding: (Dimensions.get("window").width * 12) / 428,
+              marginTop: (Dimensions.get("window").width * 24) / 428,
             }}
           >
             <Text
@@ -97,24 +98,24 @@ const CreateContact: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 14,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "#999999",
     textAlign: "left",
   },
   input: {
-    marginTop: 15,
+    marginTop: (Dimensions.get("window").width * 15) / 428,
     borderBottomColor: "#DDDDDD",
-    borderBottomWidth: 1,
-    fontSize: 14,
+    borderBottomWidth: (Dimensions.get("window").width * 1) / 428,
+    fontSize: (Dimensions.get("window").width * 14) / 428,
     fontFamily: "Poppins-SemiBold",
     color: "black",
-    width: 256,
+    width: (Dimensions.get("window").width * 256) / 428,
   },
   error: {
     fontFamily: "Poppins-SemiBold",
     color: "#CC3333",
-    marginTop: 14,
+    marginTop: (Dimensions.get("window").width * 14) / 428,
   },
 });
 

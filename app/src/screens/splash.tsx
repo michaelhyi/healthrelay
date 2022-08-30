@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Layout from "../components/Layout";
 
 const Splash = () => {
@@ -16,17 +16,17 @@ const Splash = () => {
 
 const styles = StyleSheet.create({
   icon: {
-    width: 75,
-    height: 75,
+    width: (Dimensions.get("window").width * 75) / 428,
+    height: (Dimensions.get("window").width * 75) / 428,
     backgroundColor: "#DDDDDD",
-    borderRadius: 12,
+    borderRadius: (Dimensions.get("window").width * 12) / 428,
+    marginBottom: (Dimensions.get("window").width * 16) / 428,
   },
-
   text: {
     fontFamily: "Poppins-Bold",
     color: "#386FA4",
-    fontSize: 24,
-    marginTop: 24,
+    fontSize: (Dimensions.get("window").width * 36) / 428,
+    marginBottom: (Dimensions.get("window").width * 24) / 428,
   },
 });
 

@@ -21,6 +21,9 @@ let NotificationResolver = class NotificationResolver {
             where: {
                 recipientId: id,
             },
+            order: {
+                createdAt: "DESC",
+            },
         });
         return notifications;
     }

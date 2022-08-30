@@ -20,6 +20,14 @@ export const client = createClient({
             });
           },
           deleteOrder: (_result, args, cache, _info) => {
+            const allFields = cache.inspectFields("Query");
+            const fieldInfos = allFields.filter(
+              (info) => info.fieldName === "readNotifications"
+            );
+            fieldInfos.forEach((fi) => {
+              cache.invalidate("Query", fi.fieldName, fi.arguments || {});
+            });
+
             cache.invalidate({
               __typename: "Order",
               id: (args as DeleteOrderMutationVariables).id,
@@ -30,7 +38,8 @@ export const client = createClient({
             const fieldInfos = allFields.filter(
               (info) =>
                 info.fieldName === "readOrder" ||
-                info.fieldName === "readOrders"
+                info.fieldName === "readOrders" ||
+                info.fieldName === "readNotifications"
             );
             fieldInfos.forEach((fi) => {
               cache.invalidate("Query", fi.fieldName, fi.arguments || {});
@@ -41,7 +50,8 @@ export const client = createClient({
             const fieldInfos = allFields.filter(
               (info) =>
                 info.fieldName === "readOrder" ||
-                info.fieldName === "readOrders"
+                info.fieldName === "readOrders" ||
+                info.fieldName === "readNotifications"
             );
             fieldInfos.forEach((fi) => {
               cache.invalidate("Query", fi.fieldName, fi.arguments || {});
@@ -61,7 +71,8 @@ export const client = createClient({
             const fieldInfos = allFields.filter(
               (info) =>
                 info.fieldName === "readOrder" ||
-                info.fieldName === "readOrders"
+                info.fieldName === "readOrders" ||
+                info.fieldName === "readNotifications"
             );
             fieldInfos.forEach((fi) => {
               cache.invalidate("Query", fi.fieldName, fi.arguments || {});

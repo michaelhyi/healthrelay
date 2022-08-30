@@ -183,8 +183,18 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
                     text: "Yes",
                     onPress: async () => {
                       setLoading(true);
-                      setData({ ...data, status: "Completed" });
                       await updateOrderStatus({ id, status: "Completed" });
+                      let response = await readOrder({ id });
+                      if (
+                        response.data?.readOrder.status === 0 &&
+                        user.profession === "Ordering Physician" &&
+                        user.id === response.data.readOrder.orderingPhysicianId
+                      ) {
+                        await updateOrderStatus({ id, status: "Opened" });
+                        response = await readOrder({ id });
+                      }
+                      setData(response.data?.readOrder);
+
                       await createRecentContact({
                         radiologistId: data.radiologistId,
                         orderingPhysicianId: user.id,

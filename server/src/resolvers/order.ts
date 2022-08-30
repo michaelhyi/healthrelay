@@ -33,7 +33,7 @@ export class OrderResolver {
 
     if (status === "Opened" || status === "Completed") {
       await Notification.create({
-        date: format(new Date(), "MMMM do, yyyy"),
+        date: format(new Date(), "MMMM do, yyyy p"),
         message: `Dr. ${doctor?.firstName} ${
           doctor?.lastName
         } has ${status.toLowerCase()} Order #${id}.`,
@@ -52,7 +52,7 @@ export class OrderResolver {
     await Order.delete({ id });
 
     await Notification.create({
-      date: format(new Date(), "MMMM do, yyyy"),
+      date: format(new Date(), "MMMM do, yyyy p"),
       message: `Dr. ${doctor?.firstName} ${doctor?.lastName} has cancelled Order #${id}.`,
       recipientId: order?.orderingPhysicianId,
       orderId: id,
@@ -86,7 +86,7 @@ export class OrderResolver {
     const doctor = await User.findOne({ where: { id: order?.radiologistId } });
 
     await Notification.create({
-      date: format(new Date(), "MMMM do, yyyy"),
+      date: format(new Date(), "MMMM do, yyyy p"),
       message: `Dr. ${doctor?.firstName} ${doctor?.lastName} has updated Order #${id}.`,
       recipientId: orderingPhysicianId,
       orderId: id,
@@ -129,7 +129,7 @@ export class OrderResolver {
 
     const order = await Order.create({
       mrn,
-      date: format(new Date(), "MMMM do, yyyy"),
+      date: format(new Date(), "MMMM do, yyyy p"),
       priority: priorityValue,
       status: 0,
       message,
@@ -140,7 +140,7 @@ export class OrderResolver {
     const doctor = await User.findOne({ where: { id: radiologistId } });
 
     await Notification.create({
-      date: format(new Date(), "MMMM do, yyyy"),
+      date: format(new Date(), "MMMM do, yyyy p"),
       message: `Dr. ${doctor?.firstName} ${doctor?.lastName} has requested a review of Order #${order.id}.`,
       recipientId: orderingPhysicianId,
       orderId: order.id,

@@ -54,7 +54,7 @@ const Notifications: React.FC<Props> = ({ navigation }) => {
               }}
             >
               <Ionicons name="person" size={40} color={colors.blue_400} />
-              <View style={{ justifyContent: "center", marginLeft: 11 }}>
+              <View style={{ marginLeft: 11, flexShrink: 1 }}>
                 <Text style={styles.title}>{item.message}</Text>
                 <Text style={styles.date}>{item.date}</Text>
               </View>
@@ -69,6 +69,7 @@ const Notifications: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 16,
+    flexShrink: 1,
     fontFamily: "Poppins-Medium",
     color: "#133C55",
   },

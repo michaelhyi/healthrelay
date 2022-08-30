@@ -42,7 +42,7 @@ let OrderResolver = class OrderResolver {
             .execute();
         if (status === "Opened" || status === "Completed") {
             await Notification_1.Notification.create({
-                date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+                date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy p"),
                 message: `Dr. ${doctor === null || doctor === void 0 ? void 0 : doctor.firstName} ${doctor === null || doctor === void 0 ? void 0 : doctor.lastName} has ${status.toLowerCase()} Order #${id}.`,
                 recipientId: order === null || order === void 0 ? void 0 : order.radiologistId,
                 orderId: id,
@@ -55,7 +55,7 @@ let OrderResolver = class OrderResolver {
         const doctor = await User_1.User.findOne({ where: { id: order === null || order === void 0 ? void 0 : order.radiologistId } });
         await Order_1.Order.delete({ id });
         await Notification_1.Notification.create({
-            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy p"),
             message: `Dr. ${doctor === null || doctor === void 0 ? void 0 : doctor.firstName} ${doctor === null || doctor === void 0 ? void 0 : doctor.lastName} has cancelled Order #${id}.`,
             recipientId: order === null || order === void 0 ? void 0 : order.orderingPhysicianId,
             orderId: id,
@@ -80,7 +80,7 @@ let OrderResolver = class OrderResolver {
         const order = await Order_1.Order.findOne({ id });
         const doctor = await User_1.User.findOne({ where: { id: order === null || order === void 0 ? void 0 : order.radiologistId } });
         await Notification_1.Notification.create({
-            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy p"),
             message: `Dr. ${doctor === null || doctor === void 0 ? void 0 : doctor.firstName} ${doctor === null || doctor === void 0 ? void 0 : doctor.lastName} has updated Order #${id}.`,
             recipientId: orderingPhysicianId,
             orderId: id,
@@ -111,7 +111,7 @@ let OrderResolver = class OrderResolver {
             priorityValue = 2;
         const order = await Order_1.Order.create({
             mrn,
-            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy p"),
             priority: priorityValue,
             status: 0,
             message,
@@ -120,7 +120,7 @@ let OrderResolver = class OrderResolver {
         }).save();
         const doctor = await User_1.User.findOne({ where: { id: radiologistId } });
         await Notification_1.Notification.create({
-            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy p"),
             message: `Dr. ${doctor === null || doctor === void 0 ? void 0 : doctor.firstName} ${doctor === null || doctor === void 0 ? void 0 : doctor.lastName} has requested a review of Order #${order.id}.`,
             recipientId: orderingPhysicianId,
             orderId: order.id,

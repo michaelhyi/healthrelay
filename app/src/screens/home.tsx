@@ -21,17 +21,19 @@ interface Props {
 const Home: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
   const [{ data, fetching }] = useReadOrdersQuery({
-    variables: { id: user.id, profession: user.profession, take: 4 },
+    variables: { id: user.id, profession: user.profession },
   });
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState<any>(null);
 
   useEffect(() => {
     if (!fetching && data) {
-      const orders = data.readOrders;
+      let orders = data.readOrders;
       orders.sort((a, b) =>
         a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
       );
+      orders = orders.slice(0, 4);
+      console.log(orders);
       setOrders(orders);
       setLoading(false);
     }

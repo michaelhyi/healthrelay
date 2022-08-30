@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
-import { useCreateContactMutation } from "../generated/graphql";
+import {
+  useCreateContactMutation,
+  useCreateRecentContactMutation,
+} from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 
@@ -22,6 +25,7 @@ interface Props {
 const CreateContact: React.FC<Props> = ({ navigation }) => {
   const { user } = useContext(Context);
   const [, createContact] = useCreateContactMutation();
+  const [, createRecentContact] = useCreateRecentContactMutation();
   const [id, setId] = useState<string>("");
   const [idError, setIdError] = useState<null | string>(null);
 
@@ -52,6 +56,11 @@ const CreateContact: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             onPress={async () => {
               const response = await createContact({
+                radiologistId: user.id!,
+                orderingPhysicianId: parseInt(id),
+              });
+
+              await createRecentContact({
                 radiologistId: user.id!,
                 orderingPhysicianId: parseInt(id),
               });

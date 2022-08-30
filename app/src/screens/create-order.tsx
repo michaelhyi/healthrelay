@@ -10,7 +10,10 @@ import {
 } from "react-native";
 import Layout from "../components/Layout";
 import User from "../components/User";
-import { useCreateOrderMutation } from "../generated/graphql";
+import {
+  useCreateOrderMutation,
+  useCreateRecentContactMutation,
+} from "../generated/graphql";
 import Context from "../utils/context";
 import { colors } from "../utils/styles";
 import Loading from "./loading";
@@ -48,6 +51,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
   const [messageError, setMessageError] = useState<null | string>(null);
 
   const [, createOrder] = useCreateOrderMutation();
+  const [, createRecentContact] = useCreateRecentContactMutation();
 
   useEffect(() => {
     setContact(null);
@@ -159,6 +163,11 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
               mrn,
               priority,
               message,
+              radiologistId: user.id,
+              orderingPhysicianId: contact.id,
+            });
+
+            await createRecentContact({
               radiologistId: user.id,
               orderingPhysicianId: contact.id,
             });

@@ -8,9 +8,12 @@ import { createConnection } from "typeorm";
 import { Contact } from "./entities/Contact";
 import { Notification } from "./entities/Notification";
 import { Order } from "./entities/Order";
+import { RecentContact } from "./entities/RecentContact";
 import { User } from "./entities/User";
 import { ContactResolver } from "./resolvers/contact";
+import { NotificationResolver } from "./resolvers/notification";
 import { OrderResolver } from "./resolvers/order";
+import { RecentContactResolver } from "./resolvers/recentContact";
 import { UserResolver } from "./resolvers/user";
 
 const main = async () => {
@@ -21,7 +24,7 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: true,
-    entities: [User, Order, Notification, Contact],
+    entities: [User, Order, Notification, Contact, RecentContact],
   });
 
   const app = express();
@@ -36,7 +39,13 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     schema: await buildSchema({
-      resolvers: [UserResolver, OrderResolver, ContactResolver],
+      resolvers: [
+        UserResolver,
+        OrderResolver,
+        ContactResolver,
+        RecentContactResolver,
+        NotificationResolver,
+      ],
       validate: false,
     }),
   });

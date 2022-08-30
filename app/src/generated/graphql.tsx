@@ -49,6 +49,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createContact: CreateContactResponse;
   createOrder: Order;
+  createRecentContact: Scalars['Boolean'];
   deleteOrder: Scalars['Boolean'];
   login: UserResponse;
   readContact: User;
@@ -71,6 +72,12 @@ export type MutationCreateOrderArgs = {
   mrn: Scalars['String'];
   orderingPhysicianId: Scalars['Int'];
   priority: Scalars['String'];
+  radiologistId: Scalars['Int'];
+};
+
+
+export type MutationCreateRecentContactArgs = {
+  orderingPhysicianId: Scalars['Int'];
   radiologistId: Scalars['Int'];
 };
 
@@ -131,6 +138,17 @@ export type MutationUpdateUserArgs = {
   phone: Scalars['String'];
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  createdAt: Scalars['String'];
+  date: Scalars['String'];
+  id: Scalars['Float'];
+  message: Scalars['String'];
+  orderId: Scalars['Int'];
+  recipientId: Scalars['Int'];
+  updatedAt: Scalars['String'];
+};
+
 export type Order = {
   __typename?: 'Order';
   createdAt: Scalars['String'];
@@ -164,7 +182,9 @@ export type Query = {
   readAllContacts: Array<Contact>;
   readAllOrders: Array<Order>;
   readContacts: Array<ContactResponse>;
+  readNotifications: Array<Notification>;
   readOrders: Array<Order>;
+  readRecentContacts: Array<ContactResponse>;
   readUser: User;
   readUsers: Array<User>;
 };
@@ -175,10 +195,20 @@ export type QueryReadContactsArgs = {
 };
 
 
+export type QueryReadNotificationsArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type QueryReadOrdersArgs = {
   id: Scalars['Int'];
   profession: Scalars['String'];
-  take?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryReadRecentContactsArgs = {
+  id: Scalars['Int'];
+  profession: Scalars['String'];
 };
 
 
@@ -223,6 +253,14 @@ export type CreateOrderMutationVariables = Exact<{
 
 
 export type CreateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'Order', id: number } };
+
+export type CreateRecentContactMutationVariables = Exact<{
+  radiologistId: Scalars['Int'];
+  orderingPhysicianId: Scalars['Int'];
+}>;
+
+
+export type CreateRecentContactMutation = { __typename?: 'Mutation', createRecentContact: boolean };
 
 export type DeleteOrderMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -304,14 +342,28 @@ export type ReadContactsQueryVariables = Exact<{
 
 export type ReadContactsQuery = { __typename?: 'Query', readContacts: Array<{ __typename?: 'ContactResponse', id: number, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string }, orderingPhysician: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string } }> };
 
+export type ReadNotificationsQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ReadNotificationsQuery = { __typename?: 'Query', readNotifications: Array<{ __typename?: 'Notification', id: number, date: string, message: string, recipientId: number, orderId: number }> };
+
 export type ReadOrdersQueryVariables = Exact<{
   id: Scalars['Int'];
   profession: Scalars['String'];
-  take?: InputMaybe<Scalars['Int']>;
 }>;
 
 
 export type ReadOrdersQuery = { __typename?: 'Query', readOrders: Array<{ __typename?: 'Order', id: number, date: string, priority: number, status: number, createdAt: string }> };
+
+export type ReadRecentContactsQueryVariables = Exact<{
+  id: Scalars['Int'];
+  profession: Scalars['String'];
+}>;
+
+
+export type ReadRecentContactsQuery = { __typename?: 'Query', readRecentContacts: Array<{ __typename?: 'ContactResponse', id: number, radiologistId: number, orderingPhysicianId: number, radiologist: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string }, orderingPhysician: { __typename?: 'User', id: number, email: string, firstName: string, lastName: string, profession: string, organization: string, phone: string } }> };
 
 export type ReadUserQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -355,6 +407,18 @@ export const CreateOrderDocument = gql`
 
 export function useCreateOrderMutation() {
   return Urql.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument);
+};
+export const CreateRecentContactDocument = gql`
+    mutation CreateRecentContact($radiologistId: Int!, $orderingPhysicianId: Int!) {
+  createRecentContact(
+    radiologistId: $radiologistId
+    orderingPhysicianId: $orderingPhysicianId
+  )
+}
+    `;
+
+export function useCreateRecentContactMutation() {
+  return Urql.useMutation<CreateRecentContactMutation, CreateRecentContactMutationVariables>(CreateRecentContactDocument);
 };
 export const DeleteOrderDocument = gql`
     mutation DeleteOrder($id: Int!) {
@@ -536,9 +600,24 @@ export const ReadContactsDocument = gql`
 export function useReadContactsQuery(options: Omit<Urql.UseQueryArgs<ReadContactsQueryVariables>, 'query'>) {
   return Urql.useQuery<ReadContactsQuery, ReadContactsQueryVariables>({ query: ReadContactsDocument, ...options });
 };
+export const ReadNotificationsDocument = gql`
+    query ReadNotifications($id: Int!) {
+  readNotifications(id: $id) {
+    id
+    date
+    message
+    recipientId
+    orderId
+  }
+}
+    `;
+
+export function useReadNotificationsQuery(options: Omit<Urql.UseQueryArgs<ReadNotificationsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadNotificationsQuery, ReadNotificationsQueryVariables>({ query: ReadNotificationsDocument, ...options });
+};
 export const ReadOrdersDocument = gql`
-    query ReadOrders($id: Int!, $profession: String!, $take: Int) {
-  readOrders(id: $id, profession: $profession, take: $take) {
+    query ReadOrders($id: Int!, $profession: String!) {
+  readOrders(id: $id, profession: $profession) {
     id
     date
     priority
@@ -550,6 +629,37 @@ export const ReadOrdersDocument = gql`
 
 export function useReadOrdersQuery(options: Omit<Urql.UseQueryArgs<ReadOrdersQueryVariables>, 'query'>) {
   return Urql.useQuery<ReadOrdersQuery, ReadOrdersQueryVariables>({ query: ReadOrdersDocument, ...options });
+};
+export const ReadRecentContactsDocument = gql`
+    query ReadRecentContacts($id: Int!, $profession: String!) {
+  readRecentContacts(id: $id, profession: $profession) {
+    id
+    radiologistId
+    orderingPhysicianId
+    radiologist {
+      id
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
+    }
+    orderingPhysician {
+      id
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
+    }
+  }
+}
+    `;
+
+export function useReadRecentContactsQuery(options: Omit<Urql.UseQueryArgs<ReadRecentContactsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadRecentContactsQuery, ReadRecentContactsQueryVariables>({ query: ReadRecentContactsDocument, ...options });
 };
 export const ReadUserDocument = gql`
     query ReadUser($id: Int!) {

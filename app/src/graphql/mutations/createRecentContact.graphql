@@ -1,0 +1,6 @@
+mutation CreateRecentContact($radiologistId: Int!, $orderingPhysicianId: Int!) {
+  createRecentContact(
+    radiologistId: $radiologistId
+    orderingPhysicianId: $orderingPhysicianId
+  )
+}

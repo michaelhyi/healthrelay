@@ -25,11 +25,11 @@ export class Notification extends BaseEntity {
 
   @Field(() => Int)
   @Column()
-  radiologistId!: number;
+  recipientId!: number;
 
   @Field(() => Int)
   @Column()
-  orderingPhysicianId!: number;
+  orderId!: number;
 
   @Field(() => String)
   @CreateDateColumn()

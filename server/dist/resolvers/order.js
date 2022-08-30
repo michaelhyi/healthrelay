@@ -19,12 +19,17 @@ const date_fns_1 = require("date-fns");
 const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 const typeorm_1 = require("typeorm");
+const Notification_1 = require("../entities/Notification");
 let OrderResolver = class OrderResolver {
     async updateOrderStatus(id, status) {
+        const order = await Order_1.Order.findOne({ id });
+        const doctor = await User_1.User.findOne({
+            where: { id: order === null || order === void 0 ? void 0 : order.orderingPhysicianId },
+        });
         let statusValue;
         if (status === "Pending")
             statusValue = 0;
-        else if (status == "Opened")
+        else if (status === "Opened")
             statusValue = 1;
         else
             statusValue = 2;
@@ -35,10 +40,26 @@ let OrderResolver = class OrderResolver {
             .where({ id })
             .returning("*")
             .execute();
+        if (status === "Opened" || status === "Completed") {
+            await Notification_1.Notification.create({
+                date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+                message: `Dr. ${doctor === null || doctor === void 0 ? void 0 : doctor.firstName} ${doctor === null || doctor === void 0 ? void 0 : doctor.lastName} has ${status.toLowerCase()} Order #${id}.`,
+                recipientId: order === null || order === void 0 ? void 0 : order.radiologistId,
+                orderId: id,
+            }).save();
+        }
         return true;
     }
     async deleteOrder(id) {
+        const order = await Order_1.Order.findOne({ id });
+        const doctor = await User_1.User.findOne({ where: { id: order === null || order === void 0 ? void 0 : order.radiologistId } });
         await Order_1.Order.delete({ id });
+        await Notification_1.Notification.create({
+            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+            message: `Dr. ${doctor === null || doctor === void 0 ? void 0 : doctor.firstName} ${doctor === null || doctor === void 0 ? void 0 : doctor.lastName} has cancelled Order #${id}.`,
+            recipientId: order === null || order === void 0 ? void 0 : order.orderingPhysicianId,
+            orderId: id,
+        }).save();
         return true;
     }
     async updateOrder(id, mrn, priority, message, orderingPhysicianId) {
@@ -56,6 +77,14 @@ let OrderResolver = class OrderResolver {
             .where({ id })
             .returning("*")
             .execute();
+        const order = await Order_1.Order.findOne({ id });
+        const doctor = await User_1.User.findOne({ where: { id: order === null || order === void 0 ? void 0 : order.radiologistId } });
+        await Notification_1.Notification.create({
+            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+            message: `Dr. ${doctor === null || doctor === void 0 ? void 0 : doctor.firstName} ${doctor === null || doctor === void 0 ? void 0 : doctor.lastName} has updated Order #${id}.`,
+            recipientId: orderingPhysicianId,
+            orderId: id,
+        }).save();
         return true;
     }
     async readAllOrders() {
@@ -89,32 +118,24 @@ let OrderResolver = class OrderResolver {
             radiologistId,
             orderingPhysicianId,
         }).save();
+        const doctor = await User_1.User.findOne({ where: { id: radiologistId } });
+        await Notification_1.Notification.create({
+            date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy"),
+            message: `Dr. ${doctor === null || doctor === void 0 ? void 0 : doctor.firstName} ${doctor === null || doctor === void 0 ? void 0 : doctor.lastName} has requested a review of Order #${order.id}.`,
+            recipientId: orderingPhysicianId,
+            orderId: order.id,
+        }).save();
         return order;
     }
-    async readOrders(id, profession, take) {
+    async readOrders(id, profession) {
         let orders;
-        if (take) {
-            if (profession === "Radiologist") {
-                orders = await Order_1.Order.find({
-                    where: { radiologistId: id },
-                    take,
-                });
-            }
-            else {
-                orders = await Order_1.Order.find({
-                    where: { orderingPhysicianId: id },
-                });
-            }
+        if (profession === "Radiologist") {
+            orders = await Order_1.Order.find({ where: { radiologistId: id } });
         }
         else {
-            if (profession === "Radiologist") {
-                orders = await Order_1.Order.find({ where: { radiologistId: id } });
-            }
-            else {
-                orders = await Order_1.Order.find({
-                    where: { orderingPhysicianId: id },
-                });
-            }
+            orders = await Order_1.Order.find({
+                where: { orderingPhysicianId: id },
+            });
         }
         return orders;
     }
@@ -173,9 +194,8 @@ __decorate([
     (0, type_graphql_1.Query)(() => [Order_1.Order]),
     __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
     __param(1, (0, type_graphql_1.Arg)("profession")),
-    __param(2, (0, type_graphql_1.Arg)("take", () => type_graphql_1.Int, { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, Object]),
+    __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Promise)
 ], OrderResolver.prototype, "readOrders", null);
 OrderResolver = __decorate([

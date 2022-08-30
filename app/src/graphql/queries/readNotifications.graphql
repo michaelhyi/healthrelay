@@ -1,0 +1,9 @@
+query ReadNotifications($id: Int!) {
+  readNotifications(id: $id) {
+    id
+    date
+    message
+    recipientId
+    orderId
+  }
+}

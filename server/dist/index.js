@@ -13,9 +13,12 @@ const typeorm_1 = require("typeorm");
 const Contact_1 = require("./entities/Contact");
 const Notification_1 = require("./entities/Notification");
 const Order_1 = require("./entities/Order");
+const RecentContact_1 = require("./entities/RecentContact");
 const User_1 = require("./entities/User");
 const contact_1 = require("./resolvers/contact");
+const notification_1 = require("./resolvers/notification");
 const order_1 = require("./resolvers/order");
+const recentContact_1 = require("./resolvers/recentContact");
 const user_1 = require("./resolvers/user");
 const main = async () => {
     await (0, typeorm_1.createConnection)({
@@ -25,7 +28,7 @@ const main = async () => {
         password: "postgres",
         logging: true,
         synchronize: true,
-        entities: [User_1.User, Order_1.Order, Notification_1.Notification, Contact_1.Contact],
+        entities: [User_1.User, Order_1.Order, Notification_1.Notification, Contact_1.Contact, RecentContact_1.RecentContact],
     });
     const app = (0, express_1.default)();
     app.use((0, cors_1.default)({
@@ -35,7 +38,13 @@ const main = async () => {
     const apolloServer = new apollo_server_express_1.ApolloServer({
         plugins: [(0, apollo_server_core_1.ApolloServerPluginLandingPageGraphQLPlayground)()],
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [user_1.UserResolver, order_1.OrderResolver, contact_1.ContactResolver],
+            resolvers: [
+                user_1.UserResolver,
+                order_1.OrderResolver,
+                contact_1.ContactResolver,
+                recentContact_1.RecentContactResolver,
+                notification_1.NotificationResolver,
+            ],
             validate: false,
         }),
     });

@@ -104,7 +104,6 @@ const Orders: React.FC<Props> = ({ navigation }) => {
             if (!fetching && typeof data?.readOrders !== "undefined") {
               const orders = data.readOrders;
               if (itemValue === "Date Descending") {
-                console.log(sortBy);
                 orders.sort((a, b) =>
                   a.createdAt < b.createdAt
                     ? 1
@@ -114,7 +113,6 @@ const Orders: React.FC<Props> = ({ navigation }) => {
                 );
                 setFilteredData(orders);
               } else if (itemValue === "Date Ascending") {
-                console.log(itemValue);
                 orders.sort((a, b) =>
                   a.createdAt > b.createdAt
                     ? 1

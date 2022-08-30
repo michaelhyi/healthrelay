@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ActivityIndicator, Dimensions, FlatList, View } from "react-native";
-import { useReadContactsQuery, useReadUserQuery } from "../generated/graphql";
+import { useReadRecentContactsQuery } from "../generated/graphql";
 import Context from "../utils/context";
 import Contact from "./Contact";
 import SectionHeader from "./SectionHeader";
@@ -20,8 +20,8 @@ const RecentContactsSection: React.FC<Props> = ({
   navigation,
 }) => {
   const { user } = useContext(Context);
-  const [{ data, fetching }] = useReadContactsQuery({
-    variables: { id: user.id },
+  const [{ data, fetching }] = useReadRecentContactsQuery({
+    variables: { id: user.id, profession: user.profession },
   });
 
   if (fetching) return <ActivityIndicator />;
@@ -38,16 +38,30 @@ const RecentContactsSection: React.FC<Props> = ({
       />
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={data?.readContacts}
+        data={data?.readRecentContacts}
         renderItem={({ item }) => (
-          <Contact
-            id={item.orderingPhysicianId}
-            navigation={navigation}
-            firstName={item.orderingPhysician.firstName!}
-            lastName={item.orderingPhysician.lastName!}
-            profession={item.orderingPhysician.profession!}
-            organization={item?.orderingPhysician.organization!}
-          />
+          <>
+            {user.profession === "Radiologist" && (
+              <Contact
+                id={item.orderingPhysicianId}
+                navigation={navigation}
+                firstName={item.orderingPhysician.firstName!}
+                lastName={item.orderingPhysician.lastName!}
+                profession={item.orderingPhysician.profession!}
+                organization={item?.orderingPhysician.organization!}
+              />
+            )}
+            {user.profession === "Ordering Physician" && (
+              <Contact
+                id={item.radiologistId}
+                navigation={navigation}
+                firstName={item.radiologist.firstName!}
+                lastName={item.radiologist.lastName!}
+                profession={item.radiologist.profession!}
+                organization={item?.radiologist.organization!}
+              />
+            )}
+          </>
         )}
       />
     </View>

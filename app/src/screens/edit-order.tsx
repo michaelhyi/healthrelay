@@ -13,6 +13,7 @@ import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
 import User from "../components/User";
 import {
+  useCreateRecentContactMutation,
   useDeleteOrderMutation,
   useReadContactMutation,
   useUpdateOrderMutation,
@@ -44,6 +45,7 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
   const { data } = route.params;
   const [, readContact] = useReadContactMutation();
   const [, updateOrder] = useUpdateOrderMutation();
+  const [, createRecentContact] = useCreateRecentContactMutation();
   const [, deleteOrder] = useDeleteOrderMutation();
 
   const [mrn, setMrn] = useState(data.readOrder.mrn);
@@ -150,6 +152,11 @@ const EditOrder: React.FC<Props> = ({ route, navigation }) => {
             mrn,
             priority,
             message,
+            orderingPhysicianId: contact.id,
+          });
+
+          await createRecentContact({
+            radiologistId: user.id,
             orderingPhysicianId: contact.id,
           });
 

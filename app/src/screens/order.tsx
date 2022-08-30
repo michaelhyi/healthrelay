@@ -13,6 +13,7 @@ import EditButton from "../components/EditButton";
 import Layout from "../components/Layout";
 import User from "../components/User";
 import {
+  useCreateRecentContactMutation,
   useReadOrderMutation,
   useUpdateOrderStatusMutation,
 } from "../generated/graphql";
@@ -43,6 +44,7 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
   const { id } = route.params;
   const [, readOrder] = useReadOrderMutation();
   const [, updateOrderStatus] = useUpdateOrderStatusMutation();
+  const [, createRecentContact] = useCreateRecentContactMutation();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any | null>(null);
 
@@ -183,6 +185,10 @@ const Order: React.FC<Props> = ({ navigation, route }) => {
                       setLoading(true);
                       setData({ ...data, status: "Completed" });
                       await updateOrderStatus({ id, status: "Completed" });
+                      await createRecentContact({
+                        radiologistId: data.radiologistId,
+                        orderingPhysicianId: user.id,
+                      });
                       Alert.alert(
                         "Success!",
                         "Order has been marked as completed."

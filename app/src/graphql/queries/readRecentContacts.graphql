@@ -1,0 +1,25 @@
+query ReadRecentContacts($id: Int!, $profession: String!) {
+  readRecentContacts(id: $id, profession: $profession) {
+    id
+    radiologistId
+    orderingPhysicianId
+    radiologist {
+      id
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
+    }
+    orderingPhysician {
+      id
+      email
+      firstName
+      lastName
+      profession
+      organization
+      phone
+    }
+  }
+}

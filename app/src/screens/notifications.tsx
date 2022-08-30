@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useContext } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -9,58 +9,32 @@ import {
 } from "react-native";
 import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
+import { useReadNotificationsQuery } from "../generated/graphql";
+import Context from "../utils/context";
 import { colors } from "../utils/styles";
-
-interface ItemProps {
-  title: string;
-  date: string;
-}
-
-interface RenderItemProps {
-  item: ItemProps;
-}
-
-const DATA = [
-  {
-    title: "Dr. Brian Wilson has completed Order #43",
-    date: "August 18th, 2022 6:21 PM",
-  },
-  {
-    title: "Dr. Brian Wilson has completed Order #43",
-    date: "August 18th, 2022 6:21 PM",
-  },
-  {
-    title: "Dr. Brian Wilson has completed Order #43",
-    date: "August 18th, 2022 6:21 PM",
-  },
-  {
-    title: "Dr. Brian Wilson has completed Order #43",
-    date: "August 18th, 2022 6:21 PM",
-  },
-];
+import Loading from "./loading";
 
 interface Props {
   navigation: {
     goBack: () => void;
+    navigate: (
+      route: string,
+      params: {
+        id: number;
+      }
+    ) => void;
   };
 }
 
-const Item: React.FC<ItemProps> = ({ title, date }) => (
-  <TouchableOpacity
-    style={{ flexDirection: "row", alignItems: "center", marginTop: 30 }}
-  >
-    <Ionicons name="person" size={40} color={colors.blue_400} />
-    <View style={{ justifyContent: "center", marginLeft: 11 }}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.date}>{date}</Text>
-    </View>
-  </TouchableOpacity>
-);
-
 const Notifications: React.FC<Props> = ({ navigation }) => {
-  const renderItem: React.FC<RenderItemProps> = ({ item }) => (
-    <Item title={item.title} date={item.date} />
-  );
+  const { user } = useContext(Context);
+  const [{ data, fetching }] = useReadNotificationsQuery({
+    variables: {
+      id: user.id,
+    },
+  });
+
+  if (fetching) return <Loading />;
 
   return (
     <Layout>
@@ -69,9 +43,23 @@ const Notifications: React.FC<Props> = ({ navigation }) => {
       </View>
       <View>
         <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.title}
+          data={data?.readNotifications}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Order", { id: item.orderId })}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 30,
+              }}
+            >
+              <Ionicons name="person" size={40} color={colors.blue_400} />
+              <View style={{ justifyContent: "center", marginLeft: 11 }}>
+                <Text style={styles.title}>{item.message}</Text>
+                <Text style={styles.date}>{item.date}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
         />
       </View>
     </Layout>

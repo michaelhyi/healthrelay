@@ -134,6 +134,7 @@ const CreateOrder: React.FC<Props> = ({ route, navigation }) => {
       <View style={{ marginTop: (Dimensions.get("window").width * 24) / 428 }}>
         <Text style={styles.header}>Message</Text>
         <TextInput
+          blurOnSubmit
           value={message}
           onChangeText={setMessage}
           multiline

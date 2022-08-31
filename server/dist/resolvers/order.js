@@ -20,6 +20,7 @@ const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 const typeorm_1 = require("typeorm");
 const Notification_1 = require("../entities/Notification");
+const crypto_1 = require("../utils/crypto");
 let OrderResolver = class OrderResolver {
     async updateOrderStatus(id, status) {
         const order = await Order_1.Order.findOne({ id });
@@ -73,7 +74,12 @@ let OrderResolver = class OrderResolver {
         await (0, typeorm_1.getConnection)()
             .getRepository(Order_1.Order)
             .createQueryBuilder()
-            .update({ mrn, priority: priorityValue, message, orderingPhysicianId })
+            .update({
+            mrn: (0, crypto_1.encrypt)(mrn, "MRN"),
+            priority: priorityValue,
+            message: (0, crypto_1.encrypt)(message, "MESSAGE"),
+            orderingPhysicianId,
+        })
             .where({ id })
             .returning("*")
             .execute();
@@ -99,7 +105,18 @@ let OrderResolver = class OrderResolver {
         const orderingPhysician = await User_1.User.findOne({
             where: { id: order === null || order === void 0 ? void 0 : order.orderingPhysicianId },
         });
-        return Object.assign(Object.assign({}, order), { radiologist, orderingPhysician });
+        return {
+            id: order === null || order === void 0 ? void 0 : order.id,
+            mrn: (0, crypto_1.decrypt)(order === null || order === void 0 ? void 0 : order.mrn, "MRN"),
+            date: order === null || order === void 0 ? void 0 : order.date,
+            priority: order === null || order === void 0 ? void 0 : order.priority,
+            status: order === null || order === void 0 ? void 0 : order.status,
+            message: (0, crypto_1.decrypt)(order === null || order === void 0 ? void 0 : order.message, "MESSASGE"),
+            orderingPhysicianId: order === null || order === void 0 ? void 0 : order.orderingPhysicianId,
+            radiologistId: order === null || order === void 0 ? void 0 : order.radiologistId,
+            radiologist,
+            orderingPhysician,
+        };
     }
     async createOrder(mrn, priority, message, radiologistId, orderingPhysicianId) {
         let priorityValue;
@@ -110,11 +127,11 @@ let OrderResolver = class OrderResolver {
         else
             priorityValue = 2;
         const order = await Order_1.Order.create({
-            mrn,
+            mrn: (0, crypto_1.encrypt)(mrn, "MRN"),
             date: (0, date_fns_1.format)(new Date(), "MMMM do, yyyy p"),
             priority: priorityValue,
             status: 0,
-            message,
+            message: (0, crypto_1.encrypt)(message, "MESSAGE"),
             radiologistId,
             orderingPhysicianId,
         }).save();

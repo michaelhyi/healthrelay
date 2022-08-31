@@ -5,6 +5,7 @@ import { User } from "../entities/User";
 import { OrderResponse } from "../utils/types";
 import { getConnection } from "typeorm";
 import { Notification } from "../entities/Notification";
+import { decrypt, encrypt } from "../utils/crypto";
 
 @Resolver()
 export class OrderResolver {
@@ -77,7 +78,12 @@ export class OrderResolver {
     await getConnection()
       .getRepository(Order)
       .createQueryBuilder()
-      .update({ mrn, priority: priorityValue, message, orderingPhysicianId })
+      .update({
+        mrn: encrypt(mrn, "MRN"),
+        priority: priorityValue,
+        message: encrypt(message, "MESSAGE"),
+        orderingPhysicianId,
+      })
       .where({ id })
       .returning("*")
       .execute();
@@ -111,7 +117,18 @@ export class OrderResolver {
       where: { id: order?.orderingPhysicianId },
     });
 
-    return { ...order!, radiologist, orderingPhysician };
+    return {
+      id: order?.id!,
+      mrn: decrypt(order?.mrn!, "MRN"),
+      date: order?.date!,
+      priority: order?.priority!,
+      status: order?.status!,
+      message: decrypt(order?.message!, "MESSASGE"),
+      orderingPhysicianId: order?.orderingPhysicianId!,
+      radiologistId: order?.radiologistId!,
+      radiologist,
+      orderingPhysician,
+    };
   }
 
   @Mutation(() => Order)
@@ -128,11 +145,11 @@ export class OrderResolver {
     else priorityValue = 2;
 
     const order = await Order.create({
-      mrn,
+      mrn: encrypt(mrn, "MRN"),
       date: format(new Date(), "MMMM do, yyyy p"),
       priority: priorityValue,
       status: 0,
-      message,
+      message: encrypt(message, "MESSAGE"),
       radiologistId,
       orderingPhysicianId,
     }).save();

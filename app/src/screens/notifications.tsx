@@ -44,6 +44,7 @@ const Notifications: React.FC<Props> = ({ navigation }) => {
       </View>
       <View>
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={data?.readNotifications}
           renderItem={({ item }) => (
             <TouchableOpacity

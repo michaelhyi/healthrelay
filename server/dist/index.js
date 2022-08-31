@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const apollo_server_core_1 = require("apollo-server-core");
 const apollo_server_express_1 = require("apollo-server-express");
 const cors_1 = __importDefault(require("cors"));
+require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 require("reflect-metadata");
 const type_graphql_1 = require("type-graphql");

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Contact_1 = require("../entities/Contact");
+const RecentContact_1 = require("../entities/RecentContact");
 const User_1 = require("../entities/User");
 const types_1 = require("../utils/types");
 let ContactResolver = class ContactResolver {
@@ -85,6 +86,10 @@ let ContactResolver = class ContactResolver {
             };
         }
         await Contact_1.Contact.create({
+            radiologistId,
+            orderingPhysicianId,
+        }).save();
+        await RecentContact_1.RecentContact.create({
             radiologistId,
             orderingPhysicianId,
         }).save();

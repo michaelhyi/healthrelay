@@ -1,5 +1,6 @@
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Contact } from "../entities/Contact";
+import { RecentContact } from "../entities/RecentContact";
 import { User } from "../entities/User";
 import { ContactResponse, CreateContactResponse } from "../utils/types";
 
@@ -95,6 +96,11 @@ export class ContactResolver {
     }
 
     await Contact.create({
+      radiologistId,
+      orderingPhysicianId,
+    }).save();
+
+    await RecentContact.create({
       radiologistId,
       orderingPhysicianId,
     }).save();

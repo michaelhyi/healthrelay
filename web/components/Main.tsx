@@ -50,7 +50,7 @@ const Main = () => {
             </div>
           </Link>
         </div>
-        <img src="/Frame 7.png" className="w-[60vh] mt-8" />
+        <img src="/Mockups.png" className="w-[850px] mt-8" />
       </Fade>
     </div>
   );

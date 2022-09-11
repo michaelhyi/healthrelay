@@ -1,21 +1,18 @@
 import { useState } from "react";
+import { useForm, ValidationError } from "@formspree/react";
 //@ts-ignore
 import { Fade } from "react-reveal";
+import Input from "./Input";
 
 const Contact = () => {
+  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORM!);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [companyError, setCompanyError] = useState("");
-  const [subjectError, setSubjectError] = useState("");
-  const [messageError, setMessageError] = useState("");
 
   return (
     <div
@@ -27,56 +24,114 @@ const Contact = () => {
           Contact
         </div>
         <div className="font-poppins font-medium font-lg text-center w-[50vh] text-white mt-6">
-          Want early access to the software or request a demo? Send an email
-          using our contact form below.
+          Want early access to the software or request a demo? Or do you just
+          want further information about our product? Regardless of your reason
+          of contact, send us an email using our contact form below.
         </div>
       </Fade>
       <Fade up distance="20px" delay={300}>
-        <div className="mt-12">
-          <div className="flex-col space-y-6 w-[512px]">
-            <div className="flex space-x-8">
-              <div className="flex-col space-y-2 w-[512px]">
-                <div className="font-poppins font-semibold text-white text-sm">
-                  First Name
-                </div>
-                <input className="border-[1px] border-white bg-400 p-4 rounded-xl text-white w-full" />
-              </div>
-              <div className="flex-col space-y-2 w-[512px]">
-                <div className="font-poppins font-semibold text-white text-sm">
-                  Last Name
-                </div>
-                <input className="border-[1px] border-white bg-400 p-4 rounded-xl text-white w-full" />
+        <form
+          onSubmit={handleSubmit}
+          className="mt-12 flex-col space-y-6 w-[512px]"
+        >
+          <div className="flex space-x-8">
+            <div className="w-[512px]">
+              <Input
+                type="text"
+                name="firstname"
+                label="First Name"
+                value={firstName}
+                setValue={setFirstName}
+              />
+              <div className="font-poppins font-semibold text-red-300 text-sm">
+                <ValidationError
+                  prefix="First Name"
+                  field="firstname"
+                  errors={state.errors}
+                />
               </div>
             </div>
-            <div className="flex-col space-y-2">
-              <div className="font-poppins font-semibold text-white text-sm">
-                Business Email
+            <div className="w-[512px]">
+              <Input
+                type="text"
+                name="lastname"
+                label="Last Name"
+                value={lastName}
+                setValue={setLastName}
+              />
+              <div className="font-poppins font-semibold text-red-300 text-sm">
+                <ValidationError
+                  prefix="Last Name"
+                  field="lastname"
+                  errors={state.errors}
+                />
               </div>
-              <input className="border-[1px] border-white bg-400 p-4 rounded-xl text-white w-full" />
-            </div>
-            <div className="flex-col space-y-2">
-              <div className="font-poppins font-semibold text-white text-sm">
-                Company Name
-              </div>
-              <input className="border-[1px] border-white bg-400 p-4 rounded-xl text-white w-full" />
-            </div>
-            <div className="flex-col space-y-2">
-              <div className="font-poppins font-semibold text-white text-sm">
-                Subject
-              </div>
-              <input className="border-[1px] border-white bg-400 p-4 rounded-xl text-white w-full" />
-            </div>
-            <div className="flex-col space-y-2">
-              <div className="font-poppins font-semibold text-white text-sm">
-                Message
-              </div>
-              <textarea className="border-[1px] border-white bg-400 p-4 rounded-xl text-white h-96 w-full resize-none" />
             </div>
           </div>
-          <div className="bg-400 font-poppins text-white border-[1px] border-white text-center p-4 rounded-xl text-semibold text-xl duration-200 hover:bg-300 mt-12">
+          <Input
+            type="email"
+            name="email"
+            label="Business Email"
+            value={email}
+            setValue={setEmail}
+          />
+          <div className="font-poppins font-semibold text-red-300 text-sm">
+            <ValidationError
+              prefix="Business Email"
+              field="email"
+              errors={state.errors}
+            />
+          </div>
+          <div className="font-poppins font-semibold text-red-300 text-sm"></div>
+          <Input
+            type="text"
+            name="company"
+            label="Company Name"
+            value={company}
+            setValue={setCompany}
+          />
+          <div className="font-poppins font-semibold text-red-300 text-sm">
+            <ValidationError
+              prefix="Company Name"
+              field="company"
+              errors={state.errors}
+            />
+          </div>
+          <Input
+            type="text"
+            name="subject"
+            label="Subject"
+            value={subject}
+            setValue={setSubject}
+          />
+          <div className="font-poppins font-semibold text-red-300 text-sm">
+            <ValidationError
+              prefix="Subject"
+              field="subject"
+              errors={state.errors}
+            />
+          </div>
+          <Input
+            name="message"
+            label="Message"
+            value={message}
+            setValue={setMessage}
+          />
+          <div className="font-poppins font-semibold text-red-300 text-sm">
+            <ValidationError
+              prefix="Message"
+              field="message"
+              errors={state.errors}
+            />
+          </div>
+          <button
+            disabled={state.submitting}
+            type="submit"
+            className="hover:cursor-pointer bg-400 font-poppins text-white border-[1px] border-white text-center p-4 rounded-xl text-semibold text-xl duration-200 hover:bg-300 mt-12 w-full"
+          >
             Submit
-          </div>
-        </div>
+          </button>
+        </form>
       </Fade>
     </div>
   );

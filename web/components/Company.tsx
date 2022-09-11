@@ -1,14 +1,16 @@
 import { company } from "../utils/company";
 import Founder from "./Founder";
-import Section from "./Section";
 //@ts-ignore
 import { Fade } from "react-reveal";
 
 const Company = () => {
   return (
-    <Section h={80} id="company">
+    <div
+      id="company"
+      className="flex flex-col w-full justify-center items-center font-normal bg-white py-36"
+    >
       <Fade up distance="20px" delay={200}>
-        <div className="font-poppins font-bold text-5xl text-400">
+        <div className="font-poppins font-bold text-6xl text-400">
           Our Company
         </div>
         <div className="font-poppins font-medium font-lg text-center w-[50vh] text-gray mt-6">
@@ -23,7 +25,7 @@ const Company = () => {
           ))}
         </div>
       </Fade>
-    </Section>
+    </div>
   );
 };
 

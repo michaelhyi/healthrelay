@@ -1,9 +1,9 @@
-import Section from "./Section";
 import { AiFillMail } from "react-icons/ai";
+import { Link } from "react-scroll";
 
 const Footer = () => {
   return (
-    <Section footer id="contact">
+    <div className="flex flex-col w-full justify-center items-center font-normal bg-500 py-12">
       <div className="p-10">
         <div className="flex space-x-12">
           <div className="flex flex-col justify-center items-center mr-36">
@@ -16,10 +16,50 @@ const Footer = () => {
             <div className="text-white font-poppins font-semibold text-2xl">
               Quick Links
             </div>
-            <div className="text-white font-poppins mt-4">Features</div>
-            <div className="text-white font-poppins  mt-2">Company</div>
-            <div className="text-white font-poppins  mt-2">Contact</div>
-            <div className="text-white font-poppins  mt-2">Get Started</div>
+            <Link
+              to="main"
+              spy={true}
+              smooth={true}
+              offset={-100}
+              duration={1000}
+            >
+              <div className="text-white font-poppins mt-4 hover:cursor-pointer">
+                Get Started
+              </div>
+            </Link>
+            <Link
+              to="features"
+              spy={true}
+              smooth={true}
+              offset={-100}
+              duration={1000}
+            >
+              <div className="text-white font-poppins mt-2 hover:cursor-pointer">
+                Features
+              </div>
+            </Link>
+            <Link
+              to="company"
+              spy={true}
+              smooth={true}
+              offset={-100}
+              duration={1000}
+            >
+              <div className="text-white font-poppins mt-2 hover:cursor-pointer">
+                Company
+              </div>
+            </Link>
+            <Link
+              to="contact"
+              spy={true}
+              smooth={true}
+              offset={-100}
+              duration={1000}
+            >
+              <div className="text-white font-poppins mt-2 hover:cursor-pointer">
+                Contact
+              </div>
+            </Link>
           </div>
           <div>
             <div className="text-white font-poppins font-semibold text-2xl">
@@ -44,7 +84,7 @@ const Footer = () => {
           © 2022 HealthRelay. All rights reserved.
         </div>
       </div>
-    </Section>
+    </div>
   );
 };
 

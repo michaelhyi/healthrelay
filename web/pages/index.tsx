@@ -1,4 +1,5 @@
 import Company from "../components/Company";
+import Contact from "../components/Contact";
 import Features from "../components/Features";
 import Footer from "../components/Footer";
 import Main from "../components/Main";
@@ -11,6 +12,7 @@ const Home = () => {
       <Main />
       <Features />
       <Company />
+      <Contact />
       <Footer />
     </div>
   );

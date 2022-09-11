@@ -44,7 +44,7 @@ const Navbar = () => {
             </div>
           </Link>
           <Link
-            to="main"
+            to="contact"
             spy={true}
             smooth={true}
             offset={-100}

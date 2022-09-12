@@ -20,8 +20,8 @@ const Company = () => {
       </Fade>
       <Fade up distance="20px" delay={300}>
         <div className="flex sm:flex-col xl:flex-row xl:space-x-8 2xl:space-x-16 mt-24">
-          {company.map((v) => (
-            <Founder data={v} />
+          {company.map((v, i) => (
+            <Founder key={i} data={v} />
           ))}
         </div>
       </Fade>

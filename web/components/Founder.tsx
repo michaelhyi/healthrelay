@@ -7,6 +7,7 @@ interface Props {
     position: string;
     picture: string;
   };
+  key: number;
 }
 
 const Founder: React.FC<Props> = ({ data }) => {

@@ -1,6 +1,7 @@
 //@ts-ignore
 import { Fade } from "react-reveal";
 import { Link } from "react-scroll";
+import Route from "./Route";
 
 const Navbar = () => {
   const routes = ["Features", "Company", "Contact"];
@@ -10,18 +11,8 @@ const Navbar = () => {
       <Fade up delay={200} distance="20px">
         <div className="sm:h-[50px] sm:w-[50px] lg:h-[60px] lg:w-[60px] bg-[#E5E5E5] rounded-xl ml-4" />
         <ul className="flex ml-auto items-center sm:space-x-4 md:space-x-8 space-x-12 ">
-          {routes.map((v) => (
-            <Link
-              to={v.toLowerCase()}
-              spy={true}
-              smooth={true}
-              offset={-100}
-              duration={1000}
-            >
-              <li className="font-poppins font-normal sm:text-sm lg:text-base hover:cursor-pointer duration-300 hover:text-gray">
-                {v}
-              </li>
-            </Link>
+          {routes.map((v, i) => (
+            <Route name={v} key={i} />
           ))}
           <Link
             to="main"

@@ -5,25 +5,25 @@ const Features = () => {
   return (
     <div
       id="features"
-      className="flex flex-col w-full justify-center items-center font-normal bg-400 py-48"
+      className="flex flex-col w-full justify-center items-center font-normal bg-400 sm:py-36 md:py-48"
     >
       <Fade up distance="20px" delay={200}>
-        <div className="font-poppins font-bold md:text-5xl xl:text-6xl text-white">
+        <div className="font-poppins font-bold sm:text-4xl md:text-5xl xl:text-6xl text-white">
           Features
         </div>
-        <div className="font-poppins font-medium md:text-sm lg:text-base text-center w-[50vh] text-white mt-6">
+        <div className="font-poppins font-medium sm:text-sm lg:text-base text-center w-[512px] text-white mt-6">
           Our software provides a variety of features that maximize accessbility
           and data security for hospitals, radiologists, and ordering
           physicians.
         </div>
       </Fade>
       <Fade up distance="20px" delay={300}>
-        <div className="mt-24 flex lg:flex-row md:flex-col md:justify-center items-center">
-          <div>
-            <div className="font-poppins font-semibold md:text-center lg:text-left md:text-2xl xl:text-4xl 2xl:text-4xl text-white w-[65vh]">
+        <div className="mt-24 flex lg:flex-row sm:flex-col items-center lg:space-x-12">
+          <div className="flex flex-col items-center ">
+            <div className="font-poppins font-semibold sm:text-center lg:text-left md:text-2xl xl:text-4xl 2xl:text-4xl text-white w-[512px]">
               01 - HIPAA-Compliant Automated Order Transmission
             </div>
-            <div className="font-poppins md:text-center lg:text-left md:text-sm text-white w-[50vh] mt-4">
+            <div className="font-poppins sm:text-sm sm:text-center lg:text-left md:text-sm text-white w-[512px] mt-4">
               As a bioinformatics company, data security is of utmost
               importance. Therefore, we employ encryption algorithms to all the
               information stored with each order created by a radiologist. Then,
@@ -34,21 +34,21 @@ const Features = () => {
           </div>
           <img
             src="/undraw_secure_files_re_6vdh 1.png"
-            className="lg:w-[350px] xl:w-[450px]"
+            className="sm:w-[500px] sm:mt-16 lg:w-[375px] xl:w-[450px]"
           />
         </div>
       </Fade>
       <Fade up distance="20px" delay={300}>
-        <div className="mt-48 flex items-center">
+        <div className="sm:mt-24 lg:mt-36 flex items-center lg:flex-row sm:flex-col lg:space-x-24">
           <img
             src="/undraw_people_search_re_5rre 1.png"
-            className="lg:w-[250px] xl:w-[300px]"
+            className="sm:w-[325px] lg:w-[250px] xl:w-[300px]"
           />
-          <div>
-            <div className="font-poppins font-semibold lg:text-2xl xl:text-4xl 2xl:text-4xl text-white w-[65vh] text-right">
+          <div className="flex flex-col items-center sm:mt-12">
+            <div className="font-poppins font-semibold sm:text-center lg:text-right md:text-2xl xl:text-4xl 2xl:text-4xl text-white w-[512px]">
               02 - Physician Contacts
             </div>
-            <div className="font-poppins lg:text-sm text-white w-[50vh] mt-4 text-right ml-auto">
+            <div className="font-poppins sm:text-sm sm:text-center lg:text-sm text-white w-[512px] mt-4 lg:text-right lg:ml-auto">
               We make communication easy. Currently, radiologists and ordering
               physicians have to manually search for contacts and relay order
               information through phone calls. With HealthRelay, we streamline

@@ -17,6 +17,9 @@ module.exports = {
         100: "#91E5F6",
         gray: "#999999",
       },
+      screens: {
+        sm: "120px",
+      },
     },
   },
   plugins: [],

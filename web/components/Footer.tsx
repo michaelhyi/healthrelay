@@ -74,7 +74,7 @@ const Footer = () => {
               >
                 <AiFillMail color="white" />
                 <div className="sm:text-sm lg:text-base text-white font-poppins">
-                  info@health-relay.com
+                  info@healthrelay.tech
                 </div>
               </a>
             </div>

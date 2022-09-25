@@ -9,8 +9,7 @@ export const company = [
     id: 2,
     name: "Sean Lee",
     position: "Co-Chief Executive Officer",
-    picture:
-      "https://cdn.discordapp.com/attachments/350779237550129152/1002471637414842439/Image_from_iOS.png",
+    picture: "/Sean Lee.png",
   },
   {
     id: 3,

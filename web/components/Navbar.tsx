@@ -9,7 +9,10 @@ const Navbar = () => {
   return (
     <div className="flex w-full sticky top-0 z-50 bg-white p-8 items-center">
       <Fade up delay={200} distance="20px">
-        <div className="sm:h-[50px] sm:w-[50px] lg:h-[60px] lg:w-[60px] bg-[#E5E5E5] rounded-xl ml-4" />
+        <img
+          src="/Horizontal_Logo_Transparent.png"
+          className="sm:h-[50px] lg:h-[60px] ml-4"
+        />
         <ul className="flex ml-auto items-center sm:space-x-4 md:space-x-8 space-x-12 ">
           {routes.map((v, i) => (
             <Route name={v} key={i} />

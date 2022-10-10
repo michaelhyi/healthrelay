@@ -7,10 +7,14 @@ const Footer = () => {
       <div className="xl:py-6 2xl:py-10">
         <div className="flex space-x-12">
           <div className="flex flex-col justify-center items-center sm:mr-12 lg:mr-24">
-            <div className="sm:h-[50px] sm:w-[50px] lg:h-[60px] lg:w-[60px] bg-[#E5E5E5] rounded-xl" />
+            <img
+              src="/Main_Logo_Transparent.png"
+              className="sm:h-[100px] lg:h-[200px]"
+            />
+            {/* <div className="sm:h-[50px] sm:w-[50px] lg:h-[60px] lg:w-[60px] bg-[#E5E5E5] rounded-xl" />
             <div className="sm:text-2xl font-poppins font-bold text-white lg:text-3xl mt-6">
               HealthRelay
-            </div>
+            </div> */}
           </div>
           <div>
             <div className="text-white font-poppins font-semibold sm:text-xl lg:text-2xl">

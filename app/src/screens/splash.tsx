@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Layout from "../components/Layout";
 
 const Splash = () => {
@@ -7,8 +7,13 @@ const Splash = () => {
       <View
         style={{ flexGrow: 1, justifyContent: "center", alignItems: "center" }}
       >
-        <View style={styles.icon} />
-        <Text style={styles.text}>HealthRelay</Text>
+        <Image
+          source={require("../assets/Main_Logo_Transparent.png")}
+          style={{
+            height: Dimensions.get("window").height * (200 / 926),
+            width: Dimensions.get("window").width * (300 / 428),
+          }}
+        />
       </View>
     </Layout>
   );

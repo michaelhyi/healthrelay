@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useState } from "react";
 import {
   Dimensions,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -47,8 +48,13 @@ const AdditionalRegister: React.FC<Props> = ({ navigation, route }) => {
     <Layout>
       <BackButton navigation={navigation} />
       <View style={styles.container}>
-        <View style={styles.icon} />
-        <Text style={styles.logoText}>HealthRelay</Text>
+        <Image
+          source={require("../assets/Main_Logo_Transparent.png")}
+          style={{
+            height: Dimensions.get("window").height * (200 / 926),
+            width: Dimensions.get("window").width * (300 / 428),
+          }}
+        />
         <View style={styles.textInput}>
           <Ionicons
             name="person"

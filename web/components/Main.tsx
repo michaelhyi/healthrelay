@@ -12,10 +12,10 @@ const Main = () => {
         <div className="font-poppins font-bold text-400 sm:text-4xl lg:text-5xl">
           HealthRelay
         </div>
-        <div className="font-poppins font-medium text-300 md:text-base lg:text-lg mt-4">
+        <div className="text-center font-poppins font-medium sm:text-sm text-300 md:text-base lg:text-lg mt-4">
           Automating radiologist to physician communication.
         </div>
-        <div className="font-poppins font-normal text-gray sm:text-sm lg:text-base text-center sm:w-[512px] mt-4">
+        <div className="font-poppins font-normal text-gray sm:text-sm lg:text-base text-center sm:w-[424px] md:w-[512px] mt-4">
           No more waiting on phone lines. No more looking up contacts. We
           automate the communication process between radiologists and ordering
           physicians to minimize delayed care, medical lawsuits, and preventable
@@ -48,7 +48,7 @@ const Main = () => {
         </div>
         <img
           src="/Mockups.png"
-          className="sm:w-[500px] lg:w-[650px] xl:w-[850px] 2xl:w-[850px] mt-8"
+          className="sm:w-[450px] md:w-[600px] lg:w-[650px] xl:w-[850px] 2xl:w-[850px] mt-8"
         />
       </Fade>
     </div>

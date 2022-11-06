@@ -48,7 +48,7 @@ const Main = () => {
         </div>
         <img
           src="/Mockups.png"
-          className="sm:w-[450px] md:w-[600px] lg:w-[650px] xl:w-[850px] 2xl:w-[850px] mt-8"
+          className="sm:w-[400px] md:w-[600px] lg:w-[650px] xl:w-[850px] 2xl:w-[850px] mt-8"
         />
       </Fade>
     </div>

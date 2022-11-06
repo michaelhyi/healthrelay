@@ -23,7 +23,7 @@ const Contact = () => {
         <div className="font-poppins font-bold sm:text-4xl md:text-5xl xl:text-6xl text-white">
           Contact
         </div>
-        <div className="font-poppins font-medium sm:text-sm xl:text-base text-center w-[512px] text-white mt-6">
+        <div className="font-poppins font-medium sm:text-sm xl:text-base text-center sm:w-[400px] md:w-[512px] text-white mt-6">
           Want early access to the software or request a demo? Or do you just
           want further information about our product? Regardless of your reason
           of contact, send us an email using our contact form below.
@@ -32,7 +32,7 @@ const Contact = () => {
       <Fade up distance="20px" delay={300}>
         <form
           onSubmit={handleSubmit}
-          className="mt-12 flex-col space-y-6 w-[512px]"
+          className="mt-12 flex-col space-y-6 sm:w-[400px] md:w-[512px]"
         >
           <div className="flex space-x-8">
             <div className="w-[512px]">

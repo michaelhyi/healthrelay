@@ -13,7 +13,7 @@ const Company = () => {
         <div className="font-poppins font-bold sm:text-5xl xl:text-6xl text-400">
           Our Company
         </div>
-        <div className="font-poppins font-medium sm:text-sm md:text-base text-center sm:w-[512px] w-[50vh] text-gray mt-6">
+        <div className="font-poppins font-medium sm:text-sm md:text-base text-center sm:w-[400px] md:w-[512px] w-[50vh] text-gray mt-6">
           We are a team of motivated and achieving high school students who are
           passionate about the intersection of healthcare and technology.
         </div>

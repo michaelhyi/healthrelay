@@ -31,7 +31,18 @@ const Contact = () => {
       </Fade>
       <Fade up distance="20px" delay={300}>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={async (e) => {
+            e.preventDefault();
+
+            await handleSubmit(e);
+
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setCompany("");
+            setSubject("");
+            setMessage("");
+          }}
           className="mt-12 flex-col space-y-6 sm:w-[400px] md:w-[512px]"
         >
           <div className="flex space-x-8">

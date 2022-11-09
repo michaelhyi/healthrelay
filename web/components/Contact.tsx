@@ -3,6 +3,7 @@ import { useForm, ValidationError } from "@formspree/react";
 //@ts-ignore
 import { Fade } from "react-reveal";
 import Input from "./Input";
+import { useToast } from "@chakra-ui/react";
 
 const Contact = () => {
   const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORM!);
@@ -13,6 +14,8 @@ const Contact = () => {
   const [company, setCompany] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+
+  const toast = useToast();
 
   return (
     <div
@@ -34,14 +37,25 @@ const Contact = () => {
           onSubmit={async (e) => {
             e.preventDefault();
 
-            await handleSubmit(e);
+            const response = await handleSubmit(e);
 
-            setFirstName("");
-            setLastName("");
-            setEmail("");
-            setCompany("");
-            setSubject("");
-            setMessage("");
+            if (response.body.ok) {
+              setFirstName("");
+              setLastName("");
+              setEmail("");
+              setCompany("");
+              setSubject("");
+              setMessage("");
+
+              toast({
+                title: "Submitted!",
+                description:
+                  "You have successfully submitted to our contact form. We will respond within 1-2 business days.",
+                status: "success",
+                duration: 10000,
+                isClosable: true,
+              });
+            }
           }}
           className="mt-12 flex-col space-y-6 sm:w-[400px] md:w-[512px]"
         >

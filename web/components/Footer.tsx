@@ -4,9 +4,9 @@ import { Link } from "react-scroll";
 const Footer = () => {
   return (
     <div className="flex flex-col w-full justify-center items-center font-normal bg-500 py-12">
-      <div className="xl:py-6 2xl:py-10">
-        <div className="flex space-x-12">
-          <div className="flex flex-col justify-center items-center sm:mr-12 lg:mr-24">
+      <div className="xl:py-6 2xl:py-10 sm:text-center md:text-left">
+        <div className="flex sm:flex-col sm:space-y-12 sm:space-x-0 md:space-y-0 md:flex-row md:space-x-12">
+          <div className="flex flex-col justify-center items-center lg:mr-24">
             <img
               src="/Main_Logo_Transparent.png"
               className="sm:h-[100px] lg:h-[200px]"
@@ -69,7 +69,7 @@ const Footer = () => {
             <div className="text-white font-poppins font-semibold sm:text-xl lg:text-2xl">
               Contact
             </div>
-            <div>
+            <div className="flex flex-col justify-center items-center">
               <a
                 className="flex items-center space-x-2 duration-500 hover:text-200 mt-4"
                 target="_blank"

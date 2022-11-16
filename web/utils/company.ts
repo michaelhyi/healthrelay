@@ -15,7 +15,7 @@ export const company = [
     id: 3,
     name: "Caleb Lee",
     position: "Chief Technology Officer",
-    picture: "/Caleb Lee.png",
+    picture: "/Caleb Lee.jpg",
   },
   {
     id: 4,
